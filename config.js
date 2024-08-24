@@ -1,10 +1,10 @@
 import themes from "daisyui/src/theming/themes";
 
 const config = {
-  appName: "ShowMeMoney",
+  appName: "Bare Tracking",
   appDescription:
     "The expense tracker powered by OpenAI to help you save time and money",
-  domainName: "showmemoney.app",
+  domainName: "baretracking.com",
   crisp: {
     id: "",
     onlyShowOnRoutes: ["/"],
@@ -53,9 +53,9 @@ const config = {
   },
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `ShowMeMoney <noreply@mg.showmemoney.app>`,
-    fromAdmin: `Matt at ShowMeMoney <matt@mg.showmemoney.app>`,
-    supportEmail: "matt@mg.showmemoney.app",
+    fromNoReply: `ShowMeMoney <noreply@mg.baretracking.com>`,
+    fromAdmin: `Matt at ShowMeMoney <matt@mg.baretracking.com>`,
+    supportEmail: "matt@mg.baretracking.com",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
   colors: {
