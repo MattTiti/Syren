@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
-import Expense from "@/models/Expense";
+import Expense from "@/models/UserMeals";
 
 export async function GET(req) {
   const userId = req.nextUrl.searchParams.get("userId");

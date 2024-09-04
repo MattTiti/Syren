@@ -1,12 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Dialog,
@@ -17,44 +15,92 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import { CircularProgress } from "../CircularProgress";
+import { Progress } from "@/components/ui/progress";
+import { DatePicker } from "@/components/DatePicker";
+import Spinner from "../Spinner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const DashboardSummary = ({
-  setBudget,
-  budget,
-  rows,
-  selectedMonth,
+  setGoal,
+  goal,
+  meals,
+  selectedDay,
+  setSelectedDay,
   userId,
+  loading,
 }) => {
   const [open, setOpen] = useState(false);
+  const [isDefaultGoal, setIsDefaultGoal] = useState(false);
+  const [localGoal, setLocalGoal] = useState(goal);
 
-  // Calculate the total cost from the rows
-  const totalCost = useMemo(() => {
-    return rows.reduce((sum, row) => sum + parseFloat(row.cost || 0), 0);
-  }, [rows]);
+  useEffect(() => {
+    setLocalGoal(goal);
+  }, [goal]);
 
-  // Format numbers as currency
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount);
+  // Calculate total macros from meals using useMemo
+  const totalMacros = useMemo(() => {
+    return meals.reduce(
+      (acc, meal) => {
+        meal.foods.forEach((food) => {
+          acc.calories += Number(food.calories) || 0;
+          acc.protein += Number(food.protein) || 0;
+          acc.carbs += Number(food.carbs) || 0;
+          acc.fat += Number(food.fat) || 0;
+        });
+        return acc;
+      },
+      { calories: 0, protein: 0, carbs: 0, fat: 0 }
+    );
+  }, [meals]);
+
+  // Calculate percentages using useMemo
+  const percentages = useMemo(() => {
+    return {
+      calories: (totalMacros.calories / goal.calories) * 100,
+      protein: (totalMacros.protein / goal.protein) * 100,
+      carbs: (totalMacros.carbs / goal.carbs) * 100,
+      fat: (totalMacros.fat / goal.fat) * 100,
+    };
+  }, [totalMacros, goal]);
+
+  const chartData = useMemo(
+    () => [
+      {
+        calories: "Calories",
+        value: totalMacros.calories,
+        fill: "var(--color-safari)",
+      },
+    ],
+    [totalMacros.calories]
+  );
+
+  const handleDateChange = (newDate) => {
+    setSelectedDay(newDate);
   };
 
-  const handleSaveBudget = async () => {
+  const handleSaveGoal = async () => {
     try {
-      await axios.put("/api/expenses", {
+      await axios.put("/api/meals", {
         userId,
-        month: selectedMonth,
-        budget,
-        expenses: rows,
+        date: selectedDay,
+        goal: localGoal,
+        meals,
       });
-      toast.success("Budget saved successfully!");
+
+      if (isDefaultGoal) {
+        await axios.put("/api/default", {
+          defaultGoal: localGoal,
+        });
+      }
+
+      setGoal(localGoal);
+      toast.success("Goal saved successfully!");
     } catch (error) {
-      console.log("Error saving budget:", error);
-      toast.error("Error saving budget");
+      console.error("Error saving goal:", error);
+      toast.error("Error saving goal");
     } finally {
       setOpen(false);
     }
@@ -62,54 +108,149 @@ const DashboardSummary = ({
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 lg:col-span-2">
-      <Card className="sm:col-span-4" x-chunk="dashboard-05-chunk-1">
-        <CardHeader className="pb-2">
-          <div className="flex justify-between">
-            <div>
-              <CardDescription>This Month</CardDescription>
-              <CardTitle className="text-4xl">
-                {`${formatCurrency(totalCost)} / ${formatCurrency(budget)}`}
-              </CardTitle>
+      <Card className="sm:col-span-4">
+        <CardHeader className="p-4 pb-0"></CardHeader>
+        <CardContent className="p-0">
+          {loading ? (
+            <div className="flex justify-center items-center h-40">
+              <Spinner />
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="ml-4">
-                  Set Budget
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Set Monthly Budget</DialogTitle>
-                  <DialogDescription>
-                    Set your budget for the month
-                  </DialogDescription>
-                </DialogHeader>
-                <Input
-                  type="number"
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  placeholder="Enter budget"
-                  className="mt-4"
-                />
-                <Button onClick={handleSaveBudget} className="mt-4">
-                  Save Budget
-                </Button>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="text-xs text-muted-foreground">
-            {`${formatCurrency(budget - totalCost)} left`}
-          </div>
+          ) : (
+            <div className="flex items-start">
+              <CircularProgress chartData={chartData} goal={goal} />
+              <div className="mx-6 space-y-3 w-full">
+                <div className="flex justify-end">
+                  <div>
+                    <DatePicker
+                      className="w-[280px]"
+                      selected={selectedDay}
+                      onDateChange={handleDateChange}
+                    />
+                    <Dialog open={open} onOpenChange={setOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="ml-4">
+                          Set Macro Goal
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Set Macro Goal</DialogTitle>
+                          <DialogDescription>
+                            Set your macro goals for the day
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid grid-cols-2 gap-4 mt-4">
+                          <Input
+                            type="number"
+                            value={localGoal.calories}
+                            onChange={(e) =>
+                              setLocalGoal({
+                                ...localGoal,
+                                calories: parseInt(e.target.value),
+                              })
+                            }
+                            placeholder="Calories"
+                          />
+                          <Input
+                            type="number"
+                            value={localGoal.protein}
+                            onChange={(e) =>
+                              setLocalGoal({
+                                ...localGoal,
+                                protein: parseInt(e.target.value),
+                              })
+                            }
+                            placeholder="Protein"
+                          />
+                          <Input
+                            type="number"
+                            value={localGoal.carbs}
+                            onChange={(e) =>
+                              setLocalGoal({
+                                ...localGoal,
+                                carbs: parseInt(e.target.value),
+                              })
+                            }
+                            placeholder="Carbs"
+                          />
+                          <Input
+                            type="number"
+                            value={localGoal.fat}
+                            onChange={(e) =>
+                              setLocalGoal({
+                                ...localGoal,
+                                fat: parseInt(e.target.value),
+                              })
+                            }
+                            placeholder="Fat"
+                          />
+                        </div>
+                        <div className="flex items-center space-x-2 mt-4">
+                          <Checkbox
+                            id="default-goal"
+                            checked={isDefaultGoal}
+                            onCheckedChange={setIsDefaultGoal}
+                          />
+                          <label
+                            htmlFor="default-goal"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Set as default goal
+                          </label>
+                        </div>
+                        <Button onClick={handleSaveGoal} className="mt-4">
+                          Save Goal
+                        </Button>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div>
+
+                <div className="flex-col justify-between">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Protein
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      {totalMacros.protein}/{goal.protein}g
+                    </span>
+                  </div>
+                  <Progress
+                    value={percentages.protein}
+                    color="bg-green-500"
+                    label={`${totalMacros.protein}/${goal.protein}g`}
+                  />
+                </div>
+                <div className="flex-col justify-between">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Carbs</span>
+                    <span className="text-sm text-muted-foreground">
+                      {totalMacros.carbs}/{goal.carbs}g
+                    </span>
+                  </div>
+                  <Progress
+                    value={percentages.carbs}
+                    color="bg-yellow-500"
+                    label={`${totalMacros.carbs}/${goal.carbs}g`}
+                  />
+                </div>
+                <div className="flex-col justify-between">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-muted-foreground">Fat</span>
+                    <span className="text-sm text-muted-foreground">
+                      {totalMacros.fat}/{goal.fat}g
+                    </span>
+                  </div>
+                  <Progress
+                    value={percentages.fat}
+                    color="bg-red-500"
+                    label={`${totalMacros.fat}/${goal.fat}g`}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
-        <CardFooter>
-          <Progress
-            value={totalCost > budget ? 100 : (totalCost / budget) * 100}
-            aria-label="Progress"
-            color={totalCost > budget ? "bg-red-500" : "bg-primary"}
-          />
-        </CardFooter>
       </Card>
     </div>
   );

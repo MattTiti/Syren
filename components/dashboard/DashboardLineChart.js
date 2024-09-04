@@ -22,7 +22,7 @@ const DashboardLineChart = ({
           <LineChart
             accessibilityLayer
             data={data}
-            margin={{ top: 20, left: 12, right: 12 }}
+            margin={{ top: 20, right: 20, left: 20 }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
@@ -30,7 +30,8 @@ const DashboardLineChart = ({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              interval={0}
+              tickFormatter={(value) => value.slice(0, 5)}
             />
             <ChartTooltip
               cursor={false}

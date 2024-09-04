@@ -195,7 +195,7 @@ const ChartTooltipContent = React.forwardRef((
                     </div>
                     {item.value && (
                       <span className="font-mono font-medium tabular-nums text-zinc-950 dark:text-zinc-50 ml-1">
-                        {formatCurrency(item.value)}
+                        {item.value}
                       </span>
                     )}
                   </div>
