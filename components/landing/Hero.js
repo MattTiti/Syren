@@ -26,12 +26,12 @@ const Hero = () => {
           />
         </div>
         <div className="sm:flex justify-start items-center gap-6 mt-12">
-          <Link href="/demo">
+          <Link href="/#comp">
             <Button
               variant="ghost"
               className="p-0 items-center dark:hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
             >
-              Check out the interactive demo
+              What sets Bare Tracking apart?
               <FaArrowRight className="ml-1 mb-0.5" size={14} />
             </Button>
           </Link>

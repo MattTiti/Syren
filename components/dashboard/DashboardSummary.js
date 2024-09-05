@@ -1,11 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -212,7 +207,7 @@ const DashboardSummary = ({
                       Protein
                     </span>
                     <span className="text-sm text-muted-foreground">
-                      {totalMacros.protein}/{goal.protein}g
+                      {totalMacros.protein.toFixed(0)}/{goal.protein}g
                     </span>
                   </div>
                   <Progress
@@ -225,7 +220,7 @@ const DashboardSummary = ({
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Carbs</span>
                     <span className="text-sm text-muted-foreground">
-                      {totalMacros.carbs}/{goal.carbs}g
+                      {totalMacros.carbs.toFixed(0)}/{goal.carbs}g
                     </span>
                   </div>
                   <Progress
@@ -238,7 +233,7 @@ const DashboardSummary = ({
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">Fat</span>
                     <span className="text-sm text-muted-foreground">
-                      {totalMacros.fat}/{goal.fat}g
+                      {totalMacros.fat.toFixed(0)}/{goal.fat}g
                     </span>
                   </div>
                   <Progress

@@ -59,7 +59,7 @@ const TOS = () => {
         >
           {`Last Updated: August 15, 2024
 
-Welcome to BareTracking (the "Website"). These Terms & Services ("Terms") govern your use of the Website operated by BareTracking ("we," "our," or "us"). By accessing or using the Website, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the Website.
+Welcome to Bare Tracking (the "Website"). These Terms & Services ("Terms") govern your use of the Website operated by Bare Tracking ("we," "our," or "us"). By accessing or using the Website, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the Website.
 
 1. Use of the Website
 
@@ -75,7 +75,7 @@ All payments made on the Website are subject to our payment terms. You are respo
 
 4. Intellectual Property
 
-All content on the Website, including text, graphics, logos, and software, is the property of BareTracking and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works from any content on the Website without our express written permission.
+All content on the Website, including text, graphics, logos, and software, is the property of Bare Tracking and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works from any content on the Website without our express written permission.
 
 5. Limitation of Liability
 

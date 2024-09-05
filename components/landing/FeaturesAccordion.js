@@ -8,16 +8,16 @@ const features = [
   {
     title: "Verified Foods",
     description:
-      "The Smart Add feature, powered by OpenAI, automatically processes and categorizes your financial data, saving you time and effort. Effortlessly input anything from plain text to bank statements.",
+      "Bare Tracking provides a comprehensive database of over 1.9 million verified foods. Allowing you to easily add your meals and track your macros with confidence.",
     type: "video",
-    path: "/smart-add.mp4",
+    path: "/verified.mp4",
     format: "video/webm",
     icon: <BadgeCheck />,
   },
   {
     title: "Charts",
     description:
-      "Visualize your spending habits with a variety of interactive charts. Explore your data through line charts, bar charts, and pie charts, offering a clear and comprehensive view of your financial trends over time.",
+      "Visualize your calorie and macronutrient intake with interactive charts. Explore your visualized data from the previous week to spot trends and patterns.",
     type: "video",
     path: "/charts.mp4",
     format: "video/webm",
@@ -26,9 +26,9 @@ const features = [
   {
     title: "Flexibility",
     description:
-      "Categorize your expenses by custom categories, months, and labels, making it easy to track and manage your spending across different periods and purposes.",
+      "Effortlessly track your meals through various channels, using manual entry, saved foods(previous entries), and verified foods. Easily navigate through the comprehensive dashboard, edit entires, and add unlimited meals/foods.",
     type: "video",
-    path: "/organization.mp4",
+    path: "/flex.mp4",
     format: "video/webm",
     icon: <PersonStanding />,
   },
@@ -89,7 +89,8 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 // Video are set to autoplay for best UX.
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
-  const style = "rounded-2xl aspect-square w-full sm:w-[26rem]";
+  const style =
+    "rounded-2xl aspect-square w-full sm:w-[26rem] border-2 border-yellow-400";
   const size = {
     width: 500,
     height: 500,
@@ -115,7 +116,7 @@ const Media = ({ feature }) => {
       <Image
         src={path}
         alt={alt}
-        className={`${style} object-cover object-center`}
+        className={`${style} object-cover object-center border-2 border-yellow-400`}
         width={size.width}
         height={size.height}
       />
@@ -132,7 +133,7 @@ const FeaturesAccordion = () => {
 
   return (
     <section
-      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-stone-950 "
+      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-stone-950"
       id="features"
     >
       <div className="px-8">

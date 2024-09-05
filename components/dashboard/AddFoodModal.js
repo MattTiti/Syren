@@ -145,7 +145,9 @@ const AddFoodModal = ({ isOpen, onClose, onAddFood }) => {
 
     if (macros) {
       const newFood = {
-        name: food.food_name,
+        name: food.brand_name
+          ? `${food.food_name}-${food.brand_name}`
+          : food.food_name,
         calories: macros.calories,
         protein: macros.protein,
         carbs: macros.carbs,
@@ -334,20 +336,24 @@ const AddFoodModal = ({ isOpen, onClose, onAddFood }) => {
                   Search
                 </Button>
               </div>
-              <div className="h-[300px] overflow-y-auto">
+              <div className="h-[400px] overflow-y-auto">
                 {verifiedFoodsLoading ? (
                   <div className="flex justify-center items-center h-[300px]">
                     <Spinner />
                   </div>
                 ) : (
-                  <div className="space-y-4 mt-4">
+                  <div className="space-y-4 px-4">
                     {verifiedFoods.map((food) => (
                       <div
                         key={food.id}
                         className="flex justify-between items-center"
                       >
                         <div>
-                          <p className="font-medium">{food.food_name}</p>
+                          <p className="font-medium">
+                            {food.brand_name
+                              ? `${food.food_name}-${food.brand_name}`
+                              : food.food_name}
+                          </p>
                           <p className="text-sm text-gray-500">
                             {food.food_description}
                           </p>

@@ -3,7 +3,7 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "Bare Tracking",
   appDescription:
-    "The expense tracker powered by OpenAI to help you save time and money",
+    "A barebones macro tracker with everything you need and nothing you don’t",
   domainName: "baretracking.com",
   crisp: {
     id: "",
@@ -22,12 +22,13 @@ const config = {
         price: 19.99,
         priceAnchor: 29.99,
         features: [
-          { name: "Smart Add" },
-          { name: "Charts and Visualizations" },
-          { name: "Organization Tools" },
+          { name: "All tracking features" },
+          { name: "Verified food options" },
+          { name: "Intake Charts" },
           { name: "Access to future updates" },
+          { name: "24/7 support" },
         ],
-        buttonMessage: "Pay now, save later.",
+        buttonMessage: "A yearly subscription at a monthly price",
       },
       {
         isFeatured: true,
@@ -41,20 +42,20 @@ const config = {
         price: 39.99,
         priceAnchor: 49.99,
         features: [
-          { name: "Smart Add" },
-          { name: "Charts and Visualizations" },
-          { name: "Organization Tools" },
+          { name: "All tracking features" },
+          { name: "Verified food options" },
+          { name: "Intake Charts" },
           { name: "Access to future updates" },
           { name: "24/7 support" },
         ],
-        buttonMessage: "Pay once, save forever.",
+        buttonMessage: "Pay once, own forever",
       },
     ],
   },
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `BareTracking <noreply@mg.baretracking.com>`,
-    fromAdmin: `Matt at BareTracking <matt@mg.baretracking.com>`,
+    fromNoReply: `Bare Tracking <noreply@mg.baretracking.com>`,
+    fromAdmin: `Matt at Bare Tracking <matt@mg.baretracking.com>`,
     supportEmail: "matt@mg.baretracking.com",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },

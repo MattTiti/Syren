@@ -13,10 +13,8 @@ export async function GET(req) {
   }
 
   const userId = session.user.id;
-  console.log("User ID:", userId);
 
   await connectMongo();
-  console.log("Connected to MongoDB");
 
   try {
     const userIdObj = new ObjectId(userId);
@@ -36,14 +34,31 @@ export async function GET(req) {
           protein: { $first: "$meals.foods.protein" },
           carbs: { $first: "$meals.foods.carbs" },
           fat: { $first: "$meals.foods.fat" },
+          lastAdded: { $max: "$date" },
         },
       },
-      { $sort: { name: 1 } },
+      { $sort: { lastAdded: -1 } },
+      {
+        $project: {
+          _id: 0,
+          name: 1,
+          calories: 1,
+          protein: 1,
+          carbs: 1,
+          fat: 1,
+          lastAdded: 1,
+        },
+      },
     ];
 
     const result = await UserMeals.aggregate(pipeline);
 
-    return NextResponse.json({ foods: result }, { status: 200 });
+    // Additional check to ensure sorting
+    const sortedResult = result.sort(
+      (a, b) => new Date(b.lastAdded) - new Date(a.lastAdded)
+    );
+
+    return NextResponse.json({ foods: sortedResult }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/foods:", error);
     return NextResponse.json(

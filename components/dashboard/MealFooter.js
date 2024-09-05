@@ -16,7 +16,7 @@ const MealFooter = ({
   resetDialogOpen,
   setResetDialogOpen,
   handleReset,
-  mealNum
+  mealNum,
 }) => {
   const [mealOpen, setMealOpen] = useState(false);
   const [smartAddOpen, setSmartAddOpen] = useState(false);
@@ -36,7 +36,7 @@ const MealFooter = ({
           onClose={() => setMealOpen(false)}
           onAddFood={handleAddFood}
         />
-
+        {/* 
         <SmartAddModal
           isOpen={smartAddOpen}
           onOpenChange={setSmartAddOpen}
@@ -44,7 +44,7 @@ const MealFooter = ({
           onChange={setSmartAddValue}
           onAdd={handleSmartAdd}
           loading={loading}
-        />
+        /> */}
       </div>
       <div className="flex gap-4">
         <ResetModal
