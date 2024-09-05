@@ -139,7 +139,7 @@ const FeaturesAccordion = () => {
         <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24">
           All the features you need and
           <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
-            none you don't
+            none you don&apos;t
           </span>
         </h2>
         <div className=" flex flex-col md:flex-row gap-12 md:gap-24">
