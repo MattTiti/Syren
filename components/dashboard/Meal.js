@@ -307,7 +307,7 @@ const Meal = forwardRef(
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Food</TableHead>
+                      <TableHead>Label</TableHead>
                       <TableHead>Calories</TableHead>
                       <TableHead>Protein</TableHead>
                       <TableHead>Carbs</TableHead>

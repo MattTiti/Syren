@@ -3,7 +3,7 @@ const Arrow = ({ extraStyle }) => {
     <svg
       className={`shrink-0 w-12 opacity-70 ${extraStyle}`}
       viewBox="0 0 138 138"
-      fill="#a78bfa"
+      fill="#eab308"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g>
@@ -32,7 +32,7 @@ const Step = ({ emoji, text }) => {
 
 const Problem = () => {
   return (
-    <section className="bg-neutral text-neutral-content">
+    <section className="bg-neutral-950 text-neutral-content">
       <div className="max-w-7xl mx-auto px-8 py-16 md:py-32 text-center">
         <h2 className="max-w-3xl mx-auto font-extrabold text-4xl md:text-5xl tracking-tight mb-6 md:mb-8">
           83% of Americans say they overspend

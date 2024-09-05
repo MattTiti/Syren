@@ -17,7 +17,7 @@ const faqList = [
     answer: (
       <div className="space-y-2 leading-relaxed">
         There is no free trial at the moment, but there is a{" "}
-        <Link href="/demo" className="underline text-violet-400">
+        <Link href="/demo" className="underline text-yellow-400">
           demo page
         </Link>
         . This page has limited functionality, but will give you a general feel
@@ -39,7 +39,7 @@ const faqList = [
     answer: (
       <div className="space-y-2 leading-relaxed">
         Send me an{" "}
-        <a href="mailto:matt@mg.showmemoney.app" className="underline">
+        <a href="mailto:matt@mg.baretracking.com" className="underline">
           email
         </a>
         !
@@ -110,7 +110,7 @@ const Item = ({ item }) => {
 
 const FAQ = () => {
   return (
-    <section className="bg-base-200" id="faq">
+    <section className="bg-stone-950" id="faq">
       <div className="py-24 px-8 max-w-7xl mx-auto flex flex-col md:flex-row gap-12">
         <div className="flex flex-col text-left basis-1/2">
           <p className="sm:text-4xl text-3xl font-extrabold text-base-content mt-2">

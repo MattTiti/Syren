@@ -56,7 +56,7 @@ const ClientLayout = ({ children }) => {
     <>
       <SessionProvider>
         {/* Show a progress bar at the top when navigating between pages */}
-        <NextTopLoader color="#a78bfa" showSpinner={false} />
+        <NextTopLoader color="#eab308" showSpinner={false} />
 
         {/* Content inside app/page.js files  */}
         {children}

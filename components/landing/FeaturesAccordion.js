@@ -2,17 +2,17 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { WandSparkles, ChartSpline, Users, NotepadText } from "lucide-react";
+import { BadgeCheck, ChartSpline, Users, PersonStanding } from "lucide-react";
 
 const features = [
   {
-    title: "Smart Add",
+    title: "Verified Foods",
     description:
       "The Smart Add feature, powered by OpenAI, automatically processes and categorizes your financial data, saving you time and effort. Effortlessly input anything from plain text to bank statements.",
     type: "video",
     path: "/smart-add.mp4",
     format: "video/webm",
-    icon: <WandSparkles />,
+    icon: <BadgeCheck />,
   },
   {
     title: "Charts",
@@ -24,13 +24,13 @@ const features = [
     icon: <ChartSpline />,
   },
   {
-    title: "Organization",
+    title: "Flexibility",
     description:
       "Categorize your expenses by custom categories, months, and labels, making it easy to track and manage your spending across different periods and purposes.",
     type: "video",
     path: "/organization.mp4",
     format: "video/webm",
-    icon: <NotepadText />,
+    icon: <PersonStanding />,
   },
   {
     title: "Community",
@@ -58,12 +58,12 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
         }}
         aria-expanded={isOpen}
       >
-        <span className={`duration-100 ${isOpen ? "text-violet-400" : ""}`}>
+        <span className={`duration-100 ${isOpen ? "text-yellow-400" : ""}`}>
           {icon}
         </span>
         <span
           className={`flex-1 text-base-content ${
-            isOpen ? "text-violet-400 font-semibold" : ""
+            isOpen ? "text-yellow-400 font-semibold" : ""
           }`}
         >
           <h3 className="inline">{title}</h3>
@@ -132,14 +132,14 @@ const FeaturesAccordion = () => {
 
   return (
     <section
-      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-base-100 "
+      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-stone-950 "
       id="features"
     >
       <div className="px-8">
         <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24">
-          All you need to track your expenses
-          <span className="bg-violet-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
-            and start saving
+          All the features you need and
+          <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
+            none you don't
           </span>
         </h2>
         <div className=" flex flex-col md:flex-row gap-12 md:gap-24">

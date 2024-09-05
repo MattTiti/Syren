@@ -7,14 +7,17 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="max-w-7xl mx-auto bg-base-100 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
+    <section className="max-w-7xl mx-auto bg-stone-950 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
       <div className="flex flex-col gap-10 lg:gap-14 items-center justify-center text-center lg:text-left lg:items-start">
         <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4">
-          See how much you{" "}
-          <span className="italic text-violet-400">really</span> spend
+          Macro tracking made
+          <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
+            simple
+          </span>
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">
-          AI-powered expense tracking for smarter spending and saving
+          A barebones macro tracker with everything you need and nothing you
+          don’t
         </p>
         <div className="w-56">
           <ButtonCheckout
@@ -26,7 +29,7 @@ const Hero = () => {
           <Link href="/demo">
             <Button
               variant="ghost"
-              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-violet-500 dark:text-violet-400 underline"
+              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
             >
               Check out the interactive demo
               <FaArrowRight className="ml-1 mb-0.5" size={14} />
@@ -35,7 +38,7 @@ const Hero = () => {
           <Link href="/#features">
             <Button
               variant="ghost"
-              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-violet-500 dark:text-violet-400 underline"
+              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
             >
               Learn more about current features
               <FaArrowRight className="ml-1 mb-0.5" size={14} />
@@ -45,7 +48,7 @@ const Hero = () => {
       </div>
       <div className="lg:w-full">
         <Image
-          src="/saving-3.svg"
+          src="/diet.svg"
           alt="Product Demo"
           className="w-full"
           priority={true}

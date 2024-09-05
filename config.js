@@ -19,8 +19,8 @@ const config = {
         name: "Yearly",
         mode: "subscription",
         description: "Full access to all features for a year",
-        price: 6.99,
-        priceAnchor: 11.99,
+        price: 19.99,
+        priceAnchor: 29.99,
         features: [
           { name: "Smart Add" },
           { name: "Charts and Visualizations" },
@@ -38,8 +38,8 @@ const config = {
         name: "Unlimited",
         mode: "payment",
         description: "A one-time payment for lifetime access",
-        price: 11.99,
-        priceAnchor: 16.99,
+        price: 39.99,
+        priceAnchor: 49.99,
         features: [
           { name: "Smart Add" },
           { name: "Charts and Visualizations" },
@@ -53,8 +53,8 @@ const config = {
   },
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `ShowMeMoney <noreply@mg.baretracking.com>`,
-    fromAdmin: `Matt at ShowMeMoney <matt@mg.baretracking.com>`,
+    fromNoReply: `BareTracking <noreply@mg.baretracking.com>`,
+    fromAdmin: `Matt at BareTracking <matt@mg.baretracking.com>`,
     supportEmail: "matt@mg.baretracking.com",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },

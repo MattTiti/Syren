@@ -41,7 +41,7 @@ const EditFoodModal = ({ isOpen, onClose, food, onSave }) => {
               htmlFor="editFoodName"
               className="block text-sm font-medium text-muted-foreground mb-1"
             >
-              Food Name
+              Label
             </label>
             <Input
               id="editFoodName"

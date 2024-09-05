@@ -6,6 +6,7 @@ import FeaturesAccordion from "@/components/landing/FeaturesAccordion";
 import Pricing from "@/components/landing/Pricing";
 import FAQ from "@/components/landing/FAQ";
 import Footer from "@/components/landing/Footer";
+import WithWithout from "@/components/WithWithout";
 
 export default function Home() {
   return (
@@ -13,9 +14,9 @@ export default function Home() {
       <Suspense>
         <Header />
       </Suspense>
-      <main className="bg-base-100">
+      <main className="bg-stone-950">
         <Hero />
-        <Problem />
+        <WithWithout />
         <FeaturesAccordion />
         <Pricing />
         <FAQ />

@@ -7,10 +7,10 @@ import ButtonCheckout from "@/components/ButtonCheckout";
 
 const Pricing = () => {
   return (
-    <section className="bg-base-200 overflow-hidden" id="pricing">
+    <section className="bg-stone-950 overflow-hidden" id="pricing">
       <div className="py-24 px-8 max-w-5xl mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
-          <h2 className="font-bold text-3xl lg:text-5xl tracking-tight">
+          <h2 className="font-bold text-3xl lg:text-5xl tracking-tight text-white">
             Pricing
           </h2>
         </div>
@@ -21,7 +21,7 @@ const Pricing = () => {
               {plan.isFeatured && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                   <span
-                    className={`badge text-xs text-primary-content font-semibold border-0 bg-violet-400`}
+                    className={`badge text-xs text-primary-content font-semibold border-0 bg-yellow-400`}
                   >
                     POPULAR
                   </span>
@@ -30,11 +30,11 @@ const Pricing = () => {
 
               {plan.isFeatured && (
                 <div
-                  className={`absolute -inset-[1px] rounded-[9px] bg-violet-400 z-10`}
+                  className={`absolute -inset-[1px] rounded-[9px] bg-yellow-400 z-10`}
                 ></div>
               )}
 
-              <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-100 p-8 rounded-lg">
+              <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-neutral-900 p-8 rounded-lg">
                 <div className="flex justify-between items-center gap-4">
                   <div>
                     <p className="text-lg lg:text-xl font-bold">{plan.name}</p>

@@ -448,7 +448,7 @@ export default function Demo() {
             This demo page offers limited functionality, showcasing the
             dashboard&apos;s UI. For full access to your personalized dashboard,
             please return to the{" "}
-            <Link href="/" className="underline text-violet-400">
+            <Link href="/" className="underline text-yellow-400">
               home page
             </Link>
             .
