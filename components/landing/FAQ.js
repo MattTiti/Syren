@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 
 const faqList = [
   {
@@ -13,15 +12,14 @@ const faqList = [
     ),
   },
   {
-    question: "Is there a free trial?",
+    question: "Can I upgrade my plan?",
     answer: (
       <div className="space-y-2 leading-relaxed">
-        There is no free trial at the moment, but there is a{" "}
-        <Link href="/demo" className="underline text-yellow-400">
-          demo page
-        </Link>
-        . This page has limited functionality, but will give you a general feel
-        of the app.
+        Yes, you can upgrade your plan at any time. Just request by sending an{" "}
+        <a href="mailto:matt@mg.baretracking.com" className="underline">
+          email
+        </a>
+        !
       </div>
     ),
   },

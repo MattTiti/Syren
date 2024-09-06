@@ -3,7 +3,7 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "Bare Tracking",
   appDescription:
-    "A barebones macro tracker with everything you need and nothing you don’t",
+    "A bare bones macro tracker with everything you need and nothing you don’t",
   domainName: "baretracking.com",
   crisp: {
     id: "",

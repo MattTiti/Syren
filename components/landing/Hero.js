@@ -16,7 +16,7 @@ const Hero = () => {
           </span>
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">
-          A barebones macro tracker with everything you need and nothing you
+          A bare bones macro tracker with everything you need and nothing you
           don’t
         </p>
         <div className="w-56">
