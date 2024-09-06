@@ -106,6 +106,12 @@ const NoPurchase = () => {
           </div>
         ))}
       </div>
+      <h1 className="text-lg font-bold mt-4 text-muted-foreground">
+        Already purchased?{" "}
+        <Link href="/dashboard" className="link text-yellow-400">
+          Go to dashboard
+        </Link>
+      </h1>
     </div>
   );
 };

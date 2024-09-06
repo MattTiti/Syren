@@ -14,19 +14,19 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 // By default, it'll store the user in the database
 // See more: https://shipfa.st/docs/features/payments
 export async function POST(req) {
+  console.log("Stripe webhook received");
   await connectMongo();
 
   const body = await req.text();
-
   const signature = headers().get("stripe-signature");
 
   let data;
   let eventType;
   let event;
 
-  // verify Stripe event is legit
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    console.log("Stripe event verified");
   } catch (err) {
     console.error(`Webhook signature verification failed. ${err.message}`);
     return NextResponse.json({ error: err.message }, { status: 400 });
@@ -35,20 +35,19 @@ export async function POST(req) {
   data = event.data;
   eventType = event.type;
 
+  console.log(`Processing Stripe event: ${eventType}`);
+
   try {
     switch (eventType) {
       case "checkout.session.completed": {
-        // First payment is successful and a subscription is created (if mode was set to "subscription" in ButtonCheckout)
-        // ✅ Grant access to the product
-
         const session = await findCheckoutSession(data.object.id);
+        console.log("Checkout session completed:", session);
 
         const customerId = session?.customer;
         const priceId = session?.line_items?.data[0]?.price.id;
         const userId = data.object.client_reference_id;
-        const plan = configFile.stripe.plans.find((p) => p.priceId === priceId);
 
-        if (!plan) break;
+        console.log("User details:", { customerId, priceId, userId });
 
         const customer = await stripe.customers.retrieve(customerId);
 
@@ -73,11 +72,12 @@ export async function POST(req) {
           throw new Error("No user found");
         }
 
-        // Update user data + Grant user access to your product. It's a boolean in the database, but could be a number of credits, etc...
+        console.log("Before user update:", user);
         user.priceId = priceId;
         user.customerId = customerId;
         user.hasAccess = true;
         await user.save();
+        console.log("After user update:", user);
 
         // Extra: send email with user link, product page, etc...
         // try {
@@ -111,9 +111,10 @@ export async function POST(req) {
         );
         const user = await User.findOne({ customerId: subscription.customer });
 
-        // Revoke access to your product
+        console.log("Before revoking access:", user);
         user.hasAccess = false;
         await user.save();
+        console.log("After revoking access:", user);
 
         break;
       }
@@ -126,12 +127,10 @@ export async function POST(req) {
 
         const user = await User.findOne({ customerId });
 
-        // Make sure the invoice is for the same plan (priceId) the user subscribed to
-        if (user.priceId !== priceId) break;
-
-        // Grant user access to your product. It's a boolean in the database, but could be a number of credits, etc...
+        console.log("Before granting access:", user);
         user.hasAccess = true;
         await user.save();
+        console.log("After granting access:", user);
 
         break;
       }
@@ -149,8 +148,9 @@ export async function POST(req) {
       // Unhandled event type
     }
   } catch (e) {
-    console.error("stripe error: " + e.message + " | EVENT TYPE: " + eventType);
+    console.error("Stripe error:", e.message, "| EVENT TYPE:", eventType);
   }
 
+  console.log("Stripe webhook processed successfully");
   return NextResponse.json({});
 }
