@@ -2,35 +2,45 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { BadgeCheck, ChartSpline, Users, PersonStanding } from "lucide-react";
+import { Newspaper, Cloudy, Users, Quote } from "lucide-react";
+import { MdOutlineSportsBasketball } from "react-icons/md";
 
 const features = [
   {
-    title: "Verified Foods",
+    title: "News",
     description:
       "GoodMornin provides a comprehensive database of over 1.9 million verified foods. Allowing you to easily add your meals and track your macros with confidence.",
     type: "video",
     path: "/verified.mp4",
     format: "video/webm",
-    icon: <BadgeCheck />,
+    icon: <Newspaper />,
   },
   {
-    title: "Charts",
+    title: "Weather",
     description:
       "Visualize your calorie and macronutrient intake with interactive charts. Explore your visualized data from the previous week to spot trends and patterns.",
     type: "video",
     path: "/charts.mp4",
     format: "video/webm",
-    icon: <ChartSpline />,
+    icon: <Cloudy />,
   },
   {
-    title: "Flexibility",
+    title: "Sports",
     description:
       "Effortlessly track your meals through various channels, using manual entry, saved foods(previous entries), and verified foods. Easily navigate through the comprehensive dashboard, edit entires, and add unlimited meals/foods.",
     type: "video",
     path: "/flex.mp4",
     format: "video/webm",
-    icon: <PersonStanding />,
+    icon: <MdOutlineSportsBasketball size={25} />,
+  },
+  {
+    title: "Quotes",
+    description:
+      "As a solo developer, I’m dedicated to building a product that truly serves its users. Join our community and directly influence the development of new features.",
+    icon: <Quote />,
+    type: "image",
+    path: "/community.svg",
+    format: "image/svg+xml",
   },
   {
     title: "Community",
@@ -90,7 +100,7 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
   const style =
-    "rounded-2xl aspect-square w-full sm:w-[26rem] border-2 border-yellow-400";
+    "rounded-2xl w-full h-full object-cover border-2 border-yellow-400";
   const size = {
     width: 500,
     height: 500,
@@ -98,31 +108,38 @@ const Media = ({ feature }) => {
 
   if (type === "video") {
     return (
-      <video
-        className={style}
-        autoPlay
-        muted
-        loop
-        playsInline
-        controls
-        width={size.width}
-        height={size.height}
-      >
-        <source src={path} type={format} />
-      </video>
+      <div className="aspect-square w-full sm:w-[26rem] relative">
+        <video
+          className={style}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+          width={size.width}
+          height={size.height}
+        >
+          <source src={path} type={format} />
+        </video>
+      </div>
     );
   } else if (type === "image") {
     return (
-      <Image
-        src={path}
-        alt={alt}
-        className={`${style} object-cover object-center border-2 border-yellow-400`}
-        width={size.width}
-        height={size.height}
-      />
+      <div className="aspect-square w-full sm:w-[26rem] relative">
+        <Image
+          src={path}
+          alt={alt}
+          className={`${style} object-cover object-center`}
+          fill
+        />
+      </div>
     );
   } else {
-    return <div className={`${style} !border-none`}></div>;
+    return (
+      <div
+        className={`${style} !border-none aspect-square w-full sm:w-[26rem]`}
+      ></div>
+    );
   }
 };
 
@@ -138,9 +155,10 @@ const FeaturesAccordion = () => {
     >
       <div className="px-8">
         <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24 text-neutral-700">
-          All the features you need and
-          <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
-            none you don&apos;t
+          End the scrolling
+          <br />
+          <span className="bg-yellow-500 text-white px-2 md:px-4 leading-relaxed sm:whitespace-nowrap">
+            start your day off right
           </span>
         </h2>
         <div className=" flex flex-col md:flex-row gap-12 md:gap-24">

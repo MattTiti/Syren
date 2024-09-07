@@ -3,7 +3,7 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "GoodMornin",
   appDescription:
-    "A bare bones macro tracker with everything you need and nothing you don’t",
+    "The personalized daily text service delivering all the information you need to start the day",
   domainName: "goodmornin.app",
   crisp: {
     id: "",
@@ -12,7 +12,10 @@ const config = {
   stripe: {
     plans: [
       {
-        priceId: process.env.NODE_ENV === "development" ? "" : "",
+        priceId:
+          process.env.NODE_ENV === "development"
+            ? "price_1PwVwFCKVO6FKkF1XPDPlsX5"
+            : "price_1PwVwFCKVO6FKkF1XPDPlsX5",
         name: "Monthly",
         mode: "subscription",
         description: "Full access to all features for a year",
@@ -29,11 +32,14 @@ const config = {
       },
       {
         isFeatured: true,
-        priceId: process.env.NODE_ENV === "development" ? "" : "",
+        priceId:
+          process.env.NODE_ENV === "development"
+            ? "price_1PwVxSCKVO6FKkF1uKCFg9o8"
+            : "price_1PwVxSCKVO6FKkF1uKCFg9o8",
         name: "Yearly",
-        mode: "payment",
+        mode: "subscription",
         description: "A one-time payment for lifetime access",
-        price: 89.99,
+        price: 79.99,
         priceAnchor: 119.99,
         features: [
           { name: "All tracking features" },
@@ -60,7 +66,7 @@ const config = {
   },
   auth: {
     loginUrl: "/api/auth/signin",
-    callbackUrl: "/dashboard",
+    callbackUrl: "/custom",
   },
 };
 

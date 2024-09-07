@@ -16,6 +16,7 @@ export default function Home() {
       </Suspense>
       <main className="bg-yellow-50">
         <Hero />
+        <WithWithout />
         <FeaturesAccordion />
         <Pricing />
         <FAQ />
