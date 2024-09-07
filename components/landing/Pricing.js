@@ -7,10 +7,10 @@ import ButtonCheckout from "@/components/ButtonCheckout";
 
 const Pricing = () => {
   return (
-    <section className="bg-stone-950 overflow-hidden" id="pricing">
+    <section className="bg-yellow-50 overflow-hidden" id="pricing">
       <div className="py-24 px-8 max-w-5xl mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
-          <h2 className="font-bold text-3xl lg:text-5xl tracking-tight text-white">
+          <h2 className="font-bold text-3xl lg:text-5xl tracking-tight text-neutral-700">
             Pricing
           </h2>
         </div>
@@ -21,7 +21,7 @@ const Pricing = () => {
               {plan.isFeatured && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                   <span
-                    className={`badge text-xs text-primary-content font-semibold border-0 bg-yellow-400`}
+                    className={`badge text-xs text-neutral-700 font-semibold border-0 bg-yellow-400`}
                   >
                     POPULAR
                   </span>
@@ -33,13 +33,20 @@ const Pricing = () => {
                   className={`absolute -inset-[1px] rounded-[9px] bg-yellow-400 z-10`}
                 ></div>
               )}
+              {!plan.isFeatured && (
+                <div
+                  className={`absolute -inset-[1px] rounded-[9px] bg-neutral-200 z-10`}
+                ></div>
+              )}
 
-              <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-neutral-900 p-8 rounded-lg">
+              <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-white p-8 rounded-lg">
                 <div className="flex justify-between items-center gap-4">
                   <div>
-                    <p className="text-lg lg:text-xl font-bold">{plan.name}</p>
+                    <p className="text-lg lg:text-xl text-neutral-700 font-bold">
+                      {plan.name}
+                    </p>
                     {plan.description && (
-                      <p className="text-base-content/80 mt-2">
+                      <p className="text-neutral-700/80 mt-2">
                         {plan.description}
                       </p>
                     )}
@@ -50,23 +57,25 @@ const Pricing = () => {
                     <div className="flex flex-col justify-end mb-[4px] text-lg ">
                       <p className="relative">
                         <span className="absolute bg-base-content h-[1.5px] inset-x-0 top-[53%]"></span>
-                        <span className="text-base-content/80">
+                        <span className="text-neutral-700/80">
                           ${plan.priceAnchor}
                         </span>
                       </p>
                     </div>
                   )}
-                  <p className={`text-5xl tracking-tight font-extrabold`}>
+                  <p
+                    className={`text-5xl tracking-tight text-neutral-700 font-extrabold`}
+                  >
                     ${plan.price}
                   </p>
                   <div className="flex flex-col justify-end mb-[4px]">
-                    <p className="text-xs text-base-content/60 uppercase font-semibold">
+                    <p className="text-xs text-neutral-700/60 uppercase font-semibold">
                       USD
                     </p>
                   </div>
                 </div>
                 {plan.features && (
-                  <ul className="space-y-2.5 leading-relaxed text-base flex-1">
+                  <ul className="space-y-2.5 leading-relaxed text-neutral-700 flex-1">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-2">
                         <svg
@@ -89,8 +98,7 @@ const Pricing = () => {
                 )}
                 <div className="space-y-2">
                   <ButtonCheckout priceId={plan.priceId} mode={plan.mode} />
-
-                  <p className="flex items-center justify-center gap-2 text-sm text-center text-base-content/80 font-medium relative">
+                  <p className="flex items-center justify-center gap-2 text-sm text-center text-neutral-700/80 font-medium relative">
                     {plan.buttonMessage}
                   </p>
                 </div>

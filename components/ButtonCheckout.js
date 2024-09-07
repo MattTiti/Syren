@@ -4,7 +4,7 @@ import { useState } from "react";
 import apiClient from "@/libs/api";
 import config from "@/config";
 import { Button } from "@/components/ui/button";
-import Icon from "@/app/icon.svg";
+import Image from "next/image";
 // This component is used to create Stripe Checkout Sessions
 // It calls the /api/stripe/create-checkout route with the priceId, successUrl and cancelUrl
 // By default, it doesn't force users to be authenticated. But if they are, it will prefill the Checkout data with their email and/or credit card. You can change that in the API route
@@ -33,13 +33,20 @@ const ButtonCheckout = ({ priceId, mode = "payment" }) => {
 
   return (
     <Button
-      className="w-full p-6 group bg-yellow-400"
+      className="w-full p-6 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
       onClick={() => handlePayment()}
     >
       {isLoading ? (
         <span className="loading loading-spinner loading-xs"></span>
       ) : (
-        <Icon className="w-5 h-5 fill-primary-content group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200 mr-2"></Icon>
+        <Image
+          src="/icon.png"
+          alt={`${config.appName} logo`}
+          className="w-5 h-5 fill-primary-content group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200 mr-2"
+          priority={true}
+          width={32}
+          height={32}
+        />
       )}
       Get {config?.appName}
     </Button>

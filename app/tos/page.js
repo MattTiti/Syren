@@ -59,7 +59,7 @@ const TOS = () => {
         >
           {`Last Updated: August 15, 2024
 
-Welcome to Bare Tracking (the "Website"). These Terms & Services ("Terms") govern your use of the Website operated by Bare Tracking ("we," "our," or "us"). By accessing or using the Website, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the Website.
+Welcome to GoodMornin (the "Website"). These Terms & Services ("Terms") govern your use of the Website operated by GoodMornin ("we," "our," or "us"). By accessing or using the Website, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use the Website.
 
 1. Use of the Website
 
@@ -75,7 +75,7 @@ All payments made on the Website are subject to our payment terms. You are respo
 
 4. Intellectual Property
 
-All content on the Website, including text, graphics, logos, and software, is the property of Bare Tracking and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works from any content on the Website without our express written permission.
+All content on the Website, including text, graphics, logos, and software, is the property of GoodMornin and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works from any content on the Website without our express written permission.
 
 5. Limitation of Liability
 
@@ -91,7 +91,7 @@ We may update these Terms from time to time. If we make any changes, we will not
 
 8. Contact Information
 
-If you have any questions about these Terms, please contact us at matt@baretracking.com.`}
+If you have any questions about these Terms, please contact us at matt@goodmornin.app.`}
         </pre>
       </div>
     </main>

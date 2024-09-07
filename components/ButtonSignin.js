@@ -32,7 +32,10 @@ const ButtonSignin = ({ text = "Get started" }) => {
   }
 
   return (
-    <Button className="p-6" onClick={handleClick}>
+    <Button
+      className="w-full p-6 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
+      onClick={handleClick}
+    >
       {text}
     </Button>
   );

@@ -14,9 +14,8 @@ export default function Home() {
       <Suspense>
         <Header />
       </Suspense>
-      <main className="bg-stone-950">
+      <main className="bg-yellow-50">
         <Hero />
-        <WithWithout />
         <FeaturesAccordion />
         <Pricing />
         <FAQ />

@@ -55,7 +55,7 @@ const ButtonAccount = () => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <a href="mailto:matt@mg.baretracking.com">
+        <a href="mailto:matt@mg.goodmornin.app">
           <DropdownMenuItem>Support</DropdownMenuItem>
         </a>
         <DropdownMenuItem onClick={handleBilling}>Billing</DropdownMenuItem>

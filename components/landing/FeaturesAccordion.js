@@ -8,7 +8,7 @@ const features = [
   {
     title: "Verified Foods",
     description:
-      "Bare Tracking provides a comprehensive database of over 1.9 million verified foods. Allowing you to easily add your meals and track your macros with confidence.",
+      "GoodMornin provides a comprehensive database of over 1.9 million verified foods. Allowing you to easily add your meals and track your macros with confidence.",
     type: "video",
     path: "/verified.mp4",
     format: "video/webm",
@@ -51,22 +51,22 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
   return (
     <li>
       <button
-        className="relative flex gap-2 items-center w-full py-5 text-base font-medium text-left md:text-lg"
+        className="relative flex gap-2 items-center w-full py-5 text-neutral-700 font-medium text-left md:text-lg"
         onClick={(e) => {
           e.preventDefault();
           setFeatureSelected();
         }}
         aria-expanded={isOpen}
       >
-        <span className={`duration-100 ${isOpen ? "text-yellow-400" : ""}`}>
+        <span className={`duration-100 ${isOpen ? "text-yellow-500" : ""}`}>
           {icon}
         </span>
         <span
           className={`flex-1 text-base-content ${
-            isOpen ? "text-yellow-400 font-semibold" : ""
+            isOpen ? "text-yellow-500 font-semibold" : "text-neutral-700"
           }`}
         >
-          <h3 className="inline">{title}</h3>
+          <h3 className="inline ">{title}</h3>
         </span>
       </button>
 
@@ -133,11 +133,11 @@ const FeaturesAccordion = () => {
 
   return (
     <section
-      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-stone-950"
+      className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-yellow-50"
       id="features"
     >
       <div className="px-8">
-        <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24">
+        <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24 text-neutral-700">
           All the features you need and
           <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
             none you don&apos;t

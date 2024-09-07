@@ -59,7 +59,7 @@ const PrivacyPolicy = () => {
         >
           {`Last Updated: August 15, 2024
 
-Welcome to Bare Tracking (the "Website"). This Privacy Policy explains how we collect, use, and protect your personal information when you use the Website operated by Bare Tracking ("we," "our," or "us").
+Welcome to GoodMornin (the "Website"). This Privacy Policy explains how we collect, use, and protect your personal information when you use the Website operated by GoodMornin ("we," "our," or "us").
 
 1. Information We Collect
 
@@ -71,7 +71,7 @@ We collect your personal data to process orders and provide you with our service
 
 3. Data Sharing
 
-We do not share your personal data with any third parties. Your information is used solely by Bare Tracking to provide and improve our services.
+We do not share your personal data with any third parties. Your information is used solely by GoodMornin to provide and improve our services.
 
 4. Children's Privacy
 
@@ -83,7 +83,7 @@ We may update this Privacy Policy from time to time. If we make any changes, we 
 
 6. Contact Information
 
-If you have any questions or concerns about this Privacy Policy, please contact us at matt@baretracking.com.
+If you have any questions or concerns about this Privacy Policy, please contact us at matt@goodmornin.app.
 
 `}
         </pre>

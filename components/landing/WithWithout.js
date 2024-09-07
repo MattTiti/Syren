@@ -12,7 +12,7 @@ const WithWithout = () => {
             vs.
           </div>
           <h2 className="text-start font-extrabold text-3xl md:text-5xl tracking-tight md:col-span-2 text-yellow-400">
-            Bare Tracking
+            GoodMornin
           </h2>
         </div>
 

@@ -1,10 +1,10 @@
 import themes from "daisyui/src/theming/themes";
 
 const config = {
-  appName: "Bare Tracking",
+  appName: "GoodMornin",
   appDescription:
     "A bare bones macro tracker with everything you need and nothing you don’t",
-  domainName: "baretracking.com",
+  domainName: "goodmornin.app",
   crisp: {
     id: "",
     onlyShowOnRoutes: ["/"],
@@ -12,15 +12,12 @@ const config = {
   stripe: {
     plans: [
       {
-        priceId:
-          process.env.NODE_ENV === "development"
-            ? "price_1Pr8IFIEfj3N1wDkWJdwaCl7"
-            : "price_1Pr8IFIEfj3N1wDkWJdwaCl7",
-        name: "Yearly",
+        priceId: process.env.NODE_ENV === "development" ? "" : "",
+        name: "Monthly",
         mode: "subscription",
         description: "Full access to all features for a year",
-        price: 19.99,
-        priceAnchor: 29.99,
+        price: 8.99,
+        priceAnchor: 14.99,
         features: [
           { name: "All tracking features" },
           { name: "Verified food options" },
@@ -32,15 +29,12 @@ const config = {
       },
       {
         isFeatured: true,
-        priceId:
-          process.env.NODE_ENV === "development"
-            ? "price_1Pr8IeIEfj3N1wDkw4Is4XzO"
-            : "price_1Pr8IeIEfj3N1wDkw4Is4XzO",
-        name: "Unlimited",
+        priceId: process.env.NODE_ENV === "development" ? "" : "",
+        name: "Yearly",
         mode: "payment",
         description: "A one-time payment for lifetime access",
-        price: 39.99,
-        priceAnchor: 49.99,
+        price: 89.99,
+        priceAnchor: 119.99,
         features: [
           { name: "All tracking features" },
           { name: "Verified food options" },
@@ -54,9 +48,9 @@ const config = {
   },
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `Bare Tracking <noreply@mg.baretracking.com>`,
-    fromAdmin: `Matt at Bare Tracking <matt@mg.baretracking.com>`,
-    supportEmail: "matt@mg.baretracking.com",
+    fromNoReply: `GoodMornin <noreply@mg.goodmornin.app>`,
+    fromAdmin: `Matt at GoodMornin <matt@mg.goodmornin.app>`,
+    supportEmail: "matt@mg.goodmornin.app",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
   colors: {

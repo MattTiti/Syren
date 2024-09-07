@@ -7,12 +7,12 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="max-w-7xl mx-auto bg-stone-950 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
+    <section className="max-w-7xl mx-auto bg-yellow-50 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
       <div className="flex flex-col gap-10 lg:gap-14 items-center justify-center text-center lg:text-left lg:items-start">
-        <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4">
-          Macro tracking made
+        <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4 text-neutral-700">
+          All you need to start your day in
           <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
-            simple
+            one text
           </span>
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">
@@ -29,16 +29,16 @@ const Hero = () => {
           <Link href="/#comp">
             <Button
               variant="ghost"
-              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
+              className="p-0 items-center hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
             >
-              What sets Bare Tracking apart?
+              What sets GoodMornin apart?
               <FaArrowRight className="ml-1 mb-0.5" size={14} />
             </Button>
           </Link>
           <Link href="/#features">
             <Button
               variant="ghost"
-              className="p-0 items-center dark:hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
+              className="p-0 items-center hover:bg-transparent text-neutral-700 underline"
             >
               Learn more about current features
               <FaArrowRight className="ml-1 mb-0.5" size={14} />
