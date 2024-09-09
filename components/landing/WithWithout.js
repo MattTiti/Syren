@@ -4,13 +4,13 @@
 const WithWithout = () => {
   return (
     <section className="bg-yellow-50 text-neutral-700" id="comp">
-      <div className="max-w-5xl mx-auto px-8 py-16 md:py-32 ">
+      <div className="max-w-5xl mx-auto px-8 py-12 md:py-32 ">
         <h2 className="text-center font-extrabold text-3xl md:text-5xl tracking-tight mb-12 md:mb-20">
           Tired of morning scrolling?
         </h2>
 
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12">
-          <div className="bg-error/20 text-error p-8 md:p-12 rounded-lg w-full ">
+          <div className="bg-error/20 text-error p-8 md:px-12 rounded-lg w-full ">
             <h3 className="font-bold text-lg mb-4">
               Mornings without GoodMornin
             </h3>
@@ -39,7 +39,7 @@ const WithWithout = () => {
             </ul>
           </div>
 
-          <div className="bg-success/20 text-success p-8 md:p-12 rounded-lg w-full">
+          <div className="bg-success/20 text-success p-8 md:px-12 rounded-lg w-full">
             <h3 className="font-bold text-lg mb-4">Mornings with GoodMornin</h3>
 
             <ul className="list-disc list-inside space-y-1.5 ">

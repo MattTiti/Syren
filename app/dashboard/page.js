@@ -15,9 +15,15 @@ export default function Dashboard() {
   const [newsCategory, setNewsCategory] = useState("general");
   const [news, setNews] = useState([]);
   const [quote, setQuote] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [eventDate, setEventDate] = useState("");
+  const [eventCountry, setEventCountry] = useState("US");
+  const [zodiacSign, setZodiacSign] = useState("");
+  const [horoscope, setHoroscope] = useState(null);
 
   useEffect(() => {
     fetchLeagues();
+    fetchQuote();
   }, []);
 
   useEffect(() => {
@@ -137,6 +143,50 @@ export default function Dashboard() {
     }
   };
 
+  const fetchEvents = async () => {
+    if (!eventDate || !eventCountry) {
+      setError("Please select a date and country for events");
+      return;
+    }
+
+    const [year, month, day] = eventDate.split("-");
+    try {
+      const response = await fetch(
+        `/api/events?day=${day}&month=${month}&year=${year}&country=${eventCountry}`
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setEvents(data);
+        setError(null);
+      } else {
+        throw new Error(data.error || "Failed to fetch events");
+      }
+    } catch (err) {
+      setError("Failed to fetch events");
+      setEvents([]);
+    }
+  };
+
+  const fetchHoroscope = async () => {
+    if (!zodiacSign) {
+      setError("Please select a zodiac sign");
+      return;
+    }
+    try {
+      const response = await fetch(`/api/horoscope?sign=${zodiacSign}`);
+      const data = await response.json();
+      if (response.ok) {
+        setHoroscope(data);
+        setError(null);
+      } else {
+        throw new Error(data.error || "Failed to fetch horoscope");
+      }
+    } catch (err) {
+      setError("Failed to fetch horoscope");
+      setHoroscope(null);
+    }
+  };
+
   return (
     <div>
       <h1>Weather and Sports Dashboard</h1>
@@ -235,6 +285,70 @@ export default function Dashboard() {
         )}
       </div>
 
+      <div>
+        <h2>Events</h2>
+        <input
+          type="date"
+          value={eventDate}
+          onChange={(e) => setEventDate(e.target.value)}
+        />
+        <input
+          type="text"
+          value={eventCountry}
+          onChange={(e) => setEventCountry(e.target.value)}
+          placeholder="Enter country code (e.g., US)"
+        />
+        <button onClick={fetchEvents}>Get Events</button>
+        {events.length > 0 && (
+          <div>
+            <h3>
+              Events for {eventDate} in {eventCountry}:
+            </h3>
+            <ul>
+              {events.map((event, index) => (
+                <li key={index}>{event.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h2>Daily Horoscope</h2>
+        <select
+          value={zodiacSign}
+          onChange={(e) => setZodiacSign(e.target.value)}
+        >
+          <option value="">Select your zodiac sign</option>
+          <option value="aries">Aries</option>
+          <option value="taurus">Taurus</option>
+          <option value="gemini">Gemini</option>
+          <option value="cancer">Cancer</option>
+          <option value="leo">Leo</option>
+          <option value="virgo">Virgo</option>
+          <option value="libra">Libra</option>
+          <option value="scorpio">Scorpio</option>
+          <option value="sagittarius">Sagittarius</option>
+          <option value="capricorn">Capricorn</option>
+          <option value="aquarius">Aquarius</option>
+          <option value="pisces">Pisces</option>
+        </select>
+        <button onClick={fetchHoroscope}>Get Horoscope</button>
+        {horoscope && (
+          <div>
+            <h3>Horoscope for {zodiacSign}</h3>
+            <p>Date Range: {horoscope.date_range}</p>
+            <p>Current Date: {horoscope.current_date}</p>
+            <p>Description: {horoscope.description}</p>
+            <p>Compatibility: {horoscope.compatibility}</p>
+            <p>Mood: {horoscope.mood}</p>
+            <p>Color: {horoscope.color}</p>
+            <p>Lucky Number: {horoscope.lucky_number}</p>
+            <p>Lucky Time: {horoscope.lucky_time}</p>
+          </div>
+        )}
+      </div>
+
       {quote && (
         <div>
           <h3>Quote of the Day</h3>
@@ -242,6 +356,8 @@ export default function Dashboard() {
           <p>— {quote.author}</p>
         </div>
       )}
+
+      {error && <p>{error}</p>}
     </div>
   );
 }
