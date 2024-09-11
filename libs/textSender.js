@@ -6,23 +6,15 @@ export async function sendText(phoneNumber, message) {
   const messages = splitMessage(message);
   let allMessagesSent = true;
 
-  for (const [index, msg] of messages.entries()) {
+  for (const msg of messages) {
     try {
       const response = await axios.post("https://goodmornin.app/api/send", {
         phoneNumber,
         message: msg,
-        part: index + 1,
-        total: messages.length,
       });
-      console.log(
-        `Text part ${index + 1}/${messages.length} sent successfully:`,
-        response.data
-      );
+      console.log("Text part sent successfully:", response.data);
     } catch (error) {
-      console.error(
-        `Error sending text part ${index + 1}/${messages.length}:`,
-        error
-      );
+      console.error("Error sending text part:", error);
       allMessagesSent = false;
     }
   }

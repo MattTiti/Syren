@@ -3,17 +3,14 @@ import axios from "axios";
 
 export async function POST(req) {
   try {
-    const { phoneNumber, message, part, total } = await req.json();
-
-    const prefix = total > 1 ? `(${part}/${total}) ` : "";
-    const fullMessage = prefix + message;
+    const { phoneNumber, message } = await req.json();
 
     const response = await axios.post(
       "https://api.telnyx.com/v2/messages",
       {
         from: "+13324558778",
         to: phoneNumber,
-        text: fullMessage,
+        text: message,
       },
       {
         headers: {
