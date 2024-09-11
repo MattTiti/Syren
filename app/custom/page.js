@@ -173,6 +173,19 @@ export default function CustomizationPage() {
   };
 
   const saveCustomization = async () => {
+    if (!phoneNumber) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+    if (customization.intro.text.length > 160) {
+      toast.error("Introduction text cannot be longer than 160 characters");
+      return;
+    }
+    if (customization.conclusion.text.length > 160) {
+      toast.error("Conclusion text cannot be longer than 160 characters");
+      return;
+    }
+
     try {
       const response = await fetch("/api/customization", {
         method: "PUT",
@@ -343,7 +356,21 @@ export default function CustomizationPage() {
                 <AccordionTrigger>Introduction</AccordionTrigger>
                 <AccordionContent className="px-2">
                   <div className="space-y-2">
-                    <Label htmlFor="intro">Custom introduction text:</Label>
+                    <div className="flex justify-between">
+                      <Label htmlFor="intro">Custom introduction text:</Label>
+                      <Label className="text-neutral-500">
+                        <span
+                          className={`${
+                            customization.intro.text.length > 160
+                              ? "text-red-500"
+                              : "text-green-700"
+                          }`}
+                        >
+                          {customization.intro.text.length}
+                        </span>
+                        /160
+                      </Label>
+                    </div>
                     <Input
                       id="intro"
                       value={customization.intro.text}
@@ -685,7 +712,14 @@ export default function CustomizationPage() {
                 <AccordionTrigger>Conclusion</AccordionTrigger>
                 <AccordionContent className="px-2">
                   <div className="space-y-2">
-                    <Label htmlFor="conclusion">Custom conclusion text:</Label>
+                    <div className="flex justify-between">
+                      <Label htmlFor="conclusion">
+                        Custom conclusion text:
+                      </Label>
+                      <Label className="text-neutral-500">
+                        {customization.conclusion.text.length} / 160
+                      </Label>
+                    </div>
                     <Input
                       id="conclusion"
                       value={customization.conclusion.text}

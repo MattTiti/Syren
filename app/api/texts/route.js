@@ -4,7 +4,7 @@ import UserCustomization from "@/models/UserCustomization";
 import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendText } from "@/libs/textSender";
 
-export async function POST(req) {
+export async function GET(req) {
   await connectMongo();
 
   try {
