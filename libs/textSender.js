@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function sendText(phoneNumber, message) {
   try {
-    const response = await axios.post("/api/send", {
+    const response = await axios.post("https://goodmornin.app/api/send", {
       phoneNumber,
       message,
     });

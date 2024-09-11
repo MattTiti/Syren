@@ -40,7 +40,9 @@ export async function generateDailyMessage(customization) {
 }
 
 async function fetchNews(topic) {
-  const response = await axios.get(`/api/news?topic=${topic}`);
+  const response = await axios.get(
+    `https://goodmornin.app/api/news?topic=${topic}`
+  );
   return response.data.headlines.join("\n");
 }
 
@@ -49,24 +51,28 @@ async function fetchWeather(weatherConfig) {
     weatherConfig.inputType === "city"
       ? { city: weatherConfig.city }
       : { lat: weatherConfig.latitude, lon: weatherConfig.longitude };
-  const response = await axios.get("/api/weather", { params });
+  const response = await axios.get("https://goodmornin.app/api/weather", {
+    params,
+  });
   return formatWeatherData(response.data, weatherConfig);
 }
 
 async function fetchSports(sportsConfig) {
   const response = await axios.get(
-    `/api/sports?league=${sportsConfig.league}&team=${sportsConfig.team}`
+    `https://goodmornin.app/api/sports?league=${sportsConfig.league}&team=${sportsConfig.team}`
   );
   return formatSportsData(response.data, sportsConfig);
 }
 
 async function fetchEvents(country) {
-  const response = await axios.get(`/api/events?country=${country}`);
+  const response = await axios.get(
+    `https://goodmornin.app/api/events?country=${country}`
+  );
   return response.data.events.join("\n");
 }
 
 async function fetchQuote() {
-  const response = await axios.get("/api/quote");
+  const response = await axios.get("https://goodmornin.app/api/quote");
   return `"${response.data.quote}" - ${response.data.author}`;
 }
 
