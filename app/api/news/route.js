@@ -10,7 +10,10 @@ export async function GET(request) {
 
   try {
     const response = await axios.get(newsApiUrl);
-    const articles = response.data.articles;
+    const articles = response.data.articles.map((article) => ({
+      title: article.title,
+      url: article.url,
+    }));
 
     if (!articles || articles.length === 0) {
       return NextResponse.json(

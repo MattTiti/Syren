@@ -43,9 +43,26 @@ async function fetchNews(topic) {
   const response = await axios.get(
     `https://goodmornin.app/api/news?topic=${topic}`
   );
-  const headlines =
-    response.data.articles?.map((article) => article.title) || [];
-  return headlines.slice(0, 3).join("\n");
+  const articles = response.data.articles || [];
+  const headlines = await Promise.all(
+    articles.slice(0, 3).map(async (article) => {
+      const shortUrl = await shortenUrl(article.url);
+      return `${article.title} ${shortUrl}`;
+    })
+  );
+  return headlines.join("\n");
+}
+
+async function shortenUrl(url) {
+  try {
+    const response = await axios.post("https://goodmornin.app/api/shorten", {
+      url,
+    });
+    return response.data.shortUrl;
+  } catch (error) {
+    console.error("Error shortening URL:", error);
+    return url; // Return original URL if shortening fails
+  }
 }
 
 async function fetchWeather(weatherConfig) {

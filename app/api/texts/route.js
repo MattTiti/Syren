@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import UserCustomization from "@/models/UserCustomization";
