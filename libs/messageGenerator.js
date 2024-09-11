@@ -45,7 +45,7 @@ async function fetchNews(topic) {
   );
   const headlines =
     response.data.articles?.map((article) => article.title) || [];
-  return headlines.join("\n");
+  return headlines.slice(0, 3).join("\n");
 }
 
 async function fetchWeather(weatherConfig) {
