@@ -307,7 +307,7 @@ export default function CustomizationPage() {
   );
 
   return (
-    <div className="min-h-screen bg-yellow-50 flex flex-col">
+    <div className="min-h-screen bg-yellow-50 flex flex-col text-neutral-700">
       <nav className="sticky top-0 z-50 bg-yellow-50 shadow-sm">
         <div className="container flex items-center justify-between px-1 py-2 mx-auto">
           <Link
@@ -334,7 +334,7 @@ export default function CustomizationPage() {
       <div className="flex">
         <div className="w-1/2 overflow-y-auto border-r border-neutral-200">
           <div className="p-6">
-            <h1 className="text-3xl font-bold mb-6">
+            <h1 className="text-3xl font-bold mb-6 text-neutral-700">
               Customize Your Daily Text
             </h1>
             <div className="mb-6">

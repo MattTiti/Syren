@@ -100,7 +100,7 @@ function formatWeatherData(data, config) {
   const tempUnit = config.units === "imperial" ? "°F" : "°C";
   const speedUnit = config.units === "imperial" ? "mph" : "m/s";
 
-  let result = `Temperature: ${data.temperature.day}${tempUnit}, feels like ${data.feelsLike.day}${tempUnit}`;
+  let result = `Temperature: ${data.temperature}${tempUnit}, feels like ${data.feelsLike}${tempUnit}`;
   result += `\nToday's forecast: High of ${data.maxTemp}${tempUnit}, Low of ${data.minTemp}${tempUnit}`;
 
   if (config.showWind)

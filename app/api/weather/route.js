@@ -25,7 +25,7 @@ export async function GET(request) {
     return NextResponse.json({
       summary: data.summary,
       temperature: data.temp.day,
-      feelsLike: data.feels_like,
+      feelsLike: data.feels_like.day,
       humidity: data.humidity,
       windSpeed: data.wind_speed,
       windDirection: data.wind_deg,
