@@ -43,7 +43,9 @@ async function fetchNews(topic) {
   const response = await axios.get(
     `https://goodmornin.app/api/news?topic=${topic}`
   );
-  return response.data.headlines.join("\n");
+  const headlines =
+    response.data.articles?.map((article) => article.title) || [];
+  return headlines.join("\n");
 }
 
 async function fetchWeather(weatherConfig) {
