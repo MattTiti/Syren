@@ -18,13 +18,18 @@ export async function GET(req) {
 
     if (!userCustomization) {
       // If no customization found, return an empty object
-      return NextResponse.json({ customization: {} }, { status: 200 });
+      return NextResponse.json(
+        { customization: {}, phoneNumber: null },
+        { status: 200 }
+      );
     }
 
-    // Return the customization if found
+    // Return the customization and phone number if found
     return NextResponse.json(
       {
         customization: userCustomization.customization,
+        phoneNumber: userCustomization.phoneNumber,
+        deliveryTime: userCustomization.deliveryTime,
       },
       { status: 200 }
     );
@@ -41,33 +46,49 @@ export async function PUT(req) {
   await connectMongo();
 
   try {
-    const { customization } = await req.json();
+    const { customization, phoneNumber, deliveryTime } = await req.json();
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
 
     // Log the received data
-    console.log("Received data:", { userId, customization });
+    console.log("Received data:", {
+      userId,
+      customization,
+      phoneNumber,
+      deliveryTime,
+    });
 
     // Validate the request body
-    if (!userId || !customization || typeof customization !== "object") {
+    if (
+      !userId ||
+      !customization ||
+      typeof customization !== "object" ||
+      !phoneNumber
+    ) {
       return NextResponse.json({ message: "Invalid data" }, { status: 400 });
     }
 
     // Find or create a document for the user's customization
     const result = await UserCustomization.findOneAndUpdate(
       { userId }, // Find by userId
-      { customization }, // Replace customization with the new data
+      { customization, phoneNumber, deliveryTime }, // Replace customization and phoneNumber with the new data
       { new: true, upsert: true } // Create if doesn't exist and return the new document
     );
 
     return NextResponse.json(
-      { message: "Customization saved successfully!", data: result },
+      {
+        message: "Customization and phone number saved successfully!",
+        data: result,
+      },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error saving customization:", error);
+    console.error("Error saving customization and phone number:", error);
     return NextResponse.json(
-      { message: "Error saving customization", error: error.message },
+      {
+        message: "Error saving customization and phone number",
+        error: error.message,
+      },
       { status: 500 }
     );
   }

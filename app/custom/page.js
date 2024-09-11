@@ -21,6 +21,14 @@ import { COUNTRIES } from "@/libs/constants";
 import { Combobox } from "@/components/ui/combobox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import toast from "react-hot-toast";
+import Spinner from "@/components/Spinner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function CustomizationPage() {
   const [customization, setCustomization] = useState({
@@ -62,6 +70,9 @@ export default function CustomizationPage() {
   const [leagues, setLeagues] = useState([]);
   const [teams, setTeams] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingTeams, setLoadingTeams] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [deliveryTime, setDeliveryTime] = useState("07:00"); // Default to 7:00 AM
 
   useEffect(() => {
     loadCustomization();
@@ -96,6 +107,7 @@ export default function CustomizationPage() {
 
   const fetchTeams = async (league) => {
     try {
+      setLoadingTeams(true);
       const response = await fetch(
         `/api/teams?league=${encodeURIComponent(league)}`
       );
@@ -103,6 +115,8 @@ export default function CustomizationPage() {
       setTeams(data.teams);
     } catch (error) {
       console.error("Failed to fetch teams:", error);
+    } finally {
+      setLoadingTeams(false);
     }
   };
 
@@ -140,6 +154,7 @@ export default function CustomizationPage() {
 
   const loadCustomization = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`/api/customization`);
       if (response.ok) {
         const data = await response.json();
@@ -147,9 +162,13 @@ export default function CustomizationPage() {
           ...prevState,
           ...data.customization,
         }));
+        setPhoneNumber(data.phoneNumber || "");
+        setDeliveryTime(data.deliveryTime || "07:00");
       }
     } catch (error) {
       console.error("Error loading customization:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -160,7 +179,7 @@ export default function CustomizationPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ customization }),
+        body: JSON.stringify({ customization, phoneNumber, deliveryTime }),
       });
 
       if (response.ok) {
@@ -173,6 +192,12 @@ export default function CustomizationPage() {
       toast.error("Failed to save changes. Please try again.");
     }
   };
+
+  // Generate time options for every hour in EST
+  const timeOptions = Array.from({ length: 24 }, (_, i) => {
+    const hour = i.toString().padStart(2, "0");
+    return `${hour}:00`;
+  });
 
   const previewText = (
     <div className="space-y-4">
@@ -267,12 +292,52 @@ export default function CustomizationPage() {
           <ButtonAccount />
         </div>
       </nav>
-      <div className="flex flex-1 overflow-hidden">
-        <div className="w-1/2 overflow-y-auto">
+      <div className="flex">
+        <div className="w-1/2 overflow-y-auto border-r border-neutral-200">
           <div className="p-6">
             <h1 className="text-3xl font-bold mb-6">
               Customize Your Daily Text
             </h1>
+            <div className="mb-6">
+              <Label htmlFor="phoneNumber" className="text-lg font-semibold">
+                Phone Number
+              </Label>
+              <Input
+                id="phoneNumber"
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter your phone number"
+                className="mt-2"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                Enter the phone number where you'd like to receive your daily
+                texts.
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <Label htmlFor="deliveryTime" className="text-lg font-semibold">
+                Delivery Time (EST)
+              </Label>
+              <Select value={deliveryTime} onValueChange={setDeliveryTime}>
+                <SelectTrigger className="w-full mt-2">
+                  <SelectValue placeholder="Select delivery time" />
+                </SelectTrigger>
+                <SelectContent>
+                  {timeOptions.map((time) => (
+                    <SelectItem key={time} value={time}>
+                      {time} EST
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-gray-500 mt-1">
+                Choose the time you'd like to receive your daily text (in
+                Eastern Standard Time).
+              </p>
+            </div>
+
             <Accordion type="multiple" collapsible className="w-full">
               <AccordionItem value="intro">
                 <AccordionTrigger>Introduction</AccordionTrigger>
@@ -514,7 +579,6 @@ export default function CustomizationPage() {
                       onValueChange={(value) =>
                         handleCustomizationChange("sports", "league", value)
                       }
-                      disabled={isLoading}
                     />
                     <Combobox
                       options={teams.map((team) => ({
@@ -525,7 +589,7 @@ export default function CustomizationPage() {
                       onValueChange={(value) =>
                         handleCustomizationChange("sports", "team", value)
                       }
-                      disabled={!customization.sports.league || isLoading}
+                      disabled={!customization.sports.league || loadingTeams}
                     />
                     <div className="space-y-2">
                       <Label>Game information:</Label>
@@ -640,20 +704,18 @@ export default function CustomizationPage() {
             </Accordion>
           </div>
         </div>
-        <div className="w-1/2 overflow-y-auto">
-          <div className="p-6 sticky top-0">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-semibold">Preview Sample Text</h2>
-              <Button
-                className="p-3 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
-                onClick={saveCustomization}
-              >
-                Save Changes
-              </Button>
-            </div>
-            <div className="bg-white border border-yellow-500 p-4 rounded-md">
-              {previewText}
-            </div>
+        <div className="w-1/2 p-6 sticky top-16 max-h-[70vh] overflow-y-auto">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-semibold">Preview Text</h2>
+            <Button
+              className="p-3 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
+              onClick={saveCustomization}
+            >
+              Save Changes
+            </Button>
+          </div>
+          <div className="bg-white border border-yellow-500 p-4 rounded-md">
+            {isLoading ? <Spinner /> : previewText}
           </div>
         </div>
       </div>

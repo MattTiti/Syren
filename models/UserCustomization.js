@@ -11,6 +11,15 @@ const UserCustomizationSchema = new mongoose.Schema(
       type: Object,
       required: true,
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    deliveryTime: {
+      type: String,
+      required: true,
+      default: "07:00",
+    },
   },
   { timestamps: true }
 );
