@@ -74,7 +74,7 @@ async function fetchEvents(country) {
 }
 
 async function fetchQuote() {
-  const response = await axios.get("https://goodmornin.app/api/quote");
+  const response = await axios.get("https://goodmornin.app/api/quotes");
   return `"${response.data.quote}" - ${response.data.author}`;
 }
 
