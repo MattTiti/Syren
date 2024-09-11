@@ -19,12 +19,12 @@ export async function GET(request) {
 
   try {
     const response = await axios.get(weatherApiUrl);
-    const data = response.data.daily;
+    const data = response.data.daily[0];
     console.log("weatherdata", data);
 
     return NextResponse.json({
       summary: data.summary,
-      temperature: data.temp,
+      temperature: data.temp.day,
       feelsLike: data.feels_like,
       humidity: data.humidity,
       windSpeed: data.wind_speed,

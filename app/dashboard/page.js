@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 
 export default function Dashboard() {
-  const [city, setCity] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const [team, setTeam] = useState("");
   const [teams, setTeams] = useState([]);
   const [weather, setWeather] = useState(null);
@@ -59,7 +60,9 @@ export default function Dashboard() {
 
   const fetchWeather = async () => {
     try {
-      const response = await fetch(`/api/weather?city=${city}`);
+      const response = await fetch(
+        `/api/weather?lat=${latitude}&lon=${longitude}`
+      );
       const data = await response.json();
       console.log(data);
       if (data.error) {
@@ -193,18 +196,38 @@ export default function Dashboard() {
 
       <div>
         <h2>Weather</h2>
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city"
-        />
-        <button onClick={fetchWeather}>Get Weather</button>
+        <div className="flex items-center space-x-2">
+          <input
+            type="number"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            placeholder="Enter latitude"
+          />
+          <input
+            type="number"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            placeholder="Enter longitude"
+          />
+          <button onClick={fetchWeather}>Get Weather</button>
+        </div>
         {weather && (
           <div>
-            <h3>Weather in {weather.city}</h3>
-            <p>{weather.description}</p>
-            <p>{weather.temperature}°F</p>
+            <h3>
+              Weather for {latitude}, {longitude}
+            </h3>
+            <p>Temperature: {weather.temperature.day}°F</p>
+            <p>Feels like: {weather.feelsLike.day}°F</p>
+            <p>High: {weather.maxTemp}°F</p>
+            <p>Low: {weather.minTemp}°F</p>
+            <p>Humidity: {weather.humidity}%</p>
+            <p>
+              Wind: {weather.windSpeed} mph from {weather.windDirection}°
+            </p>
+            {weather.rain && (
+              <p>Chance of rain: {(weather.rain * 100).toFixed(0)}%</p>
+            )}
+            {weather.summary && <p>Summary: {weather.summary}</p>}
           </div>
         )}
       </div>
