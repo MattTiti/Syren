@@ -16,6 +16,13 @@ export async function GET(request) {
       city: data.name,
       description: data.weather[0].description,
       temperature: data.main.temp,
+      feelsLike: data.main.feels_like,
+      low: data.main.temp_min,
+      high: data.main.temp_max,
+      windSpeed: data.wind.speed,
+      windDirection: data.wind.deg,
+      humidity: data.main.humidity,
+      rainChance: data.pop,
     });
   } catch (error) {
     return NextResponse.json(
