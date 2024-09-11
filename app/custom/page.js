@@ -48,6 +48,7 @@ export default function CustomizationPage() {
       showWind: false,
       showRain: false,
       showHumidity: false,
+      units: "imperial", // Add this line (imperial for Fahrenheit, metric for Celsius)
     },
     sports: {
       enabled: false,
@@ -129,24 +130,17 @@ export default function CustomizationPage() {
       },
     }));
 
-    // Special cases for interdependent fields
-    if (section === "sports" && field === "league") {
-      setCustomization((prev) => ({
-        ...prev,
-        sports: {
-          ...prev.sports,
-          team: "",
-        },
-      }));
-    }
-    if (section === "weather" && field === "inputType") {
+    // If changing to coordinates input, clear city
+    if (
+      section === "weather" &&
+      field === "inputType" &&
+      value === "coordinates"
+    ) {
       setCustomization((prev) => ({
         ...prev,
         weather: {
           ...prev.weather,
           city: "",
-          latitude: "",
-          longitude: "",
         },
       }));
     }
@@ -184,6 +178,38 @@ export default function CustomizationPage() {
     if (customization.conclusion.text.length > 160) {
       toast.error("Conclusion text cannot be longer than 160 characters");
       return;
+    }
+
+    // Check and convert city to coordinates if necessary
+    if (
+      customization.weather.inputType === "city" &&
+      customization.weather.city
+    ) {
+      try {
+        const response = await fetch(
+          `/api/coordinates?city=${encodeURIComponent(
+            customization.weather.city
+          )}`
+        );
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setCustomization((prev) => ({
+            ...prev,
+            weather: {
+              ...prev.weather,
+              latitude: data[0].lat.toString(),
+              longitude: data[0].lon.toString(),
+            },
+          }));
+        } else {
+          toast.error("City not found. Please enter a valid city name.");
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching coordinates:", error);
+        toast.error("Failed to fetch coordinates. Please try again.");
+        return;
+      }
     }
 
     try {
@@ -487,12 +513,11 @@ export default function CustomizationPage() {
                       </div>
                     ) : (
                       <div className="space-y-2">
+                        <Label>Coordinates:</Label>
                         <div className="flex items-center space-x-2">
-                          <Label htmlFor="latitude">Latitude:</Label>
                           <Input
                             id="latitude"
                             value={customization.weather.latitude}
-                            type="number"
                             onChange={(e) =>
                               handleCustomizationChange(
                                 "weather",
@@ -500,15 +525,11 @@ export default function CustomizationPage() {
                                 e.target.value
                               )
                             }
-                            placeholder="Enter latitude"
+                            placeholder="Latitude"
                           />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Label htmlFor="longitude">Longitude:</Label>
                           <Input
                             id="longitude"
                             value={customization.weather.longitude}
-                            type="number"
                             onChange={(e) =>
                               handleCustomizationChange(
                                 "weather",
@@ -516,11 +537,29 @@ export default function CustomizationPage() {
                                 e.target.value
                               )
                             }
-                            placeholder="Enter longitude"
+                            placeholder="Longitude"
                           />
                         </div>
                       </div>
                     )}
+                    <div className="space-y-2">
+                      <Label>Temperature Units:</Label>
+                      <RadioGroup
+                        value={customization.weather.units}
+                        onValueChange={(value) =>
+                          handleCustomizationChange("weather", "units", value)
+                        }
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="imperial" id="fahrenheit" />
+                          <Label htmlFor="fahrenheit">Fahrenheit</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="metric" id="celsius" />
+                          <Label htmlFor="celsius">Celsius</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
                     <div className="space-y-2">
                       <Label>Additional weather information:</Label>
                       <div className="flex flex-col space-y-2">

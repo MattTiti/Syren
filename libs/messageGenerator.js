@@ -66,10 +66,11 @@ async function shortenUrl(url) {
 }
 
 async function fetchWeather(weatherConfig) {
-  const params =
-    weatherConfig.inputType === "city"
-      ? { city: weatherConfig.city }
-      : { lat: weatherConfig.latitude, lon: weatherConfig.longitude };
+  const params = {
+    lat: weatherConfig.latitude,
+    lon: weatherConfig.longitude,
+    units: weatherConfig.units,
+  };
   const response = await axios.get("https://goodmornin.app/api/weather", {
     params,
   });
@@ -96,11 +97,23 @@ async function fetchQuote() {
 }
 
 function formatWeatherData(data, config) {
-  let result = `Temperature: ${data.temperature}°F, feels like ${data.feelsLike}°F (${data.low}°F - ${data.high}°F)`;
+  const tempUnit = config.units === "imperial" ? "°F" : "°C";
+  const speedUnit = config.units === "imperial" ? "mph" : "m/s";
+
+  let result = `Temperature: ${data.temperature.day}${tempUnit}, feels like ${data.feelsLike.day}${tempUnit}`;
+  result += `\nToday's forecast: High of ${data.maxTemp}${tempUnit}, Low of ${data.minTemp}${tempUnit}`;
+
   if (config.showWind)
-    result += `\nWind: ${data.windSpeed} mph from the ${data.windDirection}`;
-  if (config.showRain) result += `\nRain: ${data.rainChance}%`;
-  if (config.showHumidity) result += `\nHumidity: ${data.humidity}%`;
+    result += `\nWind: ${data.windSpeed} ${speedUnit} from ${data.windDirection}°`;
+  if (config.showRain && data.rain)
+    result += `\nChance of rain: ${(data.rain * 100).toFixed(0)}%`;
+  if (config.showHumidity && data.humidity)
+    result += `\nHumidity: ${data.humidity}%`;
+
+  if (data.summary) {
+    result += `\n\nSummary: ${data.summary}`;
+  }
+
   return result;
 }
 
