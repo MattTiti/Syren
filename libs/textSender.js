@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const MAX_MESSAGE_LENGTH = 500; // Maximum length for a single text message
+const MAX_MESSAGE_LENGTH = 700; // Maximum length for a single text message
 
 export async function sendText(phoneNumber, message) {
   const messages = splitMessage(message);

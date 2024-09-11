@@ -41,7 +41,7 @@ export async function generateDailyMessage(customization) {
 
 async function fetchNews(topic) {
   const response = await axios.get(
-    `https://goodmornin.app/api/news?topic=${topic}`
+    `https://goodmornin.app/api/news?category=${topic}`
   );
   const articles = response.data.articles || [];
   const headlines = await Promise.all(
