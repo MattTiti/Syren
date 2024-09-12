@@ -116,24 +116,50 @@ async function fetchQuote() {
   return `"${response.data.quote}" - ${response.data.author}`;
 }
 
+function degreesToDirection(degrees) {
+  const directions = [
+    "N",
+    "NNE",
+    "NE",
+    "ENE",
+    "E",
+    "ESE",
+    "SE",
+    "SSE",
+    "S",
+    "SSW",
+    "SW",
+    "WSW",
+    "W",
+    "WNW",
+    "NW",
+    "NNW",
+  ];
+  const index = Math.round((degrees % 360) / 22.5);
+  return directions[index % 16];
+}
+
 function formatWeatherData(data, config) {
   const tempUnit = config.units === "imperial" ? "°F" : "°C";
   const speedUnit = config.units === "imperial" ? "mph" : "m/s";
+  let result = "";
 
-  let result = `Temperature: ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
+  if (data.summary) {
+    result += `Summary: ${data.summary}\n\n`;
+  }
+
+  result += `Temperature: ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
 
   if (config.showWind)
-    result += `\nWind: ${data.windSpeed} ${speedUnit} from ${data.windDirection}°`;
+    result += `\nWind: ${data.windSpeed} ${speedUnit} from ${degreesToDirection(
+      data.windDirection
+    )} ${data.windGust ? `(Gusts up to ${data.windGust}${speedUnit})` : ""}`;
   if (config.showRain && data.rain)
     result += `\nChance of rain: ${(data.rain * 100).toFixed(0)}%`;
   if (config.showHumidity && data.humidity)
     result += `\nHumidity: ${data.humidity}%`;
 
-  if (data.summary) {
-    result += `\n\nSummary: ${data.summary}`;
-  }
-
-  return result;
+  return result.trim();
 }
 
 async function fetchSports(sportsConfig) {
@@ -141,7 +167,7 @@ async function fetchSports(sportsConfig) {
 
   if (sportsConfig.showPreviousGame) {
     const lastGameResponse = await axios.get(
-      `https://goodmornin.app/api/lastGame?teamId=${sportsConfig.team}`
+      `https://goodmornin.app/api/lastGame?teamId=${sportsConfig.teamId}`
     );
     const lastGame = lastGameResponse.data;
     sportsData += `Last game: ${lastGame.homeTeam} ${lastGame.homeScore} - ${lastGame.awayTeam} ${lastGame.awayScore} (${lastGame.date})\n`;
@@ -149,7 +175,7 @@ async function fetchSports(sportsConfig) {
 
   if (sportsConfig.showNextGame) {
     const nextGameResponse = await axios.get(
-      `https://goodmornin.app/api/nextGame?teamId=${sportsConfig.team}`
+      `https://goodmornin.app/api/nextGame?teamId=${sportsConfig.teamId}`
     );
     const nextGame = nextGameResponse.data;
     sportsData += `Next game: ${nextGame.event} (${nextGame.date})`;

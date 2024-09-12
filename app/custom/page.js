@@ -36,8 +36,10 @@ export default function CustomizationPage() {
       text: "Good morning!",
     },
     news: {
-      enabled: true,
+      enabled: false,
+      type: "topHeadlines",
       topic: "technology",
+      customQuery: "",
     },
     weather: {
       enabled: true,
@@ -53,7 +55,8 @@ export default function CustomizationPage() {
     sports: {
       enabled: false,
       league: "",
-      team: "",
+      teamId: "", // Changed from 'team' to 'teamId' for clarity
+      teamName: "",
       showPreviousGame: false,
       showNextGame: false,
     },
@@ -148,6 +151,18 @@ export default function CustomizationPage() {
         },
       }));
     }
+  };
+
+  const handleTeamChange = (selectedTeamId) => {
+    const selectedTeam = teams.find((team) => team.idTeam === selectedTeamId);
+    setCustomization((prev) => ({
+      ...prev,
+      sports: {
+        ...prev.sports,
+        teamId: selectedTeamId,
+        teamName: selectedTeam ? selectedTeam.strTeam : "",
+      },
+    }));
   };
 
   const loadCustomization = async () => {
@@ -245,7 +260,6 @@ export default function CustomizationPage() {
     }
   };
 
-  // Generate time options for every hour in EST
   const timeOptions = Array.from({ length: 24 }, (_, i) => {
     const hour = i.toString().padStart(2, "0");
     return `${hour}:00`;
@@ -254,17 +268,46 @@ export default function CustomizationPage() {
   const previewText = (
     <div className="space-y-4">
       {customization.intro.text && <p>{customization.intro.text}</p>}
-
-      {customization.news.enabled && (
-        <div>
-          <h3 className="font-semibold">
-            Today's top {capitalizeFirstLetter(customization.news.topic)}{" "}
-            headlines:
-          </h3>
-          <p>[News Headlines]</p>
-        </div>
-      )}
-
+      {customization.news.enabled &&
+        customization.news.type === "topHeadlines" && (
+          <div>
+            <h3 className="font-semibold">
+              Top {capitalizeFirstLetter(customization.news.topic)} headlines:
+            </h3>
+            <p>
+              GoodMornin launches new feature!{" "}
+              <span className="text-blue-500 underline">
+                https://tinyurl.com/goodmornin
+              </span>
+            </p>
+            <p>
+              GoodMornin reaches 1000 users!{" "}
+              <span className="text-blue-500 underline">
+                https://tinyurl.com/goodmornin
+              </span>
+            </p>
+            <p>
+              GoodMornin helps you get your day started!{" "}
+              <span className="text-blue-500 underline">
+                https://tinyurl.com/goodmornin
+              </span>
+            </p>
+          </div>
+        )}
+      {customization.news.enabled &&
+        customization.news.type === "customSearch" && (
+          <div>
+            <h3 className="font-semibold">
+              {customization.news.customQuery} News:
+            </h3>
+            <p>
+              Latest Article on {customization.news.customQuery}{" "}
+              <span className="text-blue-500 underline">
+                https://tinyurl.com/goodmornin
+              </span>
+            </p>
+          </div>
+        )}
       {customization.weather.enabled && (
         <div>
           <h3 className="font-semibold">
@@ -275,6 +318,7 @@ export default function CustomizationPage() {
                 "[Coordinates]"}
             :
           </h3>
+          <p>Summary: There will be clear sky today</p>
           <p>Temperature: 72°F, feels like 68°F (60°F - 75°F)</p>
           {customization.weather.showWind && (
             <p>Wind: Speed 12 mph from the South (Gusts up to 15 mph)</p>
@@ -284,10 +328,10 @@ export default function CustomizationPage() {
         </div>
       )}
 
-      {customization.sports.enabled && customization.sports.team && (
+      {customization.sports.enabled && customization.sports.teamId && (
         <div>
           <h3 className="font-semibold">
-            {customization.sports.team} updates:
+            {customization.sports.teamName} updates:
           </h3>
           {customization.sports.showPreviousGame && <p>Previous game: 2 - 1</p>}
           {customization.sports.showNextGame && (
@@ -491,21 +535,63 @@ export default function CustomizationPage() {
                         Include news in your daily text
                       </Label>
                     </div>
-                    <Combobox
-                      options={[
-                        { value: "general", label: "General" },
-                        { value: "business", label: "Business" },
-                        { value: "technology", label: "Technology" },
-                        { value: "sports", label: "Sports" },
-                        { value: "entertainment", label: "Entertainment" },
-                        { value: "health", label: "Health" },
-                        { value: "science", label: "Science" },
-                      ]}
-                      value={customization.news.topic}
+                    <RadioGroup
+                      value={customization.news.type}
                       onValueChange={(value) =>
-                        handleCustomizationChange("news", "topic", value)
+                        handleCustomizationChange("news", "type", value)
                       }
-                    />
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="topHeadlines"
+                          id="topHeadlines"
+                        />
+                        <Label htmlFor="topHeadlines">Top Headlines</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value="customSearch"
+                          id="customSearch"
+                        />
+                        <Label htmlFor="customSearch">Custom Search</Label>
+                      </div>
+                    </RadioGroup>
+                    {customization.news.type === "topHeadlines" && (
+                      <Combobox
+                        options={[
+                          { value: "general", label: "General" },
+                          { value: "business", label: "Business" },
+                          { value: "technology", label: "Technology" },
+                          { value: "sports", label: "Sports" },
+                          { value: "entertainment", label: "Entertainment" },
+                          { value: "health", label: "Health" },
+                          { value: "science", label: "Science" },
+                        ]}
+                        value={customization.news.topic}
+                        onValueChange={(value) =>
+                          handleCustomizationChange("news", "topic", value)
+                        }
+                      />
+                    )}
+                    {customization.news.type === "customSearch" && (
+                      <div className="space-y-2">
+                        <Label htmlFor="customQuery">
+                          Custom search query:
+                        </Label>
+                        <Input
+                          id="customQuery"
+                          value={customization.news.customQuery}
+                          onChange={(e) =>
+                            handleCustomizationChange(
+                              "news",
+                              "customQuery",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Enter your custom search query"
+                        />
+                      </div>
+                    )}
                   </div>
                 </AccordionContent>
               </AccordionItem>
@@ -711,13 +797,11 @@ export default function CustomizationPage() {
                     />
                     <Combobox
                       options={teams.map((team) => ({
-                        value: team.strTeam,
+                        value: team.idTeam,
                         label: team.strTeam,
                       }))}
-                      value={customization.sports.team}
-                      onValueChange={(value) =>
-                        handleCustomizationChange("sports", "team", value)
-                      }
+                      value={customization.sports.teamId}
+                      onValueChange={handleTeamChange}
                       disabled={!customization.sports.league || loadingTeams}
                     />
                     <div className="space-y-2">

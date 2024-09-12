@@ -21,6 +21,8 @@ export default function Dashboard() {
   const [eventCountry, setEventCountry] = useState("US");
   const [zodiacSign, setZodiacSign] = useState("");
   const [horoscope, setHoroscope] = useState(null);
+  const [customNewsQuery, setCustomNewsQuery] = useState("");
+  const [customNews, setCustomNews] = useState([]);
 
   useEffect(() => {
     fetchLeagues();
@@ -76,7 +78,7 @@ export default function Dashboard() {
       setError("Failed to fetch weather data");
     }
   };
-
+  console.log(teams);
   const fetchTeams = async () => {
     try {
       const response = await fetch(`/api/teams?league=${selectedLeague}`);
@@ -190,6 +192,52 @@ export default function Dashboard() {
     }
   };
 
+  const fetchCustomNews = async () => {
+    if (!customNewsQuery.trim()) {
+      setError("Please enter a search query for custom news");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/customNews?q=${encodeURIComponent(customNewsQuery)}`
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setCustomNews(data.articles);
+        setError(null);
+      } else {
+        throw new Error(data.error || "Failed to fetch custom news");
+      }
+    } catch (err) {
+      setError("Failed to fetch custom news");
+      setCustomNews([]);
+    }
+  };
+
+  function degreesToDirection(degrees) {
+    const directions = [
+      "N",
+      "NNE",
+      "NE",
+      "ENE",
+      "E",
+      "ESE",
+      "SE",
+      "SSE",
+      "S",
+      "SSW",
+      "SW",
+      "WSW",
+      "W",
+      "WNW",
+      "NW",
+      "NNW",
+    ];
+    const index = Math.round((degrees % 360) / 22.5);
+    return directions[index % 16];
+  }
+
   return (
     <div>
       <h1>Weather and Sports Dashboard</h1>
@@ -216,18 +264,23 @@ export default function Dashboard() {
             <h3>
               Weather for {latitude}, {longitude}
             </h3>
+            {weather.summary && (
+              <p>
+                <strong>Summary:</strong> {weather.summary}
+              </p>
+            )}
             <p>Temperature: {weather.temperature.day}°F</p>
             <p>Feels like: {weather.feelsLike.day}°F</p>
             <p>High: {weather.maxTemp}°F</p>
             <p>Low: {weather.minTemp}°F</p>
             <p>Humidity: {weather.humidity}%</p>
             <p>
-              Wind: {weather.windSpeed} mph from {weather.windDirection}°
+              Wind: {weather.windSpeed} mph from{" "}
+              {degreesToDirection(weather.windDirection)}
             </p>
             {weather.rain && (
               <p>Chance of rain: {(weather.rain * 100).toFixed(0)}%</p>
             )}
-            {weather.summary && <p>Summary: {weather.summary}</p>}
           </div>
         )}
       </div>
@@ -381,6 +434,37 @@ export default function Dashboard() {
       )}
 
       {error && <p>{error}</p>}
+
+      <div>
+        <h2>Custom News Search</h2>
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            value={customNewsQuery}
+            onChange={(e) => setCustomNewsQuery(e.target.value)}
+            placeholder="Enter search query"
+          />
+          <button onClick={fetchCustomNews}>Search News</button>
+        </div>
+        {customNews.length > 0 && (
+          <div>
+            <h3>Custom News Results</h3>
+            {customNews.map((article, index) => (
+              <div key={index}>
+                <h4>{article.title}</h4>
+                <p>{article.description}</p>
+                <p>Source: {article.source}</p>
+                <p>
+                  Published: {new Date(article.publishedAt).toLocaleString()}
+                </p>
+                <a href={article.url} target="_blank" rel="noopener noreferrer">
+                  Read more
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
