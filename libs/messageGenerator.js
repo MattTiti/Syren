@@ -85,10 +85,23 @@ async function fetchSports(sportsConfig) {
 }
 
 async function fetchEvents(country) {
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth() + 1; // JavaScript months are 0-indexed
+  const year = today.getFullYear();
+
   const response = await axios.get(
-    `https://goodmornin.app/api/events?country=${country}`
+    `https://goodmornin.app/api/events?day=${day}&month=${month}&year=${year}&country=${country}`
   );
-  return response.data.events.join("\n");
+
+  if (response.data && response.data.length > 0) {
+    return response.data
+      .slice(0, 3)
+      .map((event) => event.name)
+      .join("\n");
+  } else {
+    return "No notable events today.";
+  }
 }
 
 async function fetchQuote() {
