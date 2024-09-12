@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { capitalizeFirstLetter } from "@/lib/utils";
 export async function generateDailyMessage(customization) {
   let message = "";
 
@@ -9,22 +9,28 @@ export async function generateDailyMessage(customization) {
 
   if (customization.news.enabled) {
     const newsData = await fetchNews(customization.news.topic);
-    message += `Today's top ${customization.news.topic} headlines:\n${newsData}\n\n`;
+    message += `Today in ${capitalizeFirstLetter(
+      customization.news.topic
+    )}:\n${newsData}\n\n`;
   }
 
   if (customization.weather.enabled) {
     const weatherData = await fetchWeather(customization.weather);
-    message += `Weather:\n${weatherData}\n\n`;
+    if (customization.weather.city) {
+      message += `Weather in ${customization.weather.city}:\n${weatherData}\n\n`;
+    } else {
+      message += `Weather:\n${weatherData}\n\n`;
+    }
   }
 
   if (customization.sports.enabled && customization.sports.team) {
     const sportsData = await fetchSports(customization.sports);
-    message += `Sports updates:\n${sportsData}\n\n`;
+    message += `${customization.sports.team} updates:\n${sportsData}\n\n`;
   }
 
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
-    message += `Today's events:\n${eventsData}\n\n`;
+    message += `Today in ${customization.events.country}:\n${eventsData}\n\n`;
   }
 
   if (customization.quotes.enabled) {
@@ -44,8 +50,14 @@ async function fetchNews(topic) {
     `https://goodmornin.app/api/news?category=${topic}`
   );
   const articles = response.data.articles || [];
+
+  // Filter out articles with "[Removed]" title
+  const filteredArticles = articles.filter(
+    (article) => article.title !== "[Removed]"
+  );
+
   const headlines = await Promise.all(
-    articles.slice(0, 3).map(async (article) => {
+    filteredArticles.slice(0, 3).map(async (article) => {
       const shortUrl = await shortenUrl(article.url);
       return `${article.title} ${shortUrl}`;
     })
@@ -113,8 +125,7 @@ function formatWeatherData(data, config) {
   const tempUnit = config.units === "imperial" ? "°F" : "°C";
   const speedUnit = config.units === "imperial" ? "mph" : "m/s";
 
-  let result = `Temperature: ${data.temperature}${tempUnit}, feels like ${data.feelsLike}${tempUnit}`;
-  result += `\nToday's forecast: High of ${data.maxTemp}${tempUnit}, Low of ${data.minTemp}${tempUnit}`;
+  let result = `Temperature: ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
 
   if (config.showWind)
     result += `\nWind: ${data.windSpeed} ${speedUnit} from ${data.windDirection}°`;

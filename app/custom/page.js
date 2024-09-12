@@ -67,6 +67,10 @@ export default function CustomizationPage() {
     conclusion: {
       text: "Have a great day!",
     },
+    messaging: {
+      enabled: true,
+      consentGiven: false,
+    },
   });
   const [leagues, setLeagues] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -169,6 +173,15 @@ export default function CustomizationPage() {
   const saveCustomization = async () => {
     if (!phoneNumber) {
       toast.error("Please enter your phone number");
+      return;
+    }
+    if (
+      customization.messaging.enabled &&
+      !customization.messaging.consentGiven
+    ) {
+      toast.error(
+        "Please give consent to receive messages or disable messaging"
+      );
       return;
     }
     if (customization.intro.text.length > 160) {
@@ -337,47 +350,97 @@ export default function CustomizationPage() {
             <h1 className="text-3xl font-bold mb-6 text-neutral-700">
               Customize Your Daily Text
             </h1>
-            <div className="mb-6">
-              <Label htmlFor="phoneNumber" className="text-lg font-semibold">
-                Phone Number
-              </Label>
-              <Input
-                id="phoneNumber"
-                type="tel"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Enter your phone number"
-                className="mt-2"
-              />
-              <p className="text-sm text-gray-500 mt-1">
-                Enter the phone number where you'd like to receive your daily
-                texts.
-              </p>
-            </div>
 
-            <div className="mb-6">
-              <Label htmlFor="deliveryTime" className="text-lg font-semibold">
-                Delivery Time (EST)
-              </Label>
-              <Select value={deliveryTime} onValueChange={setDeliveryTime}>
-                <SelectTrigger className="w-full mt-2">
-                  <SelectValue placeholder="Select delivery time" />
-                </SelectTrigger>
-                <SelectContent>
-                  {timeOptions.map((time) => (
-                    <SelectItem key={time} value={time}>
-                      {time} EST
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-sm text-gray-500 mt-1">
-                Choose the time you'd like to receive your daily text (in
-                Eastern Standard Time).
-              </p>
-            </div>
+            <Accordion
+              type="multiple"
+              defaultValue={["settings"]}
+              className="w-full"
+            >
+              <AccordionItem value="settings">
+                <AccordionTrigger>Message Settings</AccordionTrigger>
+                <AccordionContent className="px-2">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="phoneNumber">Phone Number</Label>
+                      <Input
+                        id="phoneNumber"
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="Enter your phone number"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="deliveryTime">Delivery Time (EST)</Label>
+                      <Select
+                        value={deliveryTime}
+                        onValueChange={setDeliveryTime}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select delivery time" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {timeOptions.map((time) => (
+                            <SelectItem key={time} value={time}>
+                              {time} EST
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Enable Messaging:</Label>
+                      <RadioGroup
+                        value={
+                          customization.messaging.enabled
+                            ? "enabled"
+                            : "disabled"
+                        }
+                        onValueChange={(value) =>
+                          handleCustomizationChange(
+                            "messaging",
+                            "enabled",
+                            value === "enabled"
+                          )
+                        }
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value="enabled"
+                            id="messaging-enabled"
+                          />
+                          <Label htmlFor="messaging-enabled">Enabled</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value="disabled"
+                            id="messaging-disabled"
+                          />
+                          <Label htmlFor="messaging-disabled">Disabled</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="consent"
+                        checked={customization.messaging.consentGiven}
+                        onCheckedChange={(checked) =>
+                          handleCustomizationChange(
+                            "messaging",
+                            "consentGiven",
+                            checked
+                          )
+                        }
+                      />
+                      <Label htmlFor="consent">
+                        I consent to receive SMS messages from GoodMornin.
+                        Message and data rates may apply.
+                      </Label>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-            <Accordion type="multiple" collapsible className="w-full">
               <AccordionItem value="intro">
                 <AccordionTrigger>Introduction</AccordionTrigger>
                 <AccordionContent className="px-2">

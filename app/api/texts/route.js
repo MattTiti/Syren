@@ -11,7 +11,7 @@ export async function GET(req) {
 
   try {
     const users = await UserCustomization.find({});
-
+    // TODO: Add a check to see if the user has opted in to receive texts, delivery time,
     for (const user of users) {
       const message = await generateDailyMessage(user.customization);
       await sendText(user.phoneNumber, message);

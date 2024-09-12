@@ -1,11 +1,11 @@
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import PlausibleProvider from "next-plausible";
 import { getSEOTags } from "@/libs/seo";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
 
-const font = Inter({ subsets: ["latin"] });
+const font = Bricolage_Grotesque({ subsets: ["latin"] });
 
 export const viewport = {
   themeColor: config.colors.main,
@@ -17,7 +17,11 @@ export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme={config.colors.theme} className={font.className}>
+    <html
+      lang="en"
+      data-theme={config.colors.theme}
+      className={font.className + " bg-yellow-50"}
+    >
       {config.domainName && (
         <head>
           <PlausibleProvider domain={config.domainName} />
