@@ -68,7 +68,7 @@ async function fetchTopHeadlines(topic) {
   const headlines = await Promise.all(
     filteredArticles.slice(0, 3).map(async (article) => {
       const shortUrl = await shortenUrl(article.url);
-      return `${article.title} ${shortUrl}`;
+      return `* ${article.title} ${shortUrl}`;
     })
   );
   return headlines.join("\n");
@@ -88,7 +88,7 @@ async function fetchCustomNews(query) {
   const headlines = await Promise.all(
     filteredArticles.slice(0, 3).map(async (article) => {
       const shortUrl = await shortenUrl(article.url);
-      return `${article.title} ${shortUrl}`;
+      return `* ${article.title} ${shortUrl}`;
     })
   );
   return headlines.join("\n");
@@ -131,7 +131,7 @@ async function fetchEvents(country) {
   if (response.data && response.data.length > 0) {
     return response.data
       .slice(0, 3)
-      .map((event) => event.name)
+      .map((event) => `* ${event.name}`)
       .join("\n");
   } else {
     return "No notable events today.";
@@ -140,7 +140,7 @@ async function fetchEvents(country) {
 
 async function fetchQuote() {
   const response = await axios.get("https://goodmornin.app/api/quotes");
-  return `"${response.data.quote}" - ${response.data.author}`;
+  return `* "${response.data.quote}" - ${response.data.author}`;
 }
 
 function degreesToDirection(degrees) {
@@ -178,15 +178,15 @@ function formatWeatherData(data, config) {
   result += `* ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
 
   if (config.showWind)
-    result += `\n* Winds ${
+    result += `\n* ${
       data.windSpeed
-    } ${speedUnit} from ${degreesToDirection(data.windDirection)} ${
+    } ${speedUnit} winds from ${degreesToDirection(data.windDirection)} ${
       data.windGust ? `(Gusts up to ${data.windGust}${speedUnit})` : ""
     }`;
   if (config.showRain && data.rain)
-    result += `\n* Chance of rain is ${(data.rain * 100).toFixed(0)}%`;
+    result += `\n* ${(data.rain * 100).toFixed(0)}% chance of rain`;
   if (config.showHumidity && data.humidity)
-    result += `\n* Humidity is ${data.humidity}%`;
+    result += `\n* ${data.humidity}% humidity`;
 
   return result.trim();
 }
@@ -199,7 +199,7 @@ async function fetchSports(sportsConfig) {
       `https://goodmornin.app/api/lastGame?teamId=${sportsConfig.teamId}`
     );
     const lastGame = lastGameResponse.data;
-    sportsData += `Last game: ${lastGame.homeTeam} ${lastGame.homeScore} - ${lastGame.awayTeam} ${lastGame.awayScore} (${lastGame.date})\n`;
+    sportsData += `* Last game: ${lastGame.homeTeam} ${lastGame.homeScore} - ${lastGame.awayTeam} ${lastGame.awayScore} (${lastGame.date})\n`;
   }
 
   if (sportsConfig.showNextGame) {
@@ -207,7 +207,7 @@ async function fetchSports(sportsConfig) {
       `https://goodmornin.app/api/nextGame?teamId=${sportsConfig.teamId}`
     );
     const nextGame = nextGameResponse.data;
-    sportsData += `Next game: ${nextGame.event} (${nextGame.date})`;
+    sportsData += `* Next game: ${nextGame.event} (${nextGame.date})`;
   }
 
   return sportsData.trim();
