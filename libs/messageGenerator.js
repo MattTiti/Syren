@@ -26,7 +26,7 @@ export async function generateDailyMessage(customization) {
   if (customization.sports.enabled && customization.sports.team) {
     const sportsData = await fetchSports(customization.sports);
     if (sportsData) {
-      message += `${customization.sports.team} updates:\n${sportsData}\n\n`;
+      message += `${customization.sports.teamName} updates:\n${sportsData}\n\n`;
     }
   }
 
@@ -145,7 +145,7 @@ function formatWeatherData(data, config) {
   let result = "";
 
   if (data.summary) {
-    result += `Summary: ${data.summary}\n\n`;
+    result += `Summary: ${data.summary}\n`;
   }
 
   result += `Temperature: ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
