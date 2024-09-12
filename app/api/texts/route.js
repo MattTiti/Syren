@@ -14,7 +14,7 @@ export async function GET(req) {
       status: 401,
     });
   }
-
+  // TODO: Add a check to see if the user has opted in to receive texts, delivery time,
   try {
     const users = await UserCustomization.find({});
     // TODO: Add a check to see if the user has opted in to receive texts, delivery time,
