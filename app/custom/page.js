@@ -756,7 +756,16 @@ export default function CustomizationPage() {
                         Custom conclusion text:
                       </Label>
                       <Label className="text-neutral-500">
-                        {customization.conclusion.text.length} / 160
+                        <span
+                          className={`${
+                            customization.conclusion.text.length > 160
+                              ? "text-red-500"
+                              : "text-green-700"
+                          }`}
+                        >
+                          {customization.conclusion.text.length}
+                        </span>{" "}
+                        / 160
                       </Label>
                     </div>
                     <Input
