@@ -25,7 +25,9 @@ export async function generateDailyMessage(customization) {
 
   if (customization.sports.enabled && customization.sports.team) {
     const sportsData = await fetchSports(customization.sports);
-    message += `${customization.sports.team} updates:\n${sportsData}\n\n`;
+    if (sportsData) {
+      message += `${customization.sports.team} updates:\n${sportsData}\n\n`;
+    }
   }
 
   if (customization.events.enabled) {
@@ -89,13 +91,6 @@ async function fetchWeather(weatherConfig) {
   return formatWeatherData(response.data, weatherConfig);
 }
 
-async function fetchSports(sportsConfig) {
-  const response = await axios.get(
-    `https://goodmornin.app/api/games?teamId=${sportsConfig.team}`
-  );
-  return formatSportsData(response.data, sportsConfig);
-}
-
 async function fetchEvents(country) {
   const today = new Date();
   const day = today.getDate();
@@ -141,13 +136,24 @@ function formatWeatherData(data, config) {
   return result;
 }
 
-function formatSportsData(data, config) {
-  let result = "";
-  if (config.showPreviousGame && data.previousGame) {
-    result += `Previous game: ${data.previousGame.score}\n`;
+async function fetchSports(sportsConfig) {
+  let sportsData = "";
+
+  if (sportsConfig.showPreviousGame) {
+    const lastGameResponse = await axios.get(
+      `https://goodmornin.app/api/lastGame?teamId=${sportsConfig.team}`
+    );
+    const lastGame = lastGameResponse.data;
+    sportsData += `Last game: ${lastGame.homeTeam} ${lastGame.homeScore} - ${lastGame.awayTeam} ${lastGame.awayScore} (${lastGame.date})\n`;
   }
-  if (config.showNextGame && data.nextGame) {
-    result += `Next game: ${data.nextGame.date} vs ${data.nextGame.opponent}`;
+
+  if (sportsConfig.showNextGame) {
+    const nextGameResponse = await axios.get(
+      `https://goodmornin.app/api/nextGame?teamId=${sportsConfig.team}`
+    );
+    const nextGame = nextGameResponse.data;
+    sportsData += `Next game: ${nextGame.event} (${nextGame.date})`;
   }
-  return result;
+
+  return sportsData.trim();
 }

@@ -96,7 +96,7 @@ export default function Dashboard() {
 
   const fetchLastGame = async () => {
     try {
-      const response = await fetch(`/api/games?teamId=${team}`);
+      const response = await fetch(`/api/nextGame?teamId=${team}`);
       const data = await response.json();
       if (data.error) {
         setError(data.error);
