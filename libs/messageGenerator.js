@@ -17,7 +17,7 @@ export async function generateDailyMessage(customization) {
       )} News:\n${newsData}\n\n`;
     } else if (customization.news.type === "customSearch") {
       newsData = await fetchCustomNews(customization.news.customQuery);
-      message += `Custom News Search Results:\n${newsData}\n\n`;
+      message += `${customization.news.customQuery} News:\n${newsData}\n\n`;
     }
   }
 
@@ -172,19 +172,21 @@ function formatWeatherData(data, config) {
   let result = "";
 
   if (data.summary) {
-    result += `Summary: ${data.summary}\n`;
+    result += `* ${data.summary}\n`;
   }
 
-  result += `Temperature: ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
+  result += `* ${data.temperature}${tempUnit} (${data.minTemp}${tempUnit} - ${data.maxTemp}${tempUnit}), feels like ${data.feelsLike}${tempUnit}`;
 
   if (config.showWind)
-    result += `\nWind: ${data.windSpeed} ${speedUnit} from ${degreesToDirection(
-      data.windDirection
-    )} ${data.windGust ? `(Gusts up to ${data.windGust}${speedUnit})` : ""}`;
+    result += `\n* Winds ${
+      data.windSpeed
+    } ${speedUnit} from ${degreesToDirection(data.windDirection)} ${
+      data.windGust ? `(Gusts up to ${data.windGust}${speedUnit})` : ""
+    }`;
   if (config.showRain && data.rain)
-    result += `\nChance of rain: ${(data.rain * 100).toFixed(0)}%`;
+    result += `\n* Chance of rain is ${(data.rain * 100).toFixed(0)}%`;
   if (config.showHumidity && data.humidity)
-    result += `\nHumidity: ${data.humidity}%`;
+    result += `\n* Humidity is ${data.humidity}%`;
 
   return result.trim();
 }
