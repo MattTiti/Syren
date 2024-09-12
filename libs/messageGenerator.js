@@ -1,5 +1,6 @@
 import axios from "axios";
 import { capitalizeFirstLetter } from "@/lib/utils";
+
 export async function generateDailyMessage(customization) {
   let message = "";
 
@@ -8,10 +9,16 @@ export async function generateDailyMessage(customization) {
   }
 
   if (customization.news.enabled) {
-    const newsData = await fetchNews(customization.news.topic);
-    message += `Today in ${capitalizeFirstLetter(
-      customization.news.topic
-    )}:\n${newsData}\n\n`;
+    let newsData;
+    if (customization.news.type === "topHeadlines") {
+      newsData = await fetchTopHeadlines(customization.news.topic);
+      message += `Today in ${capitalizeFirstLetter(
+        customization.news.topic
+      )} News:\n${newsData}\n\n`;
+    } else if (customization.news.type === "customSearch") {
+      newsData = await fetchCustomNews(customization.news.customQuery);
+      message += `Custom News Search Results:\n${newsData}\n\n`;
+    }
   }
 
   if (customization.weather.enabled) {
@@ -47,9 +54,29 @@ export async function generateDailyMessage(customization) {
   return message.trim();
 }
 
-async function fetchNews(topic) {
+async function fetchTopHeadlines(topic) {
   const response = await axios.get(
     `https://goodmornin.app/api/news?category=${topic}`
+  );
+  const articles = response.data.articles || [];
+
+  // Filter out articles with "[Removed]" title
+  const filteredArticles = articles.filter(
+    (article) => article.title !== "[Removed]"
+  );
+
+  const headlines = await Promise.all(
+    filteredArticles.slice(0, 3).map(async (article) => {
+      const shortUrl = await shortenUrl(article.url);
+      return `${article.title} ${shortUrl}`;
+    })
+  );
+  return headlines.join("\n");
+}
+
+async function fetchCustomNews(query) {
+  const response = await axios.get(
+    `https://goodmornin.app/api/customNews?q=${encodeURIComponent(query)}`
   );
   const articles = response.data.articles || [];
 
