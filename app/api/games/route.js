@@ -6,7 +6,9 @@ export async function GET(request) {
   const teamId = searchParams.get("teamId"); // Team ID from the client
 
   const apiKey = process.env.NEXT_PUBLIC_SPORTS_API_KEY;
-  const sportsApiUrl = `https://www.thesportsdb.com/api/v1/json/${apiKey}/eventslast.php?id=${teamId}`;
+  const sportsApiUrl = `https://www.thesportsdb.com/api/v1/json/${apiKey}/eventslast.php?id=${encodeURIComponent(
+    teamId
+  )}`;
 
   try {
     const response = await axios.get(sportsApiUrl);
