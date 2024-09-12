@@ -6,15 +6,24 @@ export async function sendText(phoneNumber, message) {
   const messages = splitMessage(message);
   let allMessagesSent = true;
 
-  for (const msg of messages) {
+  for (let i = 0; i < messages.length; i++) {
+    const prefix = messages.length > 1 ? `(${i + 1}/${messages.length}) ` : "";
+    const fullMessage = prefix + messages[i];
+
     try {
       const response = await axios.post("https://goodmornin.app/api/send", {
         phoneNumber,
-        message: msg,
+        message: fullMessage,
       });
-      console.log("Text part sent successfully:", response.data);
+      console.log(
+        `Text part ${i + 1}/${messages.length} sent successfully:`,
+        response.data
+      );
     } catch (error) {
-      console.error("Error sending text part:", error);
+      console.error(
+        `Error sending text part ${i + 1}/${messages.length}:`,
+        error
+      );
       allMessagesSent = false;
     }
   }
@@ -31,14 +40,15 @@ function splitMessage(message) {
   let currentPart = "";
 
   message.split("\n").forEach((line) => {
-    if (currentPart.length + line.length + 1 > MAX_MESSAGE_LENGTH) {
+    if (currentPart.length + line.length + 1 > MAX_MESSAGE_LENGTH - 7) {
+      // Reserve 7 characters for " (x/y)"
       if (currentPart) {
         parts.push(currentPart.trim());
         currentPart = "";
       }
-      if (line.length > MAX_MESSAGE_LENGTH) {
+      if (line.length > MAX_MESSAGE_LENGTH - 7) {
         const subParts = line.match(
-          new RegExp(`.{1,${MAX_MESSAGE_LENGTH}}`, "g")
+          new RegExp(`.{1,${MAX_MESSAGE_LENGTH - 7}}`, "g")
         );
         parts.push(...subParts);
       } else {
