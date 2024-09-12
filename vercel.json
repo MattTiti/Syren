@@ -2,7 +2,7 @@
     "crons": [
       {
         "path": "/api/texts",
-        "schedule": "*/4 * * * *"
+        "schedule": "*/60 * * * *"
       }
   ]
 }
