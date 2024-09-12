@@ -7,7 +7,7 @@ import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendText } from "@/libs/textSender";
 
 export async function GET(req) {
-  const authHeader = request.headers.get("authorization");
+  const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", {
       status: 401,
