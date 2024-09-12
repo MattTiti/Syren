@@ -91,7 +91,7 @@ async function fetchWeather(weatherConfig) {
 
 async function fetchSports(sportsConfig) {
   const response = await axios.get(
-    `https://goodmornin.app/api/sports?league=${sportsConfig.league}&team=${sportsConfig.team}`
+    `https://goodmornin.app/api/games?teamId=${sportsConfig.team}`
   );
   return formatSportsData(response.data, sportsConfig);
 }
