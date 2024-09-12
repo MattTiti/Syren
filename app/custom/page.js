@@ -786,7 +786,7 @@ export default function CustomizationPage() {
             </Accordion>
           </div>
         </div>
-        <div className="w-1/2 p-6 sticky top-16 max-h-[70vh] overflow-y-auto">
+        <div className="w-1/2 p-6 sticky top-16 max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Preview Text</h2>
             <Button
