@@ -21,7 +21,7 @@ const NoPurchase = () => {
         Back
       </Link>
       <h1 className="text-xl font-bold mb-4">
-        Complete checkout to access dashboard
+        Complete checkout to access customization page
       </h1>
       <div className="flex w-full justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
         {config.stripe.plans.map((plan) => (
@@ -47,7 +47,7 @@ const NoPurchase = () => {
                 <div>
                   <p className="text-lg lg:text-xl font-bold">{plan.name}</p>
                   {plan.description && (
-                    <p className="text-base-content/80 mt-2">
+                    <p className="text-neutral-700/80 mt-2">
                       {plan.description}
                     </p>
                   )}
@@ -57,8 +57,8 @@ const NoPurchase = () => {
                 {plan.priceAnchor && (
                   <div className="flex flex-col justify-end mb-[4px] text-lg ">
                     <p className="relative">
-                      <span className="absolute bg-base-content h-[1.5px] inset-x-0 top-[53%]"></span>
-                      <span className="text-base-content/80">
+                      <span className="absolute bg-neutral-700/80 h-[1.5px] inset-x-0 top-[53%]"></span>
+                      <span className="text-neutral-700/80">
                         ${plan.priceAnchor}
                       </span>
                     </p>
@@ -68,7 +68,7 @@ const NoPurchase = () => {
                   ${plan.price}
                 </p>
                 <div className="flex flex-col justify-end mb-[4px]">
-                  <p className="text-xs text-base-content/60 uppercase font-semibold">
+                  <p className="text-xs text-neutral-700/60 uppercase font-semibold">
                     USD
                   </p>
                 </div>
@@ -98,7 +98,7 @@ const NoPurchase = () => {
               <div className="space-y-2">
                 <ButtonCheckout priceId={plan.priceId} mode={plan.mode} />
 
-                <p className="flex items-center justify-center gap-2 text-sm text-center text-base-content/80 font-medium relative">
+                <p className="flex items-center justify-center gap-2 text-sm text-center text-neutral-700/80 font-medium relative">
                   Pay once. Access forever.
                 </p>
               </div>
@@ -109,7 +109,7 @@ const NoPurchase = () => {
       <h1 className="text-lg font-bold mt-4 text-muted-foreground">
         Already purchased?{" "}
         <Link href="/custom" className="link text-yellow-400">
-          Go to dashboard
+          Go to customization page
         </Link>
       </h1>
     </div>
