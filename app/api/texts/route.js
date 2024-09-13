@@ -27,22 +27,20 @@ export async function GET(req) {
     const now = new Date();
     const estOffset = -5 * 60; // EST is UTC-5
     const estTime = new Date(now.getTime() + estOffset * 60 * 1000);
-    const currentHour = estTime.getUTCHours().toString().padStart(2, "0");
+    const currentHour = estTime.getUTCHours();
     const currentMinute = estTime.getUTCMinutes();
 
-    // Find users who have opted in and whose delivery time is within the next 30 minutes
+    // Find all users who have opted in
     const users = await UserCustomization.find({
       "customization.messaging.enabled": true,
       "customization.messaging.consentGiven": true,
-      deliveryTime: {
-        $regex: new RegExp(`^${currentHour}:`),
-      },
     });
 
     const usersToMessage = users.filter((user) => {
       const [hour, minute] = user.deliveryTime.split(":").map(Number);
+      if (hour !== currentHour) return false;
       const timeDiff = minute - currentMinute;
-      return timeDiff >= 0 && timeDiff <= 30;
+      return timeDiff >= 0 && timeDiff < 30; // Changed to < 30 to include the 30th minute
     });
 
     for (const user of usersToMessage) {
@@ -65,36 +63,3 @@ export async function GET(req) {
     );
   }
 }
-
-// import { NextResponse } from "next/server";
-// import connectMongo from "@/libs/mongoose";
-// import UserCustomization from "@/models/UserCustomization";
-// import { generateDailyMessage } from "@/libs/messageGenerator";
-// import { sendText } from "@/libs/textSender";
-
-// export async function POST(req) {
-//   await connectMongo();
-
-//   try {
-//     const currentHour = new Date().getUTCHours();
-//     const users = await UserCustomization.find({
-//       deliveryTime: { $regex: `^${currentHour.toString().padStart(2, "0")}:` },
-//     });
-
-//     for (const user of users) {
-//       const message = await generateDailyMessage(user.customization);
-//       await sendText(user.phoneNumber, message);
-//     }
-
-//     return NextResponse.json(
-//       { message: "Daily texts sent successfully" },
-//       { status: 200 }
-//     );
-//   } catch (error) {
-//     console.error("Error sending daily texts:", error);
-//     return NextResponse.json(
-//       { error: "Failed to send daily texts" },
-//       { status: 500 }
-//     );
-//   }
-// }
