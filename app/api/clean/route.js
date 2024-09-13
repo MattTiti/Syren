@@ -28,6 +28,9 @@ export async function GET(req) {
     let deletedCustomizationsCount = 0;
 
     for (const user of users) {
+      if (!user?.customerId) {
+        continue;
+      }
       try {
         const subscriptions = await stripe.subscriptions.list({
           customer: user.customerId,
