@@ -6,12 +6,12 @@ import connectMongo from "@/libs/mongoose";
 import UserCustomization from "@/models/UserCustomization";
 import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendText } from "@/libs/textSender";
-import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
+import { toZonedTime } from "date-fns-tz";
 
 function getESTTime() {
   const now = new Date();
   const estZone = "America/New_York";
-  return utcToZonedTime(now, estZone);
+  return toZonedTime(now, estZone);
 }
 
 export async function GET(req) {
