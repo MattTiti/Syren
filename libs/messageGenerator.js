@@ -12,7 +12,7 @@ export async function generateDailyMessage(customization) {
     let newsData;
     if (customization.news.type === "topHeadlines") {
       newsData = await fetchTopHeadlines(customization.news.topic);
-      message += `Today in ${capitalizeFirstLetter(
+      message += `${capitalizeFirstLetter(
         customization.news.topic
       )} News:\n${newsData}\n\n`;
     } else if (customization.news.type === "customSearch") {
@@ -39,7 +39,7 @@ export async function generateDailyMessage(customization) {
 
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
-    message += `Today in ${customization.events.country}:\n${eventsData}\n\n`;
+    message += `${customization.events.country} Holidays:\n${eventsData}\n\n`;
   }
 
   if (customization.quotes.enabled) {
@@ -140,7 +140,7 @@ async function fetchEvents(country) {
 
 async function fetchQuote() {
   const response = await axios.get("https://goodmornin.app/api/quotes");
-  return `* "${response.data.quote}" - ${response.data.author}`;
+  return `"${response.data.quote}" - ${response.data.author}`;
 }
 
 function degreesToDirection(degrees) {

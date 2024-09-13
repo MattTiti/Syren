@@ -21,6 +21,7 @@ export async function GET(request) {
       awayScore: lastGame.intAwayScore,
       date: lastGame.dateEvent,
       league: lastGame.strLeague,
+      event: lastGame.strEventAlternate,
     });
   } catch (error) {
     return NextResponse.json(

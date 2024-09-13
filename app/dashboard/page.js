@@ -98,7 +98,7 @@ export default function Dashboard() {
 
   const fetchLastGame = async () => {
     try {
-      const response = await fetch(`/api/nextGame?teamId=${team}`);
+      const response = await fetch(`/api/lastGame?teamId=${team}`);
       const data = await response.json();
       if (data.error) {
         setError(data.error);
@@ -215,29 +215,6 @@ export default function Dashboard() {
     }
   };
 
-  function degreesToDirection(degrees) {
-    const directions = [
-      "N",
-      "NNE",
-      "NE",
-      "ENE",
-      "E",
-      "ESE",
-      "SE",
-      "SSE",
-      "S",
-      "SSW",
-      "SW",
-      "WSW",
-      "W",
-      "WNW",
-      "NW",
-      "NNW",
-    ];
-    const index = Math.round((degrees % 360) / 22.5);
-    return directions[index % 16];
-  }
-
   return (
     <div>
       <h1>Weather and Sports Dashboard</h1>
@@ -264,23 +241,18 @@ export default function Dashboard() {
             <h3>
               Weather for {latitude}, {longitude}
             </h3>
-            {weather.summary && (
-              <p>
-                <strong>Summary:</strong> {weather.summary}
-              </p>
-            )}
             <p>Temperature: {weather.temperature.day}°F</p>
             <p>Feels like: {weather.feelsLike.day}°F</p>
             <p>High: {weather.maxTemp}°F</p>
             <p>Low: {weather.minTemp}°F</p>
             <p>Humidity: {weather.humidity}%</p>
             <p>
-              Wind: {weather.windSpeed} mph from{" "}
-              {degreesToDirection(weather.windDirection)}
+              Wind: {weather.windSpeed} mph from {weather.windDirection}°
             </p>
             {weather.rain && (
               <p>Chance of rain: {(weather.rain * 100).toFixed(0)}%</p>
             )}
+            {weather.summary && <p>Summary: {weather.summary}</p>}
           </div>
         )}
       </div>

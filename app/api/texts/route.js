@@ -8,12 +8,12 @@ import { sendText } from "@/libs/textSender";
 
 export async function GET(req) {
   await connectMongo();
-  //   const authHeader = req.headers.get("authorization");
-  //   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-  //     return new Response("Unauthorized", {
-  //       status: 401,
-  //     });
-  //   }
+  const authHeader = req.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", {
+      status: 401,
+    });
+  }
   // TODO: Add a check to see if the user has opted in to receive texts, delivery time,
   try {
     const users = await UserCustomization.find({});
