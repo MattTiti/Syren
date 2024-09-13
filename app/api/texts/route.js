@@ -7,6 +7,14 @@ import UserCustomization from "@/models/UserCustomization";
 import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendText } from "@/libs/textSender";
 
+function getESTOffset() {
+  const now = new Date();
+  const januaryOffset = new Date(now.getFullYear(), 0, 1).getTimezoneOffset();
+  const julyOffset = new Date(now.getFullYear(), 6, 1).getTimezoneOffset();
+  const isDST = now.getTimezoneOffset() < Math.max(januaryOffset, julyOffset);
+  return isDST ? -4 * 60 : -5 * 60; // -4 hours for EDT, -5 hours for EST
+}
+
 export async function GET(req) {
   await connectMongo();
 
@@ -23,9 +31,9 @@ export async function GET(req) {
   }
 
   try {
-    // Get current time in EST
+    // Get current time in EST/EDT
     const now = new Date();
-    const estOffset = -5 * 60; // EST is UTC-5
+    const estOffset = getESTOffset();
     const estTime = new Date(now.getTime() + estOffset * 60 * 1000);
     const currentTotalMinutes =
       estTime.getUTCHours() * 60 + estTime.getUTCMinutes();
