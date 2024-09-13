@@ -6,13 +6,12 @@ import connectMongo from "@/libs/mongoose";
 import UserCustomization from "@/models/UserCustomization";
 import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendText } from "@/libs/textSender";
+import { zonedTimeToUtc, utcToZonedTime, format } from "date-fns-tz";
 
-function getESTOffset() {
+function getESTTime() {
   const now = new Date();
-  const januaryOffset = new Date(now.getFullYear(), 0, 1).getTimezoneOffset();
-  const julyOffset = new Date(now.getFullYear(), 6, 1).getTimezoneOffset();
-  const isDST = now.getTimezoneOffset() < Math.max(januaryOffset, julyOffset);
-  return isDST ? -4 * 60 : -5 * 60; // -4 hours for EDT, -5 hours for EST
+  const estZone = "America/New_York";
+  return utcToZonedTime(now, estZone);
 }
 
 export async function GET(req) {
@@ -31,12 +30,8 @@ export async function GET(req) {
   }
 
   try {
-    // Get current time in EST/EDT
-    const now = new Date();
-    const estOffset = getESTOffset();
-    const estTime = new Date(now.getTime() + estOffset * 60 * 1000);
-    const currentTotalMinutes =
-      estTime.getUTCHours() * 60 + estTime.getUTCMinutes();
+    const estTime = getESTTime();
+    const currentTotalMinutes = estTime.getHours() * 60 + estTime.getMinutes();
 
     // Find all users who have opted in
     const users = await UserCustomization.find({
@@ -56,8 +51,13 @@ export async function GET(req) {
     });
 
     for (const user of usersToMessage) {
-      const message = await generateDailyMessage(user.customization);
-      await sendText(user.phoneNumber, message);
+      try {
+        const message = await generateDailyMessage(user.customization);
+        await sendText(user.phoneNumber, message);
+      } catch (error) {
+        console.error(`Error sending message to user ${user._id}:`, error);
+        // TODO: Keep track of failed messages
+      }
     }
 
     return NextResponse.json(
