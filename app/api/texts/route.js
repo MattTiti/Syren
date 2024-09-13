@@ -27,39 +27,34 @@ export async function GET(req) {
     const now = new Date();
     const estOffset = -5 * 60; // EST is UTC-5
     const estTime = new Date(now.getTime() + estOffset * 60 * 1000);
-    const currentHour = estTime.getUTCHours();
+    const currentHour = estTime.getUTCHours().toString().padStart(2, "0");
     const currentMinute = estTime.getUTCMinutes();
 
     // Find users who have opted in and whose delivery time is within the next 30 minutes
     const users = await UserCustomization.find({
       "customization.messaging.enabled": true,
       "customization.messaging.consentGiven": true,
-      $expr: {
-        $and: [
-          { $eq: [{ $hour: "$deliveryTime" }, currentHour] },
-          {
-            $lte: [
-              { $subtract: [{ $minute: "$deliveryTime" }, currentMinute] },
-              30,
-            ],
-          },
-          {
-            $gte: [
-              { $subtract: [{ $minute: "$deliveryTime" }, currentMinute] },
-              0,
-            ],
-          },
-        ],
+      deliveryTime: {
+        $regex: new RegExp(`^${currentHour}:`),
       },
     });
 
-    for (const user of users) {
+    const usersToMessage = users.filter((user) => {
+      const [hour, minute] = user.deliveryTime.split(":").map(Number);
+      const timeDiff = minute - currentMinute;
+      return timeDiff >= 0 && timeDiff <= 30;
+    });
+
+    for (const user of usersToMessage) {
       const message = await generateDailyMessage(user.customization);
       await sendText(user.phoneNumber, message);
     }
 
     return NextResponse.json(
-      { message: "Daily texts sent successfully", usersCount: users.length },
+      {
+        message: "Daily texts sent successfully",
+        usersCount: usersToMessage.length,
+      },
       { status: 200 }
     );
   } catch (error) {
