@@ -1,3 +1,12 @@
+export const dynamic = "force-dynamic";
+
+import { NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
+import connectMongo from "@/libs/mongoose";
+import UserCustomization from "@/models/UserCustomization";
+import { generateDailyMessage } from "@/libs/messageGenerator";
+import { sendText } from "@/libs/textSender";
+
 export async function GET(req) {
   await connectMongo();
 
