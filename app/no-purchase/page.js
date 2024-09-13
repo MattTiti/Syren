@@ -4,7 +4,7 @@ import config from "@/config";
 
 const NoPurchase = () => {
   return (
-    <div className="relative h-screen flex flex-col items-center justify-center">
+    <div className="relative h-screen flex flex-col items-center justify-center bg-yellow-50">
       <Link href="/" className="absolute top-4 left-4 btn btn-ghost">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ const NoPurchase = () => {
             {plan.isFeatured && (
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 <span
-                  className={`badge text-xs text-primary-content font-semibold border-0 bg-primary`}
+                  className={`badge text-xs text-primary-content font-semibold border-0 bg-yellow-500`}
                 >
                   POPULAR
                 </span>
@@ -38,11 +38,11 @@ const NoPurchase = () => {
 
             {plan.isFeatured && (
               <div
-                className={`absolute -inset-[1px] rounded-[9px] bg-primary z-10`}
+                className={`absolute -inset-[1px] rounded-[9px] bg-yellow-500 z-10`}
               ></div>
             )}
 
-            <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-100 p-8 rounded-lg">
+            <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-base-100 p-8 rounded-lg bg-white text-neutral-700">
               <div className="flex justify-between items-center gap-4">
                 <div>
                   <p className="text-lg lg:text-xl font-bold">{plan.name}</p>

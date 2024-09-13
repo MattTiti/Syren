@@ -3,6 +3,10 @@
       {
         "path": "/api/texts",
         "schedule": "55 * * * *"
+      },
+      {
+        "path": "/api/clean",
+        "schedule": "0 0 1 * *"
       }
   ]
 }
