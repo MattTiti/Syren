@@ -272,22 +272,22 @@ export default function CustomizationPage() {
         customization.news.type === "topHeadlines" && (
           <div>
             <h3 className="font-semibold">
-              Top {capitalizeFirstLetter(customization.news.topic)} headlines:
+              {capitalizeFirstLetter(customization.news.topic)} News:
             </h3>
             <p>
-              GoodMornin launches new feature!{" "}
+              * GoodMornin launches new feature!{" "}
               <span className="text-blue-500 underline">
                 https://tinyurl.com/goodmornin
               </span>
             </p>
             <p>
-              GoodMornin reaches 1000 users!{" "}
+              * GoodMornin reaches 1000 users!{" "}
               <span className="text-blue-500 underline">
                 https://tinyurl.com/goodmornin
               </span>
             </p>
             <p>
-              GoodMornin helps you get your day started!{" "}
+              * GoodMornin helps you get your day started!{" "}
               <span className="text-blue-500 underline">
                 https://tinyurl.com/goodmornin
               </span>
@@ -301,7 +301,7 @@ export default function CustomizationPage() {
               {customization.news.customQuery} News:
             </h3>
             <p>
-              Latest Article on {customization.news.customQuery}{" "}
+              * Latest Article on {customization.news.customQuery}{" "}
               <span className="text-blue-500 underline">
                 https://tinyurl.com/goodmornin
               </span>
@@ -318,13 +318,13 @@ export default function CustomizationPage() {
                 "[Coordinates]"}
             :
           </h3>
-          <p>Summary: There will be clear sky today</p>
-          <p>Temperature: 72°F, feels like 68°F (60°F - 75°F)</p>
+          <p>* There will be clear sky today</p>
+          <p>* 72°F, feels like 68°F (60°F - 75°F)</p>
           {customization.weather.showWind && (
-            <p>Wind: Speed 12 mph from the South (Gusts up to 15 mph)</p>
+            <p>* 7 mph winds from the South (Gusts up to 10 mph)</p>
           )}
-          {customization.weather.showRain && <p>Rain: 12%</p>}
-          {customization.weather.showHumidity && <p>Humidity: 32%</p>}
+          {customization.weather.showRain && <p>* 12% chance of rain</p>}
+          {customization.weather.showHumidity && <p>* 33% humidity</p>}
         </div>
       )}
 
@@ -333,9 +333,9 @@ export default function CustomizationPage() {
           <h3 className="font-semibold">
             {customization.sports.teamName} updates:
           </h3>
-          {customization.sports.showPreviousGame && <p>Previous game: 2 - 1</p>}
+          {customization.sports.showPreviousGame && <p>* Last game: 2 - 1</p>}
           {customization.sports.showNextGame && (
-            <p>Next game: Tomorrow 12:00 PM vs [Opponent]</p>
+            <p>* Next game: Tomorrow 12:00 PM vs [Opponent]</p>
           )}
         </div>
       )}
@@ -343,12 +343,11 @@ export default function CustomizationPage() {
       {customization.events.enabled && (
         <div>
           <h3 className="font-semibold">
-            Today's events in{" "}
             {COUNTRIES.find((c) => c.code === customization.events.country)
-              ?.name || customization.events.country}
-            :
+              ?.name || customization.events.country}{" "}
+            Holidays:
           </h3>
-          <p>GoodMornin Appreciation Day!</p>
+          <p>* GoodMornin Appreciation Day!</p>
         </div>
       )}
 
@@ -820,7 +819,7 @@ export default function CustomizationPage() {
                             }
                           />
                           <Label htmlFor="sportsPreviousGame">
-                            Include previous game result
+                            Include last game result
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -862,7 +861,7 @@ export default function CustomizationPage() {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="events">
-                <AccordionTrigger>Events</AccordionTrigger>
+                <AccordionTrigger>Holidays</AccordionTrigger>
                 <AccordionContent className="px-2">
                   <div className="space-y-4">
                     <div className="flex items-center space-x-2">
@@ -878,7 +877,7 @@ export default function CustomizationPage() {
                         }
                       />
                       <Label htmlFor="events">
-                        Include events in your daily text
+                        Include holidays in your daily text
                       </Label>
                     </div>
                     <Combobox
