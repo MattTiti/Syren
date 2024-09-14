@@ -1,5 +1,4 @@
 import { Bricolage_Grotesque } from "next/font/google";
-import PlausibleProvider from "next-plausible";
 import { getSEOTags } from "@/libs/seo";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
@@ -17,16 +16,25 @@ export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      data-theme={config.colors.theme}
-      className={font.className + " bg-yellow-50"}
-    >
-      {config.domainName && (
-        <head>
-          <PlausibleProvider domain={config.domainName} />
-        </head>
-      )}
+    <html lang="en" data-theme={config.colors.theme} className={font.className}>
+      <head>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${config.googleAnalyticsId}`}
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${config.googleAnalyticsId}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+      </head>
       <body>
         <ClientLayout>{children}</ClientLayout>
       </body>

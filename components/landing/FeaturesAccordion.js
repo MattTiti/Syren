@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Newspaper, Cloudy, Users, Quote } from "lucide-react";
+import { Newspaper, Cloudy, PartyPopper, Quote } from "lucide-react";
 import { MdOutlineSportsBasketball } from "react-icons/md";
 
 const features = [
@@ -43,10 +43,10 @@ const features = [
     format: "image/svg+xml",
   },
   {
-    title: "Community",
+    title: "Holidays",
     description:
       "As a solo developer, I’m dedicated to building a product that truly serves its users. Join our community and directly influence the development of new features.",
-    icon: <Users />,
+    icon: <PartyPopper />,
     type: "image",
     path: "/community.svg",
     format: "image/svg+xml",
