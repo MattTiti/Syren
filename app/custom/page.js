@@ -333,7 +333,9 @@ export default function CustomizationPage() {
           <h3 className="font-semibold">
             {customization.sports.teamName} updates:
           </h3>
-          {customization.sports.showPreviousGame && <p>* Last game: 2 - 1</p>}
+          {customization.sports.showPreviousGame && (
+            <p>* Last game: {customization.sports.teamName} 2 - [Opponent] 1</p>
+          )}
           {customization.sports.showNextGame && (
             <p>* Next game: Tomorrow 12:00 PM vs [Opponent]</p>
           )}

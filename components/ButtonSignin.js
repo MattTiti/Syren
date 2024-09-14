@@ -12,20 +12,20 @@ const ButtonSignin = ({ text = "Get started" }) => {
   const { data: status } = useSession();
 
   const handleClick = () => {
-    if (status === "authenticated") {
+    if (status) {
       router.push(config.auth.callbackUrl);
     } else {
       signIn(undefined, { callbackUrl: config.auth.callbackUrl });
     }
   };
 
-  if (status === "authenticated") {
+  if (status) {
     return (
       <Button
-        className="p-6 group"
+        className="w-full p-6 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
         onClick={() => router.push(config.auth.callbackUrl)}
       >
-        Dashboard{" "}
+        Customize{" "}
         <ArrowBigRightDash size={16} className="ml-2 group-hover:scale-110" />
       </Button>
     );

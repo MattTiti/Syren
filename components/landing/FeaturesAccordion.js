@@ -9,7 +9,7 @@ const features = [
   {
     title: "News",
     description:
-      "GoodMornin provides a comprehensive database of over 1.9 million verified foods. Allowing you to easily add your meals and track your macros with confidence.",
+      "Stay informed with real-time top news articles tailored to your interests. Explore content from over 150,000 global news sources, covering the latest events in your chosen categories or custom searches.",
     type: "video",
     path: "/verified.mp4",
     format: "video/webm",
@@ -18,7 +18,7 @@ const features = [
   {
     title: "Weather",
     description:
-      "Visualize your calorie and macronutrient intake with interactive charts. Explore your visualized data from the previous week to spot trends and patterns.",
+      "Access detailed weather reports including temperature, precipitation chances, wind speed, and more. Get updates from any location worldwide, so you're always prepared.",
     type: "video",
     path: "/charts.mp4",
     format: "video/webm",
@@ -27,7 +27,7 @@ const features = [
   {
     title: "Sports",
     description:
-      "Effortlessly track your meals through various channels, using manual entry, saved foods(previous entries), and verified foods. Easily navigate through the comprehensive dashboard, edit entires, and add unlimited meals/foods.",
+      "Keep track of past and upcoming games for over 13,500 teams across more than 1,000 leagues. Never miss a match with comprehensive sports updates.",
     type: "video",
     path: "/flex.mp4",
     format: "video/webm",
@@ -36,7 +36,7 @@ const features = [
   {
     title: "Quotes",
     description:
-      "As a solo developer, I’m dedicated to building a product that truly serves its users. Join our community and directly influence the development of new features.",
+      "Start your day with inspiring quotes from the world’s greatest minds—philosophers, inventors, scientists, leaders, and more. Find wisdom in every text.",
     icon: <Quote />,
     type: "image",
     path: "/community.svg",
@@ -45,7 +45,7 @@ const features = [
   {
     title: "Holidays",
     description:
-      "As a solo developer, I’m dedicated to building a product that truly serves its users. Join our community and directly influence the development of new features.",
+      "Discover public, local, and bank holidays, as well as cultural observances, in more than 230 countries and 3,300 states. Plan ahead and never miss an important celebration.",
     icon: <PartyPopper />,
     type: "image",
     path: "/community.svg",
@@ -68,12 +68,16 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
         }}
         aria-expanded={isOpen}
       >
-        <span className={`duration-100 ${isOpen ? "text-yellow-500" : ""}`}>
+        <span
+          className={`duration-100 ${
+            isOpen ? "text-neutral-700" : "text-neutral-500"
+          }`}
+        >
           {icon}
         </span>
         <span
           className={`flex-1 text-base-content ${
-            isOpen ? "text-yellow-500 font-semibold" : "text-neutral-700"
+            isOpen ? "text-neutral-700 font-semibold" : "text-neutral-500"
           }`}
         >
           <h3 className="inline ">{title}</h3>
