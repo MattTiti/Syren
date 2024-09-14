@@ -14,13 +14,13 @@ const config = {
       {
         priceId:
           process.env.NODE_ENV === "development"
-            ? "price_1PwVwFCKVO6FKkF1XPDPlsX5"
-            : "price_1PwVwFCKVO6FKkF1XPDPlsX5",
+            ? "price_1Pyut8CKVO6FKkF1nAAFqpN0"
+            : "price_1Pyut8CKVO6FKkF1nAAFqpN0",
         name: "Monthly",
         mode: "subscription",
         description: "Daily text subscription billed monthly",
-        price: 6.99,
-        priceAnchor: 9.99,
+        price: 9.99,
+        priceAnchor: 14.99,
         features: [
           { name: "Daily text service" },
           { name: "Text customization dashboard" },
@@ -33,15 +33,15 @@ const config = {
         isFeatured: true,
         priceId:
           process.env.NODE_ENV === "development"
-            ? "price_1PwmwsCKVO6FKkF1Sp6LnR2U"
-            : "price_1PwmwsCKVO6FKkF1Sp6LnR2U",
+            ? "price_1PyutiCKVO6FKkF1cSEGTzdk"
+            : "price_1PyutiCKVO6FKkF1cSEGTzdk",
         name: "Yearly",
         mode: "subscription",
         description: "Daily text subscription billed yearly",
-        price: 59.99,
-        priceAnchor: 79.99,
+        price: 99.99,
+        priceAnchor: 119.99,
         features: [
-          { name: "Save an extra $25/year" },
+          { name: "Save an extra $20/year" },
           { name: "Daily text service" },
           { name: "Text customization dashboard" },
           { name: "Access to future updates" },
