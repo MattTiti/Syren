@@ -11,7 +11,7 @@ const features = [
     description:
       "Stay informed with real-time top news articles tailored to your interests. Explore content from over 150,000 global news sources, covering the latest events in your chosen categories or custom searches.",
     type: "video",
-    path: "/verified.mp4",
+    path: "/gm-news.mp4",
     format: "video/webm",
     icon: <Newspaper />,
   },
@@ -20,7 +20,7 @@ const features = [
     description:
       "Access detailed weather reports including temperature, precipitation chances, wind speed, and more. Get updates from any location worldwide, so you're always prepared.",
     type: "video",
-    path: "/charts.mp4",
+    path: "/gm-weather.mp4",
     format: "video/webm",
     icon: <Cloudy />,
   },
@@ -29,7 +29,7 @@ const features = [
     description:
       "Keep track of past and upcoming games for over 13,500 teams across more than 1,000 leagues. Never miss a match with comprehensive sports updates.",
     type: "video",
-    path: "/flex.mp4",
+    path: "/gm-sports.mp4",
     format: "video/webm",
     icon: <MdOutlineSportsBasketball size={25} />,
   },
@@ -38,18 +38,18 @@ const features = [
     description:
       "Start your day with inspiring quotes from the world’s greatest minds—philosophers, inventors, scientists, leaders, and more. Find wisdom in every text.",
     icon: <Quote />,
-    type: "image",
-    path: "/community.svg",
-    format: "image/svg+xml",
+    type: "video",
+    path: "/gm-quotes.mp4",
+    format: "video/webm",
   },
   {
     title: "Holidays",
     description:
       "Discover public, local, and bank holidays, as well as cultural observances, in more than 230 countries and 3,300 states. Plan ahead and never miss an important celebration.",
     icon: <PartyPopper />,
-    type: "image",
-    path: "/community.svg",
-    format: "image/svg+xml",
+    type: "video",
+    path: "/gm-holiday.mp4",
+    format: "video/webm",
   },
 ];
 
@@ -104,7 +104,7 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
   const style =
-    "rounded-2xl w-full h-full object-cover border-2 border-yellow-400";
+    "rounded-2xl w-full h-full object-cover border-4 border-yellow-400";
   const size = {
     width: 500,
     height: 500,
