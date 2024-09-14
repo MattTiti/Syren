@@ -24,6 +24,43 @@ const faqList = [
     ),
   },
   {
+    question: "Can I use GoodMornin with a non-US phone number?",
+    answer: (
+      <div className="space-y-2 leading-relaxed">
+        Yes, as our GoodMornin's user base grows, the priority will be to own
+        local numbers in every country with a user. This keeps the costs down
+        for everyone. The goal is to have local numbers obtained within 24 hours
+        of a user request. If you'd like to request a local number for your
+        country, please send an{" "}
+        <a href="mailto:matt@mg.goodmornin.app" className="underline">
+          email
+        </a>
+        !
+      </div>
+    ),
+  },
+  {
+    question: "How do I customize my texts?",
+    answer: (
+      <div className="space-y-2 leading-relaxed">
+        You can customize your texts in the{" "}
+        <a href="https://goodmornin.app/custom" className="underline">
+          customization dashboard
+        </a>
+        .
+      </div>
+    ),
+  },
+  {
+    question: "Is it possible to occassionally disable texts?",
+    answer: (
+      <div className="space-y-2 leading-relaxed">
+        Yes! In the customization dashboard you are able to disable texting for
+        as long as you want.
+      </div>
+    ),
+  },
+  {
     question: "Can I get a refund?",
     answer: (
       <p>
