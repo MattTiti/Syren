@@ -52,6 +52,20 @@ const faqList = [
     ),
   },
   {
+    question: "Will there be more customizations in the future?",
+    answer: (
+      <div className="space-y-2 leading-relaxed">
+        Yes! The plan is to add more customization options every month. Your
+        feedback is important, so if you have any customization suggestions,
+        please send an{" "}
+        <a href="mailto:matt@mg.goodmornin.app" className="underline">
+          email
+        </a>
+        !
+      </div>
+    ),
+  },
+  {
     question: "Is it possible to occassionally disable texts?",
     answer: (
       <div className="space-y-2 leading-relaxed">
