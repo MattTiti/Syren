@@ -3,15 +3,16 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 
 function replaceNonGSM7Chars(text) {
   const replacements = {
-    '"': '"',
-    '"': '"',
-    "'": "'",
-    "–": "-",
-    "—": "-",
-    "…": "...",
+    "“": '"', // Left double quotation mark
+    "”": '"', // Right double quotation mark
+    "‘": "'", // Left single quotation mark
+    "’": "'", // Right single quotation mark
+    "–": "-", // En-dash
+    "—": "-", // Em-dash
+    "…": "...", // Ellipsis
   };
 
-  return text.replace(/[""''–—…]/g, (char) => replacements[char] || char);
+  return text.replace(/[“”‘’–—…]/g, (char) => replacements[char] || char);
 }
 
 export async function generateDailyMessage(customization) {
