@@ -1,6 +1,19 @@
 import axios from "axios";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
+function replaceNonGSM7Chars(text) {
+  const replacements = {
+    '"': '"',
+    '"': '"',
+    "'": "'",
+    "–": "-",
+    "—": "-",
+    "…": "...",
+  };
+
+  return text.replace(/[""''–—…]/g, (char) => replacements[char] || char);
+}
+
 export async function generateDailyMessage(customization) {
   let message = "";
 
@@ -50,6 +63,9 @@ export async function generateDailyMessage(customization) {
   if (customization.conclusion.text) {
     message += customization.conclusion.text;
   }
+
+  // After building the message, replace non-GSM-7 characters
+  message = replaceNonGSM7Chars(message);
 
   return message.trim();
 }

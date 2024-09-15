@@ -65,3 +65,16 @@ function splitMessage(message) {
 
   return parts;
 }
+
+function canBeEncodedAsGSM7(text) {
+  const gsm7Chars =
+    "@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞ\x1BÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà";
+  const extendedGsm7Chars = "^{}\\[~]|€";
+
+  for (let char of text) {
+    if (!gsm7Chars.includes(char) && !extendedGsm7Chars.includes(char)) {
+      return false;
+    }
+  }
+  return true;
+}
