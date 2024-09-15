@@ -281,7 +281,7 @@ export default function CustomizationPage() {
               </span>
             </p>
             <p>
-              * GoodMornin reaches 1000 users!{" "}
+              * GoodMornin reaches 1,000 users!{" "}
               <span className="text-blue-500 underline">
                 https://tinyurl.com/goodmornin
               </span>
