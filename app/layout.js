@@ -16,7 +16,11 @@ export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme={config.colors.theme} className={font.className}>
+    <html
+      lang="en"
+      data-theme={config.colors.theme}
+      className={font.className + " bg-yellow-50"}
+    >
       <head>
         <script
           async
