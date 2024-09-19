@@ -17,7 +17,7 @@ function replaceNonGSM7Chars(text) {
 
 async function fetchRandomFact() {
   try {
-    const response = await axios.get("https://goodmornin.app/api/randomfact");
+    const response = await axios.get("https://goodmornin.app/api/facts");
     return response.data.fact;
   } catch (error) {
     console.error("Error fetching random fact:", error);
