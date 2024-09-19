@@ -35,7 +35,7 @@ export async function GET(request) {
     const data = await response.json();
     console.log("Horoscope data received:", JSON.stringify(data, null, 2));
 
-    return NextResponse.json(data);
+    return NextResponse.json(data.data.horoscope_data);
   } catch (error) {
     console.error("Error fetching horoscope:", error);
     console.error("Error details:", error.message);

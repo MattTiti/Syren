@@ -384,7 +384,7 @@ export default function Dashboard() {
         <button onClick={fetchHoroscope}>Get Horoscope</button>
         {horoscope && (
           <div>
-            <h3>Horoscope for {horoscope.data.horoscope_data}</h3>
+            <h3>Horoscope for {horoscope}</h3>
             <p>Date Range: {horoscope.date_range}</p>
             <p>Current Date: {horoscope.current_date}</p>
             <p>Description: {horoscope.description}</p>
