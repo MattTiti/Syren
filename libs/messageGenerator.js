@@ -167,9 +167,10 @@ async function fetchQuote() {
 
 async function fetchHoroscope(sign) {
   try {
-    const response = await fetch(`/api/horoscope?sign=${sign}`);
-    const data = await response.json();
-    return data;
+    const response = await axios.get(
+      `https://goodmornin.app/api/horoscope?sign=${sign}`
+    );
+    return response.data.horoscope;
   } catch (error) {
     console.error("Error fetching horoscope:", error);
     return "Unable to fetch horoscope at this time.";

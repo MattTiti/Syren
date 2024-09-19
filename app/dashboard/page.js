@@ -178,7 +178,9 @@ export default function Dashboard() {
       return;
     }
     try {
-      const response = await fetch(`/api/horoscope?sign=${zodiacSign}`);
+      const response = await fetch(
+        `https://goodmornin.app/api/horoscope?sign=${zodiacSign}`
+      );
       const data = await response.json();
       if (response.ok) {
         setHoroscope(data);
