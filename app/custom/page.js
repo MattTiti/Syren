@@ -74,6 +74,10 @@ export default function CustomizationPage() {
       enabled: true,
       consentGiven: false,
     },
+    horoscope: {
+      enabled: false,
+      sign: "",
+    },
   });
   const [leagues, setLeagues] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -208,6 +212,11 @@ export default function CustomizationPage() {
       return;
     }
 
+    if (customization.horoscope.enabled && !customization.horoscope.sign) {
+      toast.error("Please select a zodiac sign for horoscope");
+      return;
+    }
+
     // Check and convert city to coordinates if necessary
     if (
       customization.weather.inputType === "city" &&
@@ -264,6 +273,21 @@ export default function CustomizationPage() {
     const hour = i.toString().padStart(2, "0");
     return `${hour}:00`;
   });
+
+  const zodiacSigns = [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+  ];
 
   const previewText = (
     <div className="space-y-4">
@@ -357,6 +381,13 @@ export default function CustomizationPage() {
         <div>
           <h3 className="font-semibold">Quote of the day:</h3>
           <p>"He who indulges empty fears earns himself real fears." -Seneca</p>
+        </div>
+      )}
+
+      {customization.horoscope.enabled && (
+        <div>
+          <h3 className="font-semibold">Horoscope:</h3>
+          <p>* Your {customization.horoscope.sign} horoscope for today.</p>
         </div>
       )}
 
@@ -928,6 +959,52 @@ export default function CustomizationPage() {
                       }
                       placeholder="Enter your custom conclusion text"
                     />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="horoscope">
+                <AccordionTrigger>Horoscope</AccordionTrigger>
+                <AccordionContent className="px-2">
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="horoscope"
+                        checked={customization.horoscope.enabled}
+                        onCheckedChange={(checked) =>
+                          handleCustomizationChange(
+                            "horoscope",
+                            "enabled",
+                            checked
+                          )
+                        }
+                      />
+                      <Label htmlFor="horoscope">
+                        Include daily horoscope in your text
+                      </Label>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="zodiacSign">
+                        Select your zodiac sign:
+                      </Label>
+                      <Select
+                        value={customization.horoscope.sign}
+                        onValueChange={(value) =>
+                          handleCustomizationChange("horoscope", "sign", value)
+                        }
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select zodiac sign" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {zodiacSigns.map((sign) => (
+                            <SelectItem key={sign} value={sign.toLowerCase()}>
+                              {sign}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>

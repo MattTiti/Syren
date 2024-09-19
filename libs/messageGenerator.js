@@ -56,6 +56,11 @@ export async function generateDailyMessage(customization) {
     message += `${customization.events.country} Holidays:\n${eventsData}\n\n`;
   }
 
+  if (customization.horoscope.enabled && customization.horoscope.sign) {
+    const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
+    message += `Horoscope:\n${horoscopeData}\n\n`;
+  }
+
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
     message += `Quote of the day:\n${quoteData}\n\n`;
@@ -158,6 +163,18 @@ async function fetchEvents(country) {
 async function fetchQuote() {
   const response = await axios.get("https://goodmornin.app/api/quotes");
   return `"${response.data.quote}" - ${response.data.author}`;
+}
+
+async function fetchHoroscope(sign) {
+  try {
+    const response = await axios.get(
+      `https://goodmornin.app/api/horoscope?sign=${sign}`
+    );
+    return response.data.horoscope_data;
+  } catch (error) {
+    console.error("Error fetching horoscope:", error);
+    return "Unable to fetch horoscope at this time.";
+  }
 }
 
 function degreesToDirection(degrees) {

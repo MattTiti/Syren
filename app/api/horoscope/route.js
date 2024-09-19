@@ -40,9 +40,9 @@ export async function GET(request) {
 
   try {
     const response = await fetch(
-      `https://aztro.sameerkumar.website/?sign=${sign}&day=today`,
+      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=TODAY`,
       {
-        method: "POST",
+        method: "GET",
       }
     );
     console.log(response);
