@@ -78,6 +78,9 @@ export default function CustomizationPage() {
       enabled: false,
       sign: "",
     },
+    onThisDay: {
+      enabled: false,
+    },
   });
   const [leagues, setLeagues] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -388,6 +391,15 @@ export default function CustomizationPage() {
         <div>
           <h3 className="font-semibold">Horoscope:</h3>
           <p>* Your {customization.horoscope.sign} horoscope for today.</p>
+        </div>
+      )}
+
+      {customization.onThisDay.enabled && (
+        <div>
+          <h3 className="font-semibold">On This Day in History:</h3>
+          <p>* 1969: Apollo 11 lands on the moon.</p>
+          <p>* 1799: Rosetta Stone is discovered in Egypt.</p>
+          <p>* 1954: First successful kidney transplant performed.</p>
         </div>
       )}
 
@@ -926,43 +938,6 @@ export default function CustomizationPage() {
                   </div>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="conclusion">
-                <AccordionTrigger>Conclusion</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <Label htmlFor="conclusion">
-                        Custom conclusion text:
-                      </Label>
-                      <Label className="text-neutral-500">
-                        <span
-                          className={`${
-                            customization.conclusion.text.length > 160
-                              ? "text-red-500"
-                              : "text-green-700"
-                          }`}
-                        >
-                          {customization.conclusion.text.length}
-                        </span>{" "}
-                        / 160
-                      </Label>
-                    </div>
-                    <Input
-                      id="conclusion"
-                      value={customization.conclusion.text}
-                      onChange={(e) =>
-                        handleCustomizationChange(
-                          "conclusion",
-                          "text",
-                          e.target.value
-                        )
-                      }
-                      placeholder="Enter your custom conclusion text"
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-
               <AccordionItem value="horoscope">
                 <AccordionTrigger>Horoscope</AccordionTrigger>
                 <AccordionContent className="px-2">
@@ -1005,6 +980,63 @@ export default function CustomizationPage() {
                         </SelectContent>
                       </Select>
                     </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="onThisDay">
+                <AccordionTrigger>On This Day in History</AccordionTrigger>
+                <AccordionContent className="px-2">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="onThisDay"
+                      checked={customization.onThisDay.enabled}
+                      onCheckedChange={(checked) =>
+                        handleCustomizationChange(
+                          "onThisDay",
+                          "enabled",
+                          checked
+                        )
+                      }
+                    />
+                    <Label htmlFor="onThisDay">
+                      Include historical events that occurred on this day
+                    </Label>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="conclusion">
+                <AccordionTrigger>Conclusion</AccordionTrigger>
+                <AccordionContent className="px-2">
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <Label htmlFor="conclusion">
+                        Custom conclusion text:
+                      </Label>
+                      <Label className="text-neutral-500">
+                        <span
+                          className={`${
+                            customization.conclusion.text.length > 160
+                              ? "text-red-500"
+                              : "text-green-700"
+                          }`}
+                        >
+                          {customization.conclusion.text.length}
+                        </span>{" "}
+                        / 160
+                      </Label>
+                    </div>
+                    <Input
+                      id="conclusion"
+                      value={customization.conclusion.text}
+                      onChange={(e) =>
+                        handleCustomizationChange(
+                          "conclusion",
+                          "text",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Enter your custom conclusion text"
+                    />
                   </div>
                 </AccordionContent>
               </AccordionItem>

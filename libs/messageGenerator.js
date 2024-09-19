@@ -56,6 +56,15 @@ export async function generateDailyMessage(customization) {
     message += `${customization.events.country} Holidays:\n${eventsData}\n\n`;
   }
 
+  if (customization.onThisDay && customization.onThisDay.enabled) {
+    const onThisDayData = await fetchOnThisDay();
+    if (onThisDayData) {
+      message += `On This Day in History:\n${onThisDayData}\n\n`;
+    } else {
+      console.log("No events available to add to message");
+    }
+  }
+
   if (customization.horoscope.enabled && customization.horoscope.sign) {
     const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
     message += `Horoscope:\n${horoscopeData}\n\n`;
@@ -174,6 +183,28 @@ async function fetchHoroscope(sign) {
   } catch (error) {
     console.error("Error fetching horoscope:", error);
     return "Unable to fetch horoscope at this time.";
+  }
+}
+
+async function fetchOnThisDay() {
+  try {
+    const response = await axios.get("https://goodmornin.app/api/history");
+    console.log("On This Day API response:", response.data);
+    if (
+      response.data &&
+      response.data.events &&
+      response.data.events.length > 0
+    ) {
+      return response.data.events
+        .map((event) => `${event.year}: ${event.text}`)
+        .join("\n");
+    } else {
+      console.log("No On This Day events received");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching On This Day events:", error);
+    return null;
   }
 }
 

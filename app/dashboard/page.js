@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Dashboard() {
   const [latitude, setLatitude] = useState("");
@@ -23,6 +24,8 @@ export default function Dashboard() {
   const [horoscope, setHoroscope] = useState(null);
   const [customNewsQuery, setCustomNewsQuery] = useState("");
   const [customNews, setCustomNews] = useState([]);
+  const [onThisDayEvents, setOnThisDayEvents] = useState([]);
+  const [onThisDayError, setOnThisDayError] = useState(null);
 
   useEffect(() => {
     fetchLeagues();
@@ -214,6 +217,18 @@ export default function Dashboard() {
     } catch (err) {
       setError("Failed to fetch custom news");
       setCustomNews([]);
+    }
+  };
+
+  const fetchOnThisDayEvents = async () => {
+    try {
+      const response = await axios.get("/api/history");
+      setOnThisDayEvents(response.data.events);
+      setOnThisDayError(null);
+    } catch (err) {
+      console.error("Error fetching On This Day events:", err);
+      setOnThisDayError("Failed to fetch historical events");
+      setOnThisDayEvents([]);
     }
   };
 
@@ -436,6 +451,24 @@ export default function Dashboard() {
                 </a>
               </div>
             ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h2>On This Day in History</h2>
+        <button onClick={fetchOnThisDayEvents}>Get Historical Events</button>
+        {onThisDayError && <p>{onThisDayError}</p>}
+        {onThisDayEvents.length > 0 && (
+          <div>
+            <h3>Historical Events:</h3>
+            <ul>
+              {onThisDayEvents.map((event, index) => (
+                <li key={index}>
+                  {event.year}: {event.text}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
