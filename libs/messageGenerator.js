@@ -15,6 +15,16 @@ function replaceNonGSM7Chars(text) {
   return text.replace(/[“”‘’–—…]/g, (char) => replacements[char] || char);
 }
 
+async function fetchRandomFact() {
+  try {
+    const response = await axios.get("https://goodmornin.app/api/randomfact");
+    return response.data.fact;
+  } catch (error) {
+    console.error("Error fetching random fact:", error);
+    return "Unable to fetch a random fact at this time.";
+  }
+}
+
 export async function generateDailyMessage(customization) {
   let message = "";
 
@@ -63,6 +73,11 @@ export async function generateDailyMessage(customization) {
     } else {
       console.log("No events available to add to message");
     }
+  }
+
+  if (customization.randomFact && customization.randomFact.enabled) {
+    const randomFactData = await fetchRandomFact();
+    message += `Random Fact:\n${randomFactData}\n\n`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {

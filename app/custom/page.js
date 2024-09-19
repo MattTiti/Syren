@@ -81,6 +81,9 @@ export default function CustomizationPage() {
     onThisDay: {
       enabled: false,
     },
+    randomFact: {
+      enabled: false,
+    },
   });
   const [leagues, setLeagues] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -397,9 +400,16 @@ export default function CustomizationPage() {
       {customization.onThisDay.enabled && (
         <div>
           <h3 className="font-semibold">On This Day in History:</h3>
-          <p>* 1969: Apollo 11 lands on the moon.</p>
-          <p>* 1799: Rosetta Stone is discovered in Egypt.</p>
-          <p>* 1954: First successful kidney transplant performed.</p>
+          <p>* 2024: GoodMornin launched!</p>
+          <p>* 2025: GoodMornin reaches 1,000 users!</p>
+          <p>* 2026: GoodMornin reaches 10,000 users!</p>
+        </div>
+      )}
+
+      {customization.randomFact.enabled && (
+        <div>
+          <h3 className="font-semibold">Random Fact:</h3>
+          <p>The shortest war in history lasted 38 minutes.</p>
         </div>
       )}
 
@@ -984,7 +994,7 @@ export default function CustomizationPage() {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="onThisDay">
-                <AccordionTrigger>On This Day in History</AccordionTrigger>
+                <AccordionTrigger>On This Day</AccordionTrigger>
                 <AccordionContent className="px-2">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -1001,6 +1011,29 @@ export default function CustomizationPage() {
                     <Label htmlFor="onThisDay">
                       Include historical events that occurred on this day
                     </Label>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="randomFact">
+                <AccordionTrigger>Random Facts</AccordionTrigger>
+                <AccordionContent className="px-2">
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="randomFact"
+                        checked={customization.randomFact.enabled}
+                        onCheckedChange={(checked) =>
+                          handleCustomizationChange(
+                            "randomFact",
+                            "enabled",
+                            checked
+                          )
+                        }
+                      />
+                      <Label htmlFor="randomFact">
+                        Include a random fact in your daily message
+                      </Label>
+                    </div>
                   </div>
                 </AccordionContent>
               </AccordionItem>

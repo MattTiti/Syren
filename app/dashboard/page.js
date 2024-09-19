@@ -26,10 +26,13 @@ export default function Dashboard() {
   const [customNews, setCustomNews] = useState([]);
   const [onThisDayEvents, setOnThisDayEvents] = useState([]);
   const [onThisDayError, setOnThisDayError] = useState(null);
+  const [randomFact, setRandomFact] = useState("");
+  const [randomFactError, setRandomFactError] = useState(null);
 
   useEffect(() => {
     fetchLeagues();
     fetchQuote();
+    fetchRandomFact();
   }, []);
 
   useEffect(() => {
@@ -229,6 +232,18 @@ export default function Dashboard() {
       console.error("Error fetching On This Day events:", err);
       setOnThisDayError("Failed to fetch historical events");
       setOnThisDayEvents([]);
+    }
+  };
+
+  const fetchRandomFact = async () => {
+    try {
+      const response = await axios.get("/api/facts");
+      setRandomFact(response.data.fact);
+      setRandomFactError(null);
+    } catch (err) {
+      console.error("Error fetching random fact:", err);
+      setRandomFactError("Failed to fetch random fact");
+      setRandomFact("");
     }
   };
 
@@ -469,6 +484,18 @@ export default function Dashboard() {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h2>Random Fact</h2>
+        <button onClick={fetchRandomFact}>Get Random Fact</button>
+        {randomFactError && <p>{randomFactError}</p>}
+        {randomFact && (
+          <div>
+            <h3>Random Fact:</h3>
+            <p>{randomFact}</p>
           </div>
         )}
       </div>
