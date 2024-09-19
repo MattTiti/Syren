@@ -167,9 +167,7 @@ async function fetchQuote() {
 
 async function fetchHoroscope(sign) {
   try {
-    const response = await axios.get(
-      `https://goodmornin.app/api/horoscope?sign=${sign}`
-    );
+    const response = await fetch(`/api/horoscope?sign=${sign}`);
     const data = await response.json();
     return data;
   } catch (error) {
