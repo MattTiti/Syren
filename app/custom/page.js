@@ -1,36 +1,27 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import ButtonAccount from "@/components/ButtonAccount";
-import Image from "next/image";
-import config from "@/config";
-import Link from "next/link";
-import logo from "@/app/icon.png";
 import { COUNTRIES } from "@/libs/constants";
-import { Combobox } from "@/components/ui/combobox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import toast from "react-hot-toast";
 import Spinner from "@/components/Spinner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import Intro from "@/components/custom/Intro";
+import News from "@/components/custom/News";
+import Weather from "@/components/custom/Weather";
+import Settings from "@/components/custom/Settings";
+import Sports from "@/components/custom/Sports";
+import Holidays from "@/components/custom/Holidays";
+import Horoscope from "@/components/custom/Horoscope";
+import Quotes from "@/components/custom/Quotes";
+import OnThisDay from "@/components/custom/OnThisDay";
+import Facts from "@/components/custom/Facts";
+import Conclusion from "@/components/custom/Conclusion";
+import Nav from "@/components/custom/Nav";
 
 export default function CustomizationPage() {
+  const [userHasAccess, setUserHasAccess] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [customization, setCustomization] = useState({
     intro: {
       text: "Good morning!",
@@ -91,6 +82,26 @@ export default function CustomizationPage() {
   const [loadingTeams, setLoadingTeams] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("07:00"); // Default to 7:00 AM
+
+  useEffect(() => {
+    async function fetchUserAccess() {
+      try {
+        setUserLoading(true);
+        const response = await fetch("/api/user-access");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user access");
+        }
+        const data = await response.json();
+        setUserHasAccess(data.userHasAccess);
+      } catch (error) {
+        console.error("Error fetching user access:", error);
+        // Handle error (e.g., show a notification to the user)
+      } finally {
+        setUserLoading(false);
+      }
+    }
+    fetchUserAccess();
+  }, []);
 
   useEffect(() => {
     loadCustomization();
@@ -283,26 +294,6 @@ export default function CustomizationPage() {
     }
   };
 
-  const timeOptions = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, "0");
-    return `${hour}:00`;
-  });
-
-  const zodiacSigns = [
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces",
-  ];
-
   const previewText = (
     <div className="space-y-4">
       {customization.intro.text && <p>{customization.intro.text}</p>}
@@ -427,29 +418,7 @@ export default function CustomizationPage() {
 
   return (
     <div className="min-h-screen bg-yellow-50 flex flex-col text-neutral-700">
-      <nav className="sticky top-0 z-50 bg-yellow-50 shadow-sm">
-        <div className="container flex items-center justify-between px-1 py-2 mx-auto">
-          <Link
-            className="flex items-center gap-2 shrink-0"
-            href="/"
-            title={`${config.appName} homepage`}
-          >
-            <Image
-              src={logo}
-              alt={`${config.appName} logo`}
-              className="w-12 h-12"
-              placeholder="blur"
-              priority={true}
-              width={48}
-              height={48}
-            />
-            <span className="font-semibold text-xl text-neutral-700">
-              {config.appName}
-            </span>
-          </Link>
-          <ButtonAccount />
-        </div>
-      </nav>
+      <Nav />
       <div className="flex">
         <div className="w-1/2 overflow-y-auto border-r border-neutral-200">
           <div className="p-6">
@@ -462,625 +431,60 @@ export default function CustomizationPage() {
               defaultValue={["settings"]}
               className="w-full"
             >
-              <AccordionItem value="settings">
-                <AccordionTrigger>Message Settings</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="phoneNumber">Phone Number</Label>
-                      <Input
-                        id="phoneNumber"
-                        type="tel"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="Enter your phone number"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="deliveryTime">Delivery Time (EST)</Label>
-                      <Select
-                        value={deliveryTime}
-                        onValueChange={setDeliveryTime}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select delivery time" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {timeOptions.map((time) => (
-                            <SelectItem key={time} value={time}>
-                              {time} EST
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Enable Messaging:</Label>
-                      <RadioGroup
-                        value={
-                          customization.messaging.enabled
-                            ? "enabled"
-                            : "disabled"
-                        }
-                        onValueChange={(value) =>
-                          handleCustomizationChange(
-                            "messaging",
-                            "enabled",
-                            value === "enabled"
-                          )
-                        }
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="enabled"
-                            id="messaging-enabled"
-                          />
-                          <Label htmlFor="messaging-enabled">Enabled</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="disabled"
-                            id="messaging-disabled"
-                          />
-                          <Label htmlFor="messaging-disabled">Disabled</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="consent"
-                        checked={customization.messaging.consentGiven}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "messaging",
-                            "consentGiven",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="consent">
-                        I consent to receive SMS messages from GoodMornin.
-                        Message and data rates may apply.
-                      </Label>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="intro">
-                <AccordionTrigger>Introduction</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <Label htmlFor="intro">Custom introduction text:</Label>
-                      <Label className="text-neutral-500">
-                        <span
-                          className={`${
-                            customization.intro.text.length > 160
-                              ? "text-red-500"
-                              : "text-green-700"
-                          }`}
-                        >
-                          {customization.intro.text.length}
-                        </span>
-                        /160
-                      </Label>
-                    </div>
-                    <Input
-                      id="intro"
-                      value={customization.intro.text}
-                      onChange={(e) =>
-                        handleCustomizationChange(
-                          "intro",
-                          "text",
-                          e.target.value
-                        )
-                      }
-                      placeholder="Enter your custom intro text"
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="news">
-                <AccordionTrigger>News</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="news"
-                        checked={customization.news.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange("news", "enabled", checked)
-                        }
-                      />
-                      <Label htmlFor="news">
-                        Include news in your daily text
-                      </Label>
-                    </div>
-                    <RadioGroup
-                      value={customization.news.type}
-                      onValueChange={(value) =>
-                        handleCustomizationChange("news", "type", value)
-                      }
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="topHeadlines"
-                          id="topHeadlines"
-                        />
-                        <Label htmlFor="topHeadlines">Top Headlines</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="customSearch"
-                          id="customSearch"
-                        />
-                        <Label htmlFor="customSearch">Custom Search</Label>
-                      </div>
-                    </RadioGroup>
-                    {customization.news.type === "topHeadlines" && (
-                      <Combobox
-                        options={[
-                          { value: "general", label: "General" },
-                          { value: "business", label: "Business" },
-                          { value: "technology", label: "Technology" },
-                          { value: "sports", label: "Sports" },
-                          { value: "entertainment", label: "Entertainment" },
-                          { value: "health", label: "Health" },
-                          { value: "science", label: "Science" },
-                        ]}
-                        value={customization.news.topic}
-                        onValueChange={(value) =>
-                          handleCustomizationChange("news", "topic", value)
-                        }
-                      />
-                    )}
-                    {customization.news.type === "customSearch" && (
-                      <div className="space-y-2">
-                        <Label htmlFor="customQuery">
-                          Custom search query:
-                        </Label>
-                        <Input
-                          id="customQuery"
-                          value={customization.news.customQuery}
-                          onChange={(e) =>
-                            handleCustomizationChange(
-                              "news",
-                              "customQuery",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Enter your custom search query"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="weather">
-                <AccordionTrigger>Weather</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="weather"
-                        checked={customization.weather.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "weather",
-                            "enabled",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="weather">
-                        Include weather in your daily text
-                      </Label>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Weather location input type:</Label>
-                      <RadioGroup
-                        value={customization.weather.inputType}
-                        onValueChange={(value) =>
-                          handleCustomizationChange(
-                            "weather",
-                            "inputType",
-                            value
-                          )
-                        }
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="city" id="city" />
-                          <Label htmlFor="city">City</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem
-                            value="coordinates"
-                            id="coordinates"
-                          />
-                          <Label htmlFor="coordinates">
-                            Latitude/Longitude
-                          </Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    {customization.weather.inputType === "city" ? (
-                      <div className="space-y-2">
-                        <Label htmlFor="city">
-                          City for weather information:
-                        </Label>
-                        <Input
-                          id="city"
-                          value={customization.weather.city}
-                          onChange={(e) =>
-                            handleCustomizationChange(
-                              "weather",
-                              "city",
-                              e.target.value
-                            )
-                          }
-                          placeholder="Enter your city"
-                        />
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        <Label>Coordinates:</Label>
-                        <div className="flex items-center space-x-2">
-                          <Input
-                            id="latitude"
-                            value={customization.weather.latitude}
-                            onChange={(e) =>
-                              handleCustomizationChange(
-                                "weather",
-                                "latitude",
-                                e.target.value
-                              )
-                            }
-                            placeholder="Latitude"
-                          />
-                          <Input
-                            id="longitude"
-                            value={customization.weather.longitude}
-                            onChange={(e) =>
-                              handleCustomizationChange(
-                                "weather",
-                                "longitude",
-                                e.target.value
-                              )
-                            }
-                            placeholder="Longitude"
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <div className="space-y-2">
-                      <Label>Temperature Units:</Label>
-                      <RadioGroup
-                        value={customization.weather.units}
-                        onValueChange={(value) =>
-                          handleCustomizationChange("weather", "units", value)
-                        }
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="imperial" id="fahrenheit" />
-                          <Label htmlFor="fahrenheit">Fahrenheit</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="metric" id="celsius" />
-                          <Label htmlFor="celsius">Celsius</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Additional weather information:</Label>
-                      <div className="flex flex-col space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="weatherWind"
-                            checked={customization.weather.showWind}
-                            onCheckedChange={(checked) =>
-                              handleCustomizationChange(
-                                "weather",
-                                "showWind",
-                                checked
-                              )
-                            }
-                          />
-                          <Label htmlFor="weatherWind">
-                            Include wind information
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="weatherRain"
-                            checked={customization.weather.showRain}
-                            onCheckedChange={(checked) =>
-                              handleCustomizationChange(
-                                "weather",
-                                "showRain",
-                                checked
-                              )
-                            }
-                          />
-                          <Label htmlFor="weatherRain">
-                            Include rain information
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="weatherHumidity"
-                            checked={customization.weather.showHumidity}
-                            onCheckedChange={(checked) =>
-                              handleCustomizationChange(
-                                "weather",
-                                "showHumidity",
-                                checked
-                              )
-                            }
-                          />
-                          <Label htmlFor="weatherHumidity">
-                            Include humidity information
-                          </Label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="sports">
-                <AccordionTrigger>Sports</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="sports"
-                        checked={customization.sports.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "sports",
-                            "enabled",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="sports">
-                        Include sports in your daily text
-                      </Label>
-                    </div>
-                    <Combobox
-                      options={leagues.map((league) => ({
-                        value: league.strLeague,
-                        label: league.strLeague,
-                      }))}
-                      value={customization.sports.league}
-                      onValueChange={(value) =>
-                        handleCustomizationChange("sports", "league", value)
-                      }
-                    />
-                    <Combobox
-                      options={teams.map((team) => ({
-                        value: team.idTeam,
-                        label: team.strTeam,
-                      }))}
-                      value={customization.sports.teamId}
-                      onValueChange={handleTeamChange}
-                      disabled={!customization.sports.league || loadingTeams}
-                    />
-                    <div className="space-y-2">
-                      <Label>Game information:</Label>
-                      <div className="flex flex-col space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="sportsPreviousGame"
-                            checked={customization.sports.showPreviousGame}
-                            onCheckedChange={(checked) =>
-                              handleCustomizationChange(
-                                "sports",
-                                "showPreviousGame",
-                                checked
-                              )
-                            }
-                          />
-                          <Label htmlFor="sportsPreviousGame">
-                            Include last game result
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="sportsNextGame"
-                            checked={customization.sports.showNextGame}
-                            onCheckedChange={(checked) =>
-                              handleCustomizationChange(
-                                "sports",
-                                "showNextGame",
-                                checked
-                              )
-                            }
-                          />
-                          <Label htmlFor="sportsNextGame">
-                            Include next game schedule
-                          </Label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="quotes">
-                <AccordionTrigger>Quotes</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="quotes"
-                      checked={customization.quotes.enabled}
-                      onCheckedChange={(checked) =>
-                        handleCustomizationChange("quotes", "enabled", checked)
-                      }
-                    />
-                    <Label htmlFor="quotes">
-                      Include a random quote in your text
-                    </Label>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="events">
-                <AccordionTrigger>Holidays</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="events"
-                        checked={customization.events.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "events",
-                            "enabled",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="events">
-                        Include holidays in your daily text
-                      </Label>
-                    </div>
-                    <Combobox
-                      options={COUNTRIES.map((country) => ({
-                        value: country.code,
-                        label: country.name,
-                      }))}
-                      value={customization.events.country}
-                      onValueChange={(value) =>
-                        handleCustomizationChange("events", "country", value)
-                      }
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="horoscope">
-                <AccordionTrigger>Horoscope</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="horoscope"
-                        checked={customization.horoscope.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "horoscope",
-                            "enabled",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="horoscope">
-                        Include daily horoscope in your text
-                      </Label>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="zodiacSign">
-                        Select your zodiac sign:
-                      </Label>
-                      <Select
-                        value={customization.horoscope.sign}
-                        onValueChange={(value) =>
-                          handleCustomizationChange("horoscope", "sign", value)
-                        }
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select zodiac sign" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {zodiacSigns.map((sign) => (
-                            <SelectItem key={sign} value={sign.toLowerCase()}>
-                              {sign}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="onThisDay">
-                <AccordionTrigger>On This Day</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="onThisDay"
-                      checked={customization.onThisDay.enabled}
-                      onCheckedChange={(checked) =>
-                        handleCustomizationChange(
-                          "onThisDay",
-                          "enabled",
-                          checked
-                        )
-                      }
-                    />
-                    <Label htmlFor="onThisDay">
-                      Include historical events that occurred on this day
-                    </Label>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="randomFact">
-                <AccordionTrigger>Random Facts</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="randomFact"
-                        checked={customization.randomFact.enabled}
-                        onCheckedChange={(checked) =>
-                          handleCustomizationChange(
-                            "randomFact",
-                            "enabled",
-                            checked
-                          )
-                        }
-                      />
-                      <Label htmlFor="randomFact">
-                        Include a random fact in your daily message
-                      </Label>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="conclusion">
-                <AccordionTrigger>Conclusion</AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <Label htmlFor="conclusion">
-                        Custom conclusion text:
-                      </Label>
-                      <Label className="text-neutral-500">
-                        <span
-                          className={`${
-                            customization.conclusion.text.length > 160
-                              ? "text-red-500"
-                              : "text-green-700"
-                          }`}
-                        >
-                          {customization.conclusion.text.length}
-                        </span>{" "}
-                        / 160
-                      </Label>
-                    </div>
-                    <Input
-                      id="conclusion"
-                      value={customization.conclusion.text}
-                      onChange={(e) =>
-                        handleCustomizationChange(
-                          "conclusion",
-                          "text",
-                          e.target.value
-                        )
-                      }
-                      placeholder="Enter your custom conclusion text"
-                    />
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              <Settings
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+                userHasAccess={userHasAccess}
+                userLoading={userLoading}
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+                deliveryTime={deliveryTime}
+                setDeliveryTime={setDeliveryTime}
+              />
+              <Intro
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <News
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Weather
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Sports
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+                leagues={leagues}
+                teams={teams}
+                loadingTeams={loadingTeams}
+                handleTeamChange={handleTeamChange}
+              />
+              <Quotes
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Holidays
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Horoscope
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <OnThisDay
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Facts
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
+              <Conclusion
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+              />
             </Accordion>
           </div>
         </div>
