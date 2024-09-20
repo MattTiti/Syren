@@ -223,6 +223,8 @@ export default function CustomizationPage() {
       return;
     }
 
+    let updatedCustomization = { ...customization };
+
     // Check and convert city to coordinates if necessary
     if (
       customization.weather.inputType === "city" &&
@@ -236,14 +238,14 @@ export default function CustomizationPage() {
         );
         const data = await response.json();
         if (data && data.length > 0) {
-          setCustomization((prev) => ({
-            ...prev,
+          updatedCustomization = {
+            ...updatedCustomization,
             weather: {
-              ...prev.weather,
+              ...updatedCustomization.weather,
               latitude: data[0].lat.toString(),
               longitude: data[0].lon.toString(),
             },
-          }));
+          };
         } else {
           toast.error("City not found. Please enter a valid city name.");
           return;
@@ -261,11 +263,17 @@ export default function CustomizationPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ customization, phoneNumber, deliveryTime }),
+        body: JSON.stringify({
+          customization: updatedCustomization,
+          phoneNumber,
+          deliveryTime,
+        }),
       });
 
       if (response.ok) {
         toast.success("Changes saved!");
+        // Update the state with the new customization
+        setCustomization(updatedCustomization);
       } else {
         throw new Error("Failed to save changes");
       }
