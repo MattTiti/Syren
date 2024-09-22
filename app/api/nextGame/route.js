@@ -12,7 +12,6 @@ export async function GET(request) {
 
   try {
     const response = await axios.get(sportsApiUrl);
-    console.log("API Response:", response.data); // Log the entire response
 
     if (!response.data.events || response.data.events.length === 0) {
       return NextResponse.json(

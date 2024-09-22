@@ -2,7 +2,15 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Newspaper, Cloudy, PartyPopper, Quote } from "lucide-react";
+import {
+  Newspaper,
+  Cloudy,
+  PartyPopper,
+  Quote,
+  Star,
+  Laugh,
+  Clock,
+} from "lucide-react";
 import { MdOutlineSportsBasketball } from "react-icons/md";
 
 const features = [
@@ -32,6 +40,33 @@ const features = [
     path: "/gm-sports.mp4",
     format: "video/webm",
     icon: <MdOutlineSportsBasketball size={25} />,
+  },
+  {
+    title: "Horoscope",
+    description:
+      "Get your daily astrological forecast. Discover what the stars have in store for you today, offering insights into your love life, career, and personal growth.",
+    type: "video",
+    path: "/gm-hor.mp4",
+    format: "video/webm",
+    icon: <Star />,
+  },
+  {
+    title: "Fun Facts",
+    description:
+      "Learn something new every day with our curated fun facts. Expand your knowledge and impress your friends with interesting tidbits from various fields of science, history, and culture.",
+    type: "video",
+    path: "/gm-fact.mp4",
+    format: "video/webm",
+    icon: <Laugh />,
+  },
+  {
+    title: "On This Day",
+    description:
+      "Travel back in time with historical events that occurred on this day. Discover significant moments, births, and milestones that shaped our world throughout history.",
+    type: "video",
+    path: "/gm-otd.mp4",
+    format: "video/webm",
+    icon: <Clock />,
   },
   {
     title: "Quotes",
@@ -103,8 +138,7 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 // Video are set to autoplay for best UX.
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
-  const style =
-    "rounded-2xl w-full h-full object-cover border-4 border-yellow-400";
+  const style = "rounded-2xl w-full object-cover border-2 border-neutral-400";
   const size = {
     width: 500,
     height: 500,
@@ -112,7 +146,7 @@ const Media = ({ feature }) => {
 
   if (type === "video") {
     return (
-      <div className="aspect-square w-full sm:w-[26rem] relative">
+      <div className="aspect-square w-full relative">
         <video
           className={style}
           autoPlay

@@ -407,7 +407,7 @@ export default function CustomizationPage() {
 
       {customization.randomFact.enabled && (
         <div>
-          <h3 className="font-semibold">Random Fact:</h3>
+          <h3 className="font-semibold">Fun Fact:</h3>
           <p>The shortest war in history lasted 38 minutes.</p>
         </div>
       )}

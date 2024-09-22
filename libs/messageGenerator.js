@@ -77,7 +77,7 @@ export async function generateDailyMessage(customization) {
 
   if (customization.randomFact && customization.randomFact.enabled) {
     const randomFactData = await fetchRandomFact();
-    message += `Random Fact:\n${randomFactData}\n\n`;
+    message += `Fun Fact:\n${randomFactData}\n\n`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {

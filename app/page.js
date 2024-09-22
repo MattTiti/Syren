@@ -7,6 +7,7 @@ import Pricing from "@/components/landing/Pricing";
 import FAQ from "@/components/landing/FAQ";
 import Footer from "@/components/landing/Footer";
 import WithWithout from "@/components/landing/WithWithout";
+import Highlight from "@/components/landing/Highlight";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <Hero />
         <WithWithout />
         <FeaturesAccordion />
+        <Highlight />
         <Pricing />
         <FAQ />
       </main>

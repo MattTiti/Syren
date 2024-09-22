@@ -68,6 +68,34 @@ const config = {
     callbackUrl: "/custom",
   },
   googleAnalyticsId: "G-XT1DDB8SZE",
+  updates: [
+    {
+      title: "GoodMornin Dashboard is here!",
+      description: "Check out the latest updates to GoodMornin",
+      date: "9/30/24",
+    },
+    {
+      title: "Second Product Hunt launch!",
+      description: "Check out the latest updates to GoodMornin",
+      date: "9/23/24",
+    },
+    {
+      title: "Horoscopes now available!",
+      description: "Check out the latest updates to GoodMornin",
+      date: "9/19/24",
+    },
+    {
+      title: "On This Day and Fun Facts now available!",
+      description: "Check out the latest updates to GoodMornin",
+      date: "9/18/24",
+    },
+    {
+      title: "Product Hunt launch!",
+      description: "Check out the latest updates to GoodMornin",
+      date: "9/16/24",
+      link: "https://www.producthunt.com/posts/goodmornin",
+    },
+  ],
 };
 
 export default config;

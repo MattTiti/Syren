@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 export default function Facts({ customization, handleCustomizationChange }) {
   return (
     <AccordionItem value="randomFact">
-      <AccordionTrigger>Random Facts</AccordionTrigger>
+      <AccordionTrigger>Fun Facts</AccordionTrigger>
       <AccordionContent className="px-2">
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
@@ -23,7 +23,7 @@ export default function Facts({ customization, handleCustomizationChange }) {
               }
             />
             <Label htmlFor="randomFact">
-              Include a random fact in your daily message
+              Include a fun fact in your daily message
             </Label>
           </div>
         </div>
