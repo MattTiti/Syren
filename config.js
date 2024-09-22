@@ -68,6 +68,40 @@ const config = {
     callbackUrl: "/custom",
   },
   googleAnalyticsId: "G-XT1DDB8SZE",
+  updates: [
+    {
+      title: "GoodMornin Dashboard is here!",
+      description:
+        "GoodMornin now offers a dashboard, so you can view your daily information from any device. On top of that, the dashboard doesn't require a text subscription, so now users can try GoodMornin for free!",
+      date: "9/30/24",
+    },
+    {
+      title: "Second Product Hunt launch!",
+      description:
+        "GoodMornin just launched for a second time on Product Hunt! Any support would be greatly appreciated!",
+      date: "9/23/24",
+      link: "https://www.producthunt.com/posts/goodmornin-2",
+    },
+    {
+      title: "Horoscopes now available!",
+      description:
+        "Upon user request, horoscopes are now available! Get your daily astrological forecast. Discover what the stars have in store for you today, offering insights into your love life, career, and personal growth.",
+      date: "9/19/24",
+    },
+    {
+      title: "On This Day and Fun Facts now available!",
+      description:
+        "The first two new customizations are now live: On This Day and Fun Facts. On This Day allows you to travel back in time with historical events that occurred on this day. Fun Facts teaches you something new every day with our curated fun facts.",
+      date: "9/18/24",
+    },
+    {
+      title: "Product Hunt launch!",
+      description:
+        "GoodMornin just launched on Product Hunt! Any support would be greatly appreciated.",
+      date: "9/16/24",
+      link: "https://www.producthunt.com/posts/goodmornin",
+    },
+  ],
 };
 
 export default config;
