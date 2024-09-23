@@ -233,6 +233,39 @@ export default function CustomizationPage() {
       toast.error("Please select a zodiac sign for horoscope");
       return;
     }
+    if (customization.events.enabled && !customization.events.country) {
+      toast.error("Please select a country for events");
+      return;
+    }
+    if (customization.news.enabled && !customization.news.topic) {
+      toast.error("Please select a topic for news");
+      return;
+    }
+    if (
+      customization.news.enabled &&
+      customization.news.type === "customSearch" &&
+      !customization.news.customQuery
+    ) {
+      toast.error("Please enter a custom query for news");
+      return;
+    }
+    if (
+      customization.weather.enabled &&
+      !customization.weather.city &&
+      !customization.weather.latitude &&
+      !customization.weather.longitude
+    ) {
+      toast.error("Please enter a city or coordinates for weather");
+      return;
+    }
+    if (customization.sports.enabled && !customization.sports.league) {
+      toast.error("Please select a league for sports");
+      return;
+    }
+    if (customization.sports.enabled && !customization.sports.teamId) {
+      toast.error("Please select a team for sports");
+      return;
+    }
 
     let updatedCustomization = { ...customization };
 
