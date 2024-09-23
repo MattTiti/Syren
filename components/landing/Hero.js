@@ -46,14 +46,16 @@ const Hero = () => {
           </Link>
         </div>
       </div>
-      <div className="lg:w-1/2 flex items-center justify-center">
-        <Image
-          src="/gm-hero.png"
-          alt="Product Demo"
-          className="w-full mb-4"
-          width={1200}
-          height={1200}
-        />
+      <div className="w-1/2 flex items-center justify-center">
+        <div className="relative w-full h-full transform scale-125 z-50 lg:ml-20">
+          <Image
+            src="/gm-hero.png"
+            alt="Product Demo"
+            layout="fill"
+            objectFit="cover"
+            className="w-full h-full"
+          />
+        </div>
       </div>
     </section>
   );
