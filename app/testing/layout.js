@@ -15,13 +15,13 @@ export default async function LayoutPrivate({ children }) {
   if (!session) {
     redirect(config.auth.loginUrl);
   }
-  //   await connectMongo();
-  //   console.log(session);
-  //   const user = await User.findById(session?.user?.id);
+  await connectMongo();
 
-  //   if (!user.hasAccess) {
-  //     redirect("/no-purchase");
-  //   }
+  // const user = await User.findById(session?.user?.id);
+
+  // if (!user.hasAccess) {
+  //   redirect("/no-purchase");
+  // }
 
   return <>{children}</>;
 }

@@ -8,5 +8,5 @@
         "path": "/api/clean",
         "schedule": "0 0 1 * *"
       }
-  ]
+    ]
 }

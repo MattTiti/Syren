@@ -242,13 +242,13 @@ const features = [
 ];
 const FeaturesGrid = () => {
   return (
-    <section className="flex justify-center items-center w-full bg-base-200/50 text-base-content py-20 lg:py-32">
+    <section className="flex justify-center items-center w-full text-base-content py-20 lg:py-32">
       <div className="flex flex-col max-w-[82rem] gap-16 md:gap-20 px-4">
-        <h2 className="max-w-3xl font-black text-4xl md:text-6xl tracking-[-0.01em]">
-          Ship features <br /> users{" "}
+        <h2 className="max-w-3xl font-black text-neutral-700 text-4xl md:text-6xl tracking-[-0.01em]">
           <span className="underline decoration-dashed underline-offset-8 decoration-base-300">
-            really want
-          </span>
+            Free
+          </span>{" "}
+          Dashboard
         </h2>
         <div className="flex flex-col w-full h-fit gap-4 lg:gap-10 text-text-default max-w-[82rem]">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-10">

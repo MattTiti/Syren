@@ -11,8 +11,6 @@ export async function GET(req) {
   try {
     const userId = session?.user.id;
 
-    console.log("Received GET request with params:", { userId });
-
     // Fetch customization from the database
     const userCustomization = await UserCustomization.findOne({ userId });
 
@@ -49,14 +47,6 @@ export async function PUT(req) {
     const { customization, phoneNumber, deliveryTime } = await req.json();
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
-
-    // Log the received data
-    console.log("Received data:", {
-      userId,
-      customization,
-      phoneNumber,
-      deliveryTime,
-    });
 
     // Validate the request body
     if (
