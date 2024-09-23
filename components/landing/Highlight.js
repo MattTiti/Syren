@@ -58,7 +58,7 @@ const Highlight = () => {
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                <span>Craft your own daily briefing</span>
+                <span>Craft your own daily message</span>
               </li>
               <li className="flex items-start">
                 <svg
