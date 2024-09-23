@@ -73,7 +73,7 @@ const config = {
       title: "GoodMornin Dashboard is here!",
       description:
         "GoodMornin now offers a dashboard, so you can view your daily information from any device. On top of that, the dashboard doesn't require a text subscription, so now users can try GoodMornin for free!",
-      date: "9/30/24",
+      date: "9/24/24",
     },
     {
       title: "Second Product Hunt launch!",
