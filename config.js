@@ -20,17 +20,17 @@ const config = {
         mode: "subscription",
         description: "Daily text subscription billed monthly",
         price: 7.99,
-        priceAnchor: 14.99,
+        priceAnchor: 12.99,
         features: [
           { name: "Daily text service" },
-          { name: "Text customization dashboard" },
+          { name: "Text customization" },
           { name: "Access to future updates" },
-          { name: "24/7 support" },
+          { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Low commitment, high reward",
       },
       {
-        isFeatured: true,
+        isFeatured: false,
         priceId:
           process.env.NODE_ENV === "development"
             ? "price_1Q0XNICKVO6FKkF1S7W2FDJQ"
@@ -43,11 +43,31 @@ const config = {
         features: [
           { name: "Save an extra $25/year" },
           { name: "Daily text service" },
-          { name: "Text customization dashboard" },
+          { name: "Text customization" },
           { name: "Access to future updates" },
-          { name: "24/7 support" },
+          { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Save money and your mornings",
+      },
+      {
+        isFeatured: true,
+        priceId:
+          process.env.NODE_ENV === "development"
+            ? "price_1Q2FKrCKVO6FKkF1jznbIHgw"
+            : "price_1Q2FKrCKVO6FKkF1jznbIHgw",
+        name: "Lifetime",
+        mode: "payment",
+        description: "One time payment for lifetime access",
+        price: 99.99,
+        priceAnchor: 129.99,
+        features: [
+          { name: "Pay once, no monthly fees" },
+          { name: "Daily text service" },
+          { name: "Text customization" },
+          { name: "Access to future updates" },
+          { name: "GoodMornin Dashboard" },
+        ],
+        buttonMessage: "Pay once, use forever",
       },
     ],
   },
