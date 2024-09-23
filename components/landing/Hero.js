@@ -7,8 +7,8 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="max-w-7xl mx-auto bg-yellow-50 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
-      <div className="flex flex-col gap-10 lg:gap-14 items-center justify-center text-center lg:text-left lg:items-start">
+    <section className="max-w-7xl mx-auto bg-yellow-50 flex flex-col lg:flex-row items-stretch justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
+      <div className="flex flex-col gap-10 lg:gap-14 items-center justify-between text-center lg:text-left lg:items-start lg:w-1/2">
         <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4 text-neutral-700">
           All you need to start the day in
           <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
@@ -46,13 +46,13 @@ const Hero = () => {
           </Link>
         </div>
       </div>
-      <div className="w-2/3">
+      <div className="lg:w-1/2 flex items-center justify-center">
         <Image
-          src="/text.svg"
+          src="/gm-hero.png"
           alt="Product Demo"
-          className="w-full"
-          width={700}
-          height={700}
+          className="w-full mb-4"
+          width={1200}
+          height={1200}
         />
       </div>
     </section>
