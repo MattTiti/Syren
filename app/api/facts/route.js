@@ -5,7 +5,7 @@ export async function GET(request) {
     const revalidateTime = 86400;
 
     const response = await fetch(
-      "https://uselessfacts.jsph.pl/api/v2/facts/today?language=en",
+      "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en",
       {
         next: { revalidate: revalidateTime },
       }
