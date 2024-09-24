@@ -310,7 +310,7 @@ export default function CustomizationPage() {
         },
         body: JSON.stringify({
           customization: updatedCustomization,
-          phoneNumber,
+          phoneNumber: userHasAccess ? phoneNumber : "1234567890",
           deliveryTime,
         }),
       });
