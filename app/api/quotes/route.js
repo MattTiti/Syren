@@ -4,8 +4,7 @@ export async function GET() {
   const zenQuotesUrl = "https://zenquotes.io/api/today";
 
   try {
-    const revalidateTime =
-      secondsUntilNextMidnightInTimeZone("America/New_York");
+    const revalidateTime = 86400;
 
     const response = await fetch(zenQuotesUrl, {
       next: { revalidate: revalidateTime },
@@ -36,24 +35,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
-
-function secondsUntilNextMidnightInTimeZone(timeZone) {
-  const now = new Date();
-  const nowInTZ = new Date(now.toLocaleString("en-US", { timeZone }));
-  const nextMidnightInTZ = new Date(
-    nowInTZ.getFullYear(),
-    nowInTZ.getMonth(),
-    nowInTZ.getDate() + 1,
-    0,
-    0,
-    0
-  );
-
-  // Convert next midnight in time zone back to UTC
-  const nextMidnightUTC = new Date(
-    nextMidnightInTZ.toLocaleString("en-US", { timeZone: "UTC" })
-  );
-
-  return Math.floor((nextMidnightUTC - now) / 1000);
 }

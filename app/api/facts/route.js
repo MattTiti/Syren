@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    const revalidateTime =
-      secondsUntilNextMidnightInTimeZone("America/New_York");
+    const revalidateTime = 86400;
 
     const response = await fetch(
       "https://uselessfacts.jsph.pl/api/v2/facts/today?language=en",
@@ -30,25 +29,4 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-}
-
-// Function to calculate seconds until next midnight in specified time zone
-function secondsUntilNextMidnightInTimeZone(timeZone) {
-  const now = new Date();
-  const nowInTZ = new Date(now.toLocaleString("en-US", { timeZone }));
-  const nextMidnightInTZ = new Date(
-    nowInTZ.getFullYear(),
-    nowInTZ.getMonth(),
-    nowInTZ.getDate() + 1,
-    0,
-    0,
-    0
-  );
-
-  // Convert next midnight in time zone back to UTC
-  const nextMidnightUTC = new Date(
-    nextMidnightInTZ.toLocaleString("en-US", { timeZone: "UTC" })
-  );
-
-  return Math.floor((nextMidnightUTC - now) / 1000);
 }
