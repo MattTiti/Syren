@@ -259,8 +259,8 @@ export default function Dashboard() {
     <div className="min-h-screen bg-yellow-50 flex flex-col text-neutral-700">
       <Nav />
       <div className="container mx-auto p-6">
-        <div className="flex justify-between items-end mb-4">
-          <h1 className="text-3xl font-bold">
+        <div className="flex flex-col md:flex-row justify-between md:items-end mb-4">
+          <h1 className="text-xl md:text-3xl font-bold">
             Good Mornin{session?.user?.name ? `, ${session?.user?.name}` : ""}!
           </h1>
           <p className="text-sm text-neutral-500">
@@ -268,13 +268,13 @@ export default function Dashboard() {
             {lastUpdated ? lastUpdated.toLocaleString() : "Loading..."}
           </p>
         </div>
-        <div className="flex">
-          <div className="w-2/3 pr-4">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-2/3 md:pr-4">
             <div className="bg-white border border-neutral-200 p-4 rounded-md">
               {isLoading ? <Spinner /> : dailyBriefing}
             </div>
           </div>
-          <div className="w-1/3 pl-4">
+          <div className="w-full mt-4 md:mt-0 md:w-1/3 md:pl-4">
             <Updates />
             <Feedback
               handleSubmit={handleSubmit}

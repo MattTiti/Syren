@@ -23,11 +23,11 @@ export default function Nav() {
             width={48}
             height={48}
           />
-          <span className="font-semibold text-xl text-neutral-700">
+          <span className="hidden sm:inline font-semibold text-xl text-neutral-700">
             {config.appName}
           </span>
         </Link>
-        <div className="flex-grow flex justify-end">
+        <div className="flex-grow flex justify-end items-center space-x-2 sm:space-x-4">
           <TabsNavigation />
           <ButtonAccount />
         </div>

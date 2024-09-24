@@ -453,10 +453,10 @@ export default function CustomizationPage() {
   return (
     <div className="min-h-screen bg-yellow-50 flex flex-col text-neutral-700">
       <Nav />
-      <div className="flex">
-        <div className="w-1/2 overflow-y-auto border-r border-neutral-200">
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 overflow-y-auto border-r border-neutral-200">
           <div className="p-6">
-            <h1 className="text-3xl font-bold mb-6 text-neutral-700">
+            <h1 className="text-xl md:text-3xl font-bold mb-6 text-neutral-700">
               Customize Your Daily Text
             </h1>
 
@@ -522,7 +522,7 @@ export default function CustomizationPage() {
             </Accordion>
           </div>
         </div>
-        <div className="w-1/2 p-6 sticky top-16 max-h-[90vh] overflow-y-auto">
+        <div className="w-full md:w-1/2 p-6 sticky top-16 max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold">Preview Text</h2>
             <Button
