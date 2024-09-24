@@ -10,9 +10,10 @@ function replaceNonGSM7Chars(text) {
     "–": "-", // En-dash
     "—": "-", // Em-dash
     "…": "...", // Ellipsis
+    "`": "'", // Backtick to apostrophe
   };
 
-  return text.replace(/[“”‘’–—…]/g, (char) => replacements[char] || char);
+  return text.replace(/[“”‘’–—…`]/g, (char) => replacements[char] || char);
 }
 
 async function fetchRandomFact() {
@@ -247,7 +248,7 @@ function degreesToDirection(degrees) {
 }
 
 function formatWeatherData(data, config) {
-  const tempUnit = config.units === "imperial" ? "°F" : "°C";
+  const tempUnit = config.units === "imperial" ? "F" : "C";
   const speedUnit = config.units === "imperial" ? "mph" : "m/s";
   let result = "";
 
