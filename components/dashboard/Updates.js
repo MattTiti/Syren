@@ -13,7 +13,7 @@ export default function Updates() {
   return (
     <Card className="text-neutral-700">
       <CardHeader>
-        <CardTitle>Latest Updates</CardTitle>
+        <CardTitle className="text-xl md:text-2xl">Latest Updates</CardTitle>
       </CardHeader>
       <CardContent>
         <ul>

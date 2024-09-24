@@ -13,7 +13,7 @@ export default function Feedback({
   return (
     <Card className="mt-4 text-neutral-700">
       <CardHeader>
-        <CardTitle>Leave Feedback</CardTitle>
+        <CardTitle className="text-xl md:text-2xl">Leave Feedback</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

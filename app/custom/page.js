@@ -522,9 +522,9 @@ export default function CustomizationPage() {
             </Accordion>
           </div>
         </div>
-        <div className="w-full md:w-1/2 p-6 sticky top-16 max-h-[90vh] overflow-y-auto">
+        <div className="w-full md:w-1/2 p-6 sm:sticky md:top-16 md:max-h-[90vh] overflow-y-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-semibold">Preview Text</h2>
+            <h2 className="text-xl md:text-2xl font-semibold">Preview Text</h2>
             <Button
               className="p-3 group bg-white text-neutral-700 border border-yellow-500 hover:bg-neutral-100"
               onClick={saveCustomization}
