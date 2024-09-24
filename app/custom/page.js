@@ -207,13 +207,14 @@ export default function CustomizationPage() {
   };
 
   const saveCustomization = async () => {
-    if (!phoneNumber) {
+    if (!phoneNumber && userHasAccess) {
       toast.error("Please enter your phone number");
       return;
     }
     if (
       customization.messaging.enabled &&
-      !customization.messaging.consentGiven
+      !customization.messaging.consentGiven &&
+      userHasAccess
     ) {
       toast.error(
         "Please give consent to receive messages or disable messaging"
@@ -226,6 +227,11 @@ export default function CustomizationPage() {
     }
     if (customization.conclusion.text.length > 160) {
       toast.error("Conclusion text cannot be longer than 160 characters");
+      return;
+    }
+
+    if (customization.messaging.enabled && !userHasAccess) {
+      toast.error("Please give consent to receive messages");
       return;
     }
 
