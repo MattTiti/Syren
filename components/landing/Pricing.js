@@ -8,7 +8,7 @@ import ButtonCheckout from "@/components/ButtonCheckout";
 const Pricing = () => {
   return (
     <section className="bg-yellow-50 overflow-hidden" id="pricing">
-      <div className="py-24 px-0 max-w-7xl mx-auto">
+      <div className="py-24 px-8 sm:px-0 max-w-7xl mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <h2 className="font-bold text-3xl lg:text-5xl tracking-tight text-neutral-700">
             Pricing

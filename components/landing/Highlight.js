@@ -5,7 +5,7 @@ import ButtonSignIn from "@/components/ButtonSignin";
 const Highlight = () => {
   return (
     <section className="flex justify-start items-center w-full text-base-content py-20 lg:py-32">
-      <div className="flex flex-col w-full gap-16 md:gap-20 mx-24">
+      <div className="flex flex-col w-full gap-16 md:gap-20 mx-8 sm:mx-24">
         <h2 className="max-w-3xl font-black text-neutral-700 text-4xl md:text-6xl tracking-[-0.01em]">
           View your information from{" "}
           <span className="underline decoration-dashed underline-offset-8 decoration-yellow-500">
