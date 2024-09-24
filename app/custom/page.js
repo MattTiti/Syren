@@ -230,11 +230,6 @@ export default function CustomizationPage() {
       return;
     }
 
-    if (customization.messaging.enabled && !userHasAccess) {
-      toast.error("Please give consent to receive messages");
-      return;
-    }
-
     if (customization.horoscope.enabled && !customization.horoscope.sign) {
       toast.error("Please select a zodiac sign for horoscope");
       return;
