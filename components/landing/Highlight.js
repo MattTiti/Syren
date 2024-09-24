@@ -20,6 +20,7 @@ const Highlight = () => {
                   Dashboard
                 </h3>
                 <Badge className="bg-red-500">New</Badge>
+                <Badge className="bg-green-600">Free</Badge>
               </div>
               <p className="text-sm text-neutral-600">
                 Use GoodMornin in your browser
