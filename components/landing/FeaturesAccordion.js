@@ -156,7 +156,7 @@ const Media = ({ feature }) => {
     );
   } else if (type === "image") {
     return (
-      <div className="h-full relative">
+      <div className="h-full relative hover:scale-105 transition-all duration-300">
         <Image
           src={path}
           alt={alt}
