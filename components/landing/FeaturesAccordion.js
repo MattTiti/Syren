@@ -139,7 +139,7 @@ const Media = ({ feature }) => {
 
   if (type === "video") {
     return (
-      <div className="aspect-square w-full relative">
+      <div className="h-full relative">
         <video
           className={style}
           autoPlay
@@ -156,7 +156,7 @@ const Media = ({ feature }) => {
     );
   } else if (type === "image") {
     return (
-      <div className="aspect-square w-full relative">
+      <div className="h-full relative">
         <Image
           src={path}
           alt={alt}
