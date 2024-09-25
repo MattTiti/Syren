@@ -17,7 +17,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import Spinner from "@/components/Spinner";
-
+import { CircleAlert } from "lucide-react";
 export default function Settings({
   customization,
   handleCustomizationChange,
@@ -40,7 +40,13 @@ export default function Settings({
         <AccordionContent className="px-2">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Phone Number</Label>
+              <div className="flex flex-col">
+                <Label htmlFor="phoneNumber">Phone Number</Label>
+                <p className="text-sm text-neutral-500 flex items-center">
+                  <CircleAlert className="w-4 h-4 mr-1" />
+                  Make sure to include your country code e.g. +1
+                </p>
+              </div>
               <Input
                 id="phoneNumber"
                 type="tel"

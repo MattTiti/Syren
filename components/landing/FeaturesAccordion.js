@@ -18,54 +18,49 @@ const features = [
     title: "News",
     description:
       "Stay informed with real-time top news articles tailored to your interests. Explore content from over 150,000 global news sources, covering the latest events in your chosen categories or custom searches.",
-    type: "video",
-    path: "/gm-news.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-news-ss.png",
+    // format: "video/webm",
     icon: <Newspaper />,
   },
   {
     title: "Weather",
     description:
       "Access detailed weather reports including temperature, precipitation chances, wind speed, and more. Get updates from any location worldwide, so you're always prepared.",
-    type: "video",
-    path: "/gm-weather.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-weather-ss.png",
     icon: <Cloudy />,
   },
   {
     title: "Sports",
     description:
       "Keep track of past and upcoming games for over 13,500 teams across more than 1,000 leagues. Never miss a match with comprehensive sports updates.",
-    type: "video",
-    path: "/gm-sports.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-sports-ss.png",
     icon: <MdOutlineSportsBasketball size={25} />,
   },
   {
     title: "Horoscope",
     description:
       "Get your daily astrological forecast. Discover what the stars have in store for you today, offering insights into your love life, career, and personal growth.",
-    type: "video",
-    path: "/gm-hor.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-hor-ss.png",
     icon: <Star />,
   },
   {
     title: "Fun Facts",
     description:
       "Learn something new every day with our curated fun facts. Expand your knowledge and impress your friends with interesting tidbits from various fields of science, history, and culture.",
-    type: "video",
-    path: "/gm-fact.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-facts-ss.png",
     icon: <Laugh />,
   },
   {
     title: "On This Day",
     description:
       "Travel back in time with historical events that occurred on this day. Discover significant moments, births, and milestones that shaped our world throughout history.",
-    type: "video",
-    path: "/gm-otd.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-otd-ss.png",
     icon: <Clock />,
   },
   {
@@ -73,18 +68,16 @@ const features = [
     description:
       "Start your day with inspiring quotes from the world’s greatest minds—philosophers, inventors, scientists, leaders, and more. Find wisdom in every text.",
     icon: <Quote />,
-    type: "video",
-    path: "/gm-quotes.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-quote-ss.png",
   },
   {
     title: "Holidays",
     description:
       "Discover public, local, and bank holidays, as well as cultural observances, in more than 230 countries and 3,300 states. Plan ahead and never miss an important celebration.",
     icon: <PartyPopper />,
-    type: "video",
-    path: "/gm-holiday.mp4",
-    format: "video/webm",
+    type: "image",
+    path: "/gm-holidays-ss.png",
   },
 ];
 
@@ -138,7 +131,7 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 // Video are set to autoplay for best UX.
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
-  const style = "rounded-2xl w-full object-cover border-2 border-neutral-400";
+  const style = "rounded-2xl w-full object-cover ";
   const size = {
     width: 500,
     height: 500,
@@ -163,7 +156,7 @@ const Media = ({ feature }) => {
     );
   } else if (type === "image") {
     return (
-      <div className="aspect-square w-full sm:w-[26rem] relative">
+      <div className="aspect-square w-full relative">
         <Image
           src={path}
           alt={alt}
@@ -173,11 +166,7 @@ const Media = ({ feature }) => {
       </div>
     );
   } else {
-    return (
-      <div
-        className={`${style} !border-none aspect-square w-full sm:w-[26rem]`}
-      ></div>
-    );
+    return <div className={`${style} !border-none aspect-square w-full`}></div>;
   }
 };
 
