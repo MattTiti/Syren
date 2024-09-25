@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    // const revalidateTime = 86400;
+    const revalidateTime = 3600;
 
     const response = await fetch(
-      "https://uselessfacts.jsph.pl/api/v2/facts/random?language=en",
+      "https://uselessfacts.jsph.pl/api/v2/facts/today?language=en",
       {
-        cache: "no-store",
+        next: { revalidate: revalidateTime },
       }
     );
 

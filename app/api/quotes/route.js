@@ -4,10 +4,10 @@ export async function GET() {
   const zenQuotesUrl = "https://zenquotes.io/api/today";
 
   try {
-    // const revalidateTime = 86400;
+    const revalidateTime = 3600;
 
     const response = await fetch(zenQuotesUrl, {
-      cache: "no-store",
+      next: { revalidate: revalidateTime },
     });
 
     if (!response.ok) {
