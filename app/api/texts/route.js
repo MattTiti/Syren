@@ -15,25 +15,34 @@ function getESTTime() {
 }
 
 export async function GET(req) {
-  await connectMongo();
-
-  const authHeader = req.headers.get("authorization");
-  const expectedAuth = `Bearer ${process.env.CRON_SECRET}`;
-
-  if (
-    !authHeader ||
-    !timingSafeEqual(Buffer.from(authHeader), Buffer.from(expectedAuth))
-  ) {
-    return new Response("Unauthorized", {
-      status: 401,
-    });
-  }
-
   try {
+    // Authenticate the request
+    const authHeader = req.headers.get("authorization");
+    const expectedAuth = `Bearer ${process.env.CRON_SECRET}`;
+
+    if (
+      !authHeader ||
+      !timingSafeEqual(Buffer.from(authHeader), Buffer.from(expectedAuth))
+    ) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    // Connect to MongoDB with retry logic
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        await connectMongo();
+        break;
+      } catch (error) {
+        retries--;
+        if (retries === 0) throw error;
+        await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds before retrying
+      }
+    }
+
     const estTime = getESTTime();
     const currentTotalMinutes = estTime.getHours() * 60 + estTime.getMinutes();
 
-    // Find all users who have opted in
     const users = await UserCustomization.find({
       "customization.messaging.enabled": true,
       "customization.messaging.consentGiven": true,
@@ -50,27 +59,36 @@ export async function GET(req) {
       return timeDiff <= 30 || timeDiff >= 1410; // 1440 minutes in a day, wraparound for near-midnight delivery times
     });
 
+    let successCount = 0;
+    let failedCount = 0;
+    const failedUsers = [];
+
     for (const user of usersToMessage) {
       try {
         const message = await generateDailyMessage(user.customization);
         await sendText(user.phoneNumber, message);
+        successCount++;
       } catch (error) {
         console.error(`Error sending message to user ${user._id}:`, error);
-        // TODO: Keep track of failed messages
+        failedCount++;
+        failedUsers.push(user._id);
       }
     }
 
     return NextResponse.json(
       {
-        message: "Daily texts sent successfully",
-        usersCount: usersToMessage.length,
+        message: `Daily texts processed. ${successCount} succeeded, ${failedCount} failed.`,
+        totalAttempted: usersToMessage.length,
+        successCount,
+        failedCount,
+        failedUsers,
       },
-      { status: 200 }
+      { status: failedCount > 0 ? 207 : 200 }
     );
   } catch (error) {
-    console.error("Error sending daily texts:", error);
+    console.error("Critical error in daily texts route:", error);
     return NextResponse.json(
-      { error: "Failed to send daily texts" },
+      { error: "Failed to process daily texts" },
       { status: 500 }
     );
   }
