@@ -55,7 +55,7 @@ export async function generateDailyMessage(customization) {
     }
   }
 
-  if (customization.sports.enabled && customization.sports.team) {
+  if (customization.sports.enabled && customization.sports.teamId) {
     const sportsData = await fetchSports(customization.sports);
     if (sportsData) {
       message += `${customization.sports.teamName} updates:\n${sportsData}\n\n`;
