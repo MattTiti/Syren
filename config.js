@@ -48,6 +48,8 @@ const config = {
           { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Save money and your mornings",
+        yearlyPrice: true,
+        perMonthPrice: 5.99,
       },
       {
         isFeatured: true,

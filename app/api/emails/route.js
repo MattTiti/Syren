@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import connectMongo from "@/libs/mongoose";
 import UserCustomization from "@/models/UserCustomization";
-import { generateDailyMessage } from "@/libs/messageGenerator";
+import { generateDailyEmailMessage } from "@/libs/messageGenerator";
 import { sendEmail } from "@/libs/mailgun";
 import { toZonedTime } from "date-fns-tz";
 import config from "@/config";
@@ -68,7 +68,7 @@ export async function GET(req) {
 
     for (const user of usersToEmail) {
       try {
-        const message = await generateDailyMessage(user.customization);
+        const message = await generateDailyEmailMessage(user.customization);
         await sendEmail({
           from: config.mailgun.fromNoReply,
           to: user.customization.email.address,

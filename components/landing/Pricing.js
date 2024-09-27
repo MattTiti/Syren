@@ -40,11 +40,20 @@ const Pricing = () => {
               )}
 
               <div className="relative flex flex-col h-full gap-5 lg:gap-8 z-10 bg-white p-8 rounded-lg">
-                <div className="flex justify-between items-center gap-4">
-                  <div>
-                    <p className="text-lg lg:text-xl text-neutral-700 font-bold">
-                      {plan.name}
-                    </p>
+                <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="w-full">
+                    <div className="flex justify-between w-full">
+                      <p className="text-lg lg:text-xl text-neutral-700 font-bold">
+                        {plan.name}
+                      </p>
+                      {plan.yearlyPrice && (
+                        <div className="flex flex-col justify-start mb-[4px]">
+                          <p className="text-md text-green-700 uppercase font-semibold">
+                            {`~$${plan.perMonthPrice}/month`}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                     {plan.description && (
                       <p className="text-neutral-700/80 mt-2">
                         {plan.description}

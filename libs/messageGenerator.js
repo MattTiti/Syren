@@ -101,6 +101,91 @@ export async function generateDailyMessage(customization) {
   return message.trim();
 }
 
+export async function generateDailyEmailMessage(customization) {
+  let message =
+    "<div style='font-family: Arial, sans-serif; line-height: 1.6;'>";
+
+  if (customization.intro.text) {
+    message += `<p>${customization.intro.text}</p>`;
+  }
+
+  if (customization.news.enabled) {
+    let newsData;
+    if (customization.news.type === "topHeadlines") {
+      newsData = await fetchTopHeadlines(customization.news.topic);
+      message += `<h2 style='color: #333;'><strong>${capitalizeFirstLetter(
+        customization.news.topic
+      )} News:</strong></h2>`;
+    } else if (customization.news.type === "customSearch") {
+      newsData = await fetchCustomNews(customization.news.customQuery);
+      message += `<h2 style='color: #333;'><strong>${customization.news.customQuery} News:</strong></h2>`;
+    }
+    message += `<ul style='padding-left: 20px;'>${newsData
+      .replace(/\*/g, "<li>")
+      .replace(/\n/g, "</li>")}</ul>`;
+  }
+
+  if (customization.weather.enabled) {
+    const weatherData = await fetchWeather(customization.weather);
+    message += `<h2 style='color: #333;'><strong>Weather${
+      customization.weather.city ? ` in ${customization.weather.city}` : ""
+    }:</strong></h2>`;
+    message += `<p>${weatherData.replace(/\n/g, "<br>")}</p>`;
+  }
+
+  if (customization.sports.enabled && customization.sports.teamId) {
+    const sportsData = await fetchSports(customization.sports);
+    if (sportsData) {
+      message += `<h2 style='color: #333;'><strong>${customization.sports.teamName} updates:</strong></h2>`;
+      message += `<p>${sportsData.replace(/\n/g, "<br>")}</p>`;
+    }
+  }
+
+  if (customization.events.enabled) {
+    const eventsData = await fetchEvents(customization.events.country);
+    message += `<h2 style='color: #333;'><strong>${customization.events.country} Holidays:</strong></h2>`;
+    message += `<ul style='padding-left: 20px;'>${eventsData
+      .replace(/\*/g, "<li>")
+      .replace(/\n/g, "</li>")}</ul>`;
+  }
+
+  if (customization.onThisDay && customization.onThisDay.enabled) {
+    const onThisDayData = await fetchOnThisDay();
+    if (onThisDayData) {
+      message += `<h2 style='color: #333;'><strong>On This Day in History:</strong></h2>`;
+      message += `<p>${onThisDayData.replace(/\n/g, "<br>")}</p>`;
+    }
+  }
+
+  if (customization.randomFact && customization.randomFact.enabled) {
+    const randomFactData = await fetchRandomFact();
+    message += `<h2 style='color: #333;'><strong>Fun Fact:</strong></h2>`;
+    message += `<p>${randomFactData}</p>`;
+  }
+
+  if (customization.horoscope.enabled && customization.horoscope.sign) {
+    const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
+    message += `<h2 style='color: #333;'><strong>Horoscope:</strong></h2>`;
+    message += `<p>${horoscopeData}</p>`;
+  }
+
+  if (customization.quotes.enabled) {
+    const quoteData = await fetchQuote();
+    message += `<h2 style='color: #333;'><strong>Quote of the day:</strong></h2>`;
+    message += `<p><em>"${quoteData.split('" - ')[0]}"</em> - ${
+      quoteData.split('" - ')[1]
+    }</p>`;
+  }
+
+  if (customization.conclusion.text) {
+    message += `<p>${customization.conclusion.text}</p>`;
+  }
+
+  message += "</div>";
+
+  return message;
+}
+
 async function fetchTopHeadlines(topic) {
   const response = await axios.get(
     `https://goodmornin.app/api/news?category=${topic}`
