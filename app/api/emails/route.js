@@ -7,6 +7,7 @@ import UserCustomization from "@/models/UserCustomization";
 import { generateDailyMessage } from "@/libs/messageGenerator";
 import { sendEmail } from "@/libs/mailgun";
 import { toZonedTime } from "date-fns-tz";
+import config from "@/config";
 
 function getESTTime() {
   const now = new Date();
@@ -69,6 +70,7 @@ export async function GET(req) {
       try {
         const message = await generateDailyMessage(user.customization);
         await sendEmail({
+          from: config.mailgun.fromNoReply,
           to: user.customization.email.address,
           subject: "Your Daily Briefing from GoodMornin",
           html: message,

@@ -15,6 +15,14 @@ import { MdOutlineSportsBasketball } from "react-icons/md";
 
 const features = [
   {
+    title: "Weather",
+    description:
+      "Access detailed weather reports including temperature, precipitation chances, wind speed, and more. Get updates from any location worldwide, so you're always prepared.",
+    type: "image",
+    path: "/gm-weather-ss.png",
+    icon: <Cloudy />,
+  },
+  {
     title: "News",
     description:
       "Stay informed with real-time top news articles tailored to your interests. Explore content from over 150,000 global news sources, covering the latest events in your chosen categories or custom searches.",
@@ -22,14 +30,6 @@ const features = [
     path: "/gm-news-ss.png",
     // format: "video/webm",
     icon: <Newspaper />,
-  },
-  {
-    title: "Weather",
-    description:
-      "Access detailed weather reports including temperature, precipitation chances, wind speed, and more. Get updates from any location worldwide, so you're always prepared.",
-    type: "image",
-    path: "/gm-weather-ss.png",
-    icon: <Cloudy />,
   },
   {
     title: "Sports",

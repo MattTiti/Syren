@@ -26,9 +26,16 @@ if (!process.env.MAILGUN_API_KEY && process.env.NODE_ENV === "development") {
  * @param {string} replyTo - The email address to set as the "Reply-To" address.
  * @returns {Promise} A Promise that resolves when the email is sent.
  */
-export const sendEmail = async ({ to, subject, text, html, replyTo }) => {
+export const sendEmail = async ({
+  from = config.mailgun.fromAdmin,
+  to,
+  subject,
+  text,
+  html,
+  replyTo,
+}) => {
   const data = {
-    from: config.mailgun.fromAdmin,
+    from,
     to: [to],
     subject,
     text,

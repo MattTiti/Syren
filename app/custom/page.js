@@ -511,12 +511,12 @@ export default function CustomizationPage() {
                 deliveryTime={deliveryTime}
                 setDeliveryTime={setDeliveryTime}
               />
-              {/* <Email
+              <Email
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}
                 userHasAccess={userHasAccess}
                 userLoading={userLoading}
-              /> */}
+              />
               <Intro
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}
