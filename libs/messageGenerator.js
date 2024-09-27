@@ -120,7 +120,7 @@ export async function generateDailyEmailMessage(customization) {
       newsData = await fetchCustomNews(customization.news.customQuery);
       message += `<h2 style='color: #333;'><strong>${customization.news.customQuery} News:</strong></h2>`;
     }
-    message += `<ul style='padding-left: 20px;'>${newsData
+    message += `<ul>${newsData
       .replace(/\*/g, "<li>")
       .replace(/\n/g, "</li>")}</ul>`;
   }
@@ -172,7 +172,7 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
     message += `<h2 style='color: #333;'><strong>Quote of the day:</strong></h2>`;
-    message += `<p><em>"${quoteData.split('" - ')[0]}"</em> - ${
+    message += `<p><em>${quoteData.split('" - ')[0]}"</em> - ${
       quoteData.split('" - ')[1]
     }</p>`;
   }
