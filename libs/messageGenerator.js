@@ -103,7 +103,7 @@ export async function generateDailyMessage(customization) {
 
 export async function generateDailyEmailMessage(customization) {
   let message =
-    "<div style='font-family: Arial, sans-serif; line-height: 1.6;'>";
+    "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #404040;'>";
 
   if (customization.intro.text) {
     message += `<p>${customization.intro.text}</p>`;
@@ -113,37 +113,37 @@ export async function generateDailyEmailMessage(customization) {
     let newsData;
     if (customization.news.type === "topHeadlines") {
       newsData = await fetchTopHeadlines(customization.news.topic);
-      message += `<h2 style='color: #333;'><strong>${capitalizeFirstLetter(
+      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${capitalizeFirstLetter(
         customization.news.topic
-      )} News:</strong></h2>`;
+      )} News:</strong></h3>`;
     } else if (customization.news.type === "customSearch") {
       newsData = await fetchCustomNews(customization.news.customQuery);
-      message += `<h2 style='color: #333;'><strong>${customization.news.customQuery} News:</strong></h2>`;
+      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
     }
-    message += `<ul>${newsData
+    message += `<ul style='padding-left: 20px;'>${newsData
       .replace(/\*/g, "<li>")
       .replace(/\n/g, "</li>")}</ul>`;
   }
 
   if (customization.weather.enabled) {
     const weatherData = await fetchWeather(customization.weather);
-    message += `<h2 style='color: #333;'><strong>Weather${
+    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Weather${
       customization.weather.city ? ` in ${customization.weather.city}` : ""
-    }:</strong></h2>`;
+    }:</strong></h3>`;
     message += `<p>${weatherData.replace(/\n/g, "<br>")}</p>`;
   }
 
   if (customization.sports.enabled && customization.sports.teamId) {
     const sportsData = await fetchSports(customization.sports);
     if (sportsData) {
-      message += `<h2 style='color: #333;'><strong>${customization.sports.teamName} updates:</strong></h2>`;
+      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
       message += `<p>${sportsData.replace(/\n/g, "<br>")}</p>`;
     }
   }
 
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
-    message += `<h2 style='color: #333;'><strong>${customization.events.country} Holidays:</strong></h2>`;
+    message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
     message += `<ul style='padding-left: 20px;'>${eventsData
       .replace(/\*/g, "<li>")
       .replace(/\n/g, "</li>")}</ul>`;
@@ -152,27 +152,27 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.onThisDay && customization.onThisDay.enabled) {
     const onThisDayData = await fetchOnThisDay();
     if (onThisDayData) {
-      message += `<h2 style='color: #333;'><strong>On This Day in History:</strong></h2>`;
+      message += `<h3 style='color: #404040; font-size: 16px;'><strong>On This Day in History:</strong></h3>`;
       message += `<p>${onThisDayData.replace(/\n/g, "<br>")}</p>`;
     }
   }
 
   if (customization.randomFact && customization.randomFact.enabled) {
     const randomFactData = await fetchRandomFact();
-    message += `<h2 style='color: #333;'><strong>Fun Fact:</strong></h2>`;
+    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Fun Fact:</strong></h3>`;
     message += `<p>${randomFactData}</p>`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {
     const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
-    message += `<h2 style='color: #333;'><strong>Horoscope:</strong></h2>`;
+    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Horoscope:</strong></h3>`;
     message += `<p>${horoscopeData}</p>`;
   }
 
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
-    message += `<h2 style='color: #333;'><strong>Quote of the day:</strong></h2>`;
-    message += `<p><em>${quoteData.split('" - ')[0]}"</em> - ${
+    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Quote of the day:</strong></h3>`;
+    message += `<p><em>"${quoteData.split('" - ')[0]}"</em> - ${
       quoteData.split('" - ')[1]
     }</p>`;
   }
