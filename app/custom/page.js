@@ -18,6 +18,7 @@ import OnThisDay from "@/components/custom/OnThisDay";
 import Facts from "@/components/custom/Facts";
 import Conclusion from "@/components/custom/Conclusion";
 import Nav from "@/components/custom/Nav";
+import Email from "@/components/custom/Email";
 
 export default function CustomizationPage() {
   const [userHasAccess, setUserHasAccess] = useState(false);
@@ -74,6 +75,12 @@ export default function CustomizationPage() {
     },
     randomFact: {
       enabled: false,
+    },
+    email: {
+      enabled: false,
+      consentGiven: false,
+      address: "",
+      deliveryTime: "07:00",
     },
   });
   const [leagues, setLeagues] = useState([]);
@@ -229,7 +236,6 @@ export default function CustomizationPage() {
       toast.error("Conclusion text cannot be longer than 160 characters");
       return;
     }
-
     if (customization.horoscope.enabled && !customization.horoscope.sign) {
       toast.error("Please select a zodiac sign for horoscope");
       return;
@@ -265,6 +271,36 @@ export default function CustomizationPage() {
     }
     if (customization.sports.enabled && !customization.sports.teamId) {
       toast.error("Please select a team for sports");
+      return;
+    }
+    if (
+      customization.email.enabled &&
+      !customization.email.consentGiven &&
+      userHasAccess
+    ) {
+      toast.error(
+        "Please give consent to receive emails or disable email messaging"
+      );
+      return;
+    }
+
+    if (customization.email.enabled && !customization.email.address) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (
+      customization.email.enabled &&
+      !emailRegex.test(customization.email.address)
+    ) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (customization.email.enabled && !customization.email.deliveryTime) {
+      toast.error("Please set an email delivery time");
       return;
     }
 
@@ -475,6 +511,12 @@ export default function CustomizationPage() {
                 deliveryTime={deliveryTime}
                 setDeliveryTime={setDeliveryTime}
               />
+              {/* <Email
+                customization={customization}
+                handleCustomizationChange={handleCustomizationChange}
+                userHasAccess={userHasAccess}
+                userLoading={userLoading}
+              /> */}
               <Intro
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}
