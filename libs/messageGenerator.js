@@ -106,79 +106,90 @@ export async function generateDailyEmailMessage(customization) {
     "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #404040;'>";
 
   if (customization.intro.text) {
-    message += `<p>${customization.intro.text}</p>`;
+    message += `<p style='color: #404040'>${customization.intro.text}</p>`;
   }
 
   if (customization.news.enabled) {
     let newsData;
     if (customization.news.type === "topHeadlines") {
       newsData = await fetchTopHeadlines(customization.news.topic);
-      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${capitalizeFirstLetter(
+      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${capitalizeFirstLetter(
         customization.news.topic
       )} News:</strong></h3>`;
     } else if (customization.news.type === "customSearch") {
       newsData = await fetchCustomNews(customization.news.customQuery);
-      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
+      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
     }
-    message += `<ul style='padding-left: 20px;'>${newsData
-      .replace(/\*/g, "<li>")
-      .replace(/\n/g, "</li>")}</ul>`;
+    message += `<p style='color: #404040'>${newsData.replace(
+      /\n/g,
+      "<br>"
+    )}</p>`;
   }
 
   if (customization.weather.enabled) {
     const weatherData = await fetchWeather(customization.weather);
-    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Weather${
+    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Weather${
       customization.weather.city ? ` in ${customization.weather.city}` : ""
     }:</strong></h3>`;
-    message += `<p>${weatherData.replace(/\n/g, "<br>")}</p>`;
+    message += `<p style='color: #404040'>${weatherData.replace(
+      /\n/g,
+      "<br>"
+    )}</p>`;
   }
 
   if (customization.sports.enabled && customization.sports.teamId) {
     const sportsData = await fetchSports(customization.sports);
     if (sportsData) {
-      message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
-      message += `<p>${sportsData.replace(/\n/g, "<br>")}</p>`;
+      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
+      message += `<p style='color: #404040'>${sportsData.replace(
+        /\n/g,
+        "<br>"
+      )}</p>`;
     }
   }
 
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
-    message += `<h3 style='color: #404040; font-size: 16px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
-    message += `<ul style='padding-left: 20px;'>${eventsData
-      .replace(/\*/g, "<li>")
-      .replace(/\n/g, "</li>")}</ul>`;
+    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
+    message += `<p style='color: #404040'>${eventsData.replace(
+      /\n/g,
+      "<br>"
+    )}</p>`;
   }
 
   if (customization.onThisDay && customization.onThisDay.enabled) {
     const onThisDayData = await fetchOnThisDay();
     if (onThisDayData) {
-      message += `<h3 style='color: #404040; font-size: 16px;'><strong>On This Day in History:</strong></h3>`;
-      message += `<p>${onThisDayData.replace(/\n/g, "<br>")}</p>`;
+      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>On This Day in History:</strong></h3>`;
+      message += `<p style='color: #404040'>${onThisDayData.replace(
+        /\n/g,
+        "<br>"
+      )}</p>`;
     }
   }
 
   if (customization.randomFact && customization.randomFact.enabled) {
     const randomFactData = await fetchRandomFact();
-    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Fun Fact:</strong></h3>`;
-    message += `<p>${randomFactData}</p>`;
+    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Fun Fact:</strong></h3>`;
+    message += `<p style='color: #404040'>${randomFactData}</p>`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {
     const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
-    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Horoscope:</strong></h3>`;
-    message += `<p>${horoscopeData}</p>`;
+    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Horoscope:</strong></h3>`;
+    message += `<p style='color: #404040'>${horoscopeData}</p>`;
   }
 
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
-    message += `<h3 style='color: #404040; font-size: 16px;'><strong>Quote of the day:</strong></h3>`;
-    message += `<p><em>"${quoteData.split('" - ')[0]}"</em> - ${
-      quoteData.split('" - ')[1]
-    }</p>`;
+    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Quote of the day:</strong></h3>`;
+    message += `<p style='color: #404040'><em>"${
+      quoteData.split('" - ')[0]
+    }"</em> - ${quoteData.split('" - ')[1]}</p>`;
   }
 
   if (customization.conclusion.text) {
-    message += `<p>${customization.conclusion.text}</p>`;
+    message += `<p style='color: #404040'>${customization.conclusion.text}</p>`;
   }
 
   message += "</div>";
