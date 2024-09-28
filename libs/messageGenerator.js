@@ -220,7 +220,7 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
     message += `<h3 style='color: #404040; font-size: 14px; margin-top: 4px; margin-bottom: 2px;'><strong>Quote of the day:</strong></h3>`;
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'><em>"${
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'><em>${
       quoteData.split('" - ')[0]
     }"</em> - ${quoteData.split('" - ')[1]}</p>`;
   }

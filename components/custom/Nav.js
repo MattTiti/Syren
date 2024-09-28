@@ -7,8 +7,8 @@ import TabsNavigation from "@/components/TabNavigation";
 
 export default function Nav() {
   return (
-    <nav className="sticky top-0 z-50 bg-yellow-50 shadow-sm">
-      <div className="container flex items-center justify-between px-1 py-2 mx-auto">
+    <nav className="sticky top-0 z-50 bg-yellow-50 shadow-sm w-full">
+      <div className="flex items-center justify-between px-1 py-2 sm:mx-4">
         <Link
           className="flex items-center gap-2 shrink-0"
           href="/"
