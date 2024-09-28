@@ -106,7 +106,7 @@ export async function generateDailyEmailMessage(customization) {
     "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #404040;'>";
 
   if (customization.intro.text) {
-    message += `<p style='color: #404040'>${customization.intro.text}</p>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${customization.intro.text}</p>`;
   }
 
   if (customization.news.enabled) {
@@ -120,7 +120,7 @@ export async function generateDailyEmailMessage(customization) {
       newsData = await fetchCustomNews(customization.news.customQuery);
       message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
     }
-    message += `<p style='color: #404040'>${newsData.replace(
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${newsData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
@@ -131,7 +131,7 @@ export async function generateDailyEmailMessage(customization) {
     message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Weather${
       customization.weather.city ? ` in ${customization.weather.city}` : ""
     }:</strong></h3>`;
-    message += `<p style='color: #404040'>${weatherData.replace(
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${weatherData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
@@ -141,7 +141,7 @@ export async function generateDailyEmailMessage(customization) {
     const sportsData = await fetchSports(customization.sports);
     if (sportsData) {
       message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
-      message += `<p style='color: #404040'>${sportsData.replace(
+      message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${sportsData.replace(
         /\n/g,
         "<br>"
       )}</p>`;
@@ -151,7 +151,7 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
     message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
-    message += `<p style='color: #404040'>${eventsData.replace(
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${eventsData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
@@ -161,7 +161,7 @@ export async function generateDailyEmailMessage(customization) {
     const onThisDayData = await fetchOnThisDay();
     if (onThisDayData) {
       message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>On This Day in History:</strong></h3>`;
-      message += `<p style='color: #404040'>${onThisDayData.replace(
+      message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${onThisDayData.replace(
         /\n/g,
         "<br>"
       )}</p>`;
@@ -171,25 +171,25 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.randomFact && customization.randomFact.enabled) {
     const randomFactData = await fetchRandomFact();
     message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Fun Fact:</strong></h3>`;
-    message += `<p style='color: #404040'>${randomFactData}</p>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${randomFactData}</p>`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {
     const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
     message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Horoscope:</strong></h3>`;
-    message += `<p style='color: #404040'>${horoscopeData}</p>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${horoscopeData}</p>`;
   }
 
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
     message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Quote of the day:</strong></h3>`;
-    message += `<p style='color: #404040'><em>${
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'><em>"${
       quoteData.split('" - ')[0]
     }"</em> - ${quoteData.split('" - ')[1]}</p>`;
   }
 
   if (customization.conclusion.text) {
-    message += `<p style='color: #404040'>${customization.conclusion.text}</p>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${customization.conclusion.text}</p>`;
   }
 
   message += "</div>";
