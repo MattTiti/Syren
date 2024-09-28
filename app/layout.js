@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      data-theme={config.colors.theme}
+      data-theme="#fefce8"
       className={font.className + " bg-yellow-50"}
     >
       <head>
