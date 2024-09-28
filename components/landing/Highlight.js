@@ -110,7 +110,7 @@ const Highlight = () => {
                     d="M6 18L18 6M6 6l12 12"
                   ></path>
                 </svg>
-                <span>Does not include text service</span>
+                <span>Does not include message service</span>
               </li>
             </ul>
             <footer className="mt-4">

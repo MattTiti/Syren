@@ -46,11 +46,13 @@ export default function CustomizationPage() {
     },
     sports: {
       enabled: false,
+      type: "team", // Add this line (can be "team" or "league")
       league: "",
-      teamId: "", // Changed from 'team' to 'teamId' for clarity
+      teamId: "",
       teamName: "",
       showPreviousGame: false,
       showNextGame: false,
+      showRecap: false,
     },
     quotes: {
       enabled: true,
@@ -427,17 +429,33 @@ export default function CustomizationPage() {
         </div>
       )}
 
-      {customization.sports.enabled && customization.sports.teamId && (
+      {customization.sports.enabled && (
         <div>
           <h3 className="font-semibold">
-            {customization.sports.teamName} updates:
+            {customization.sports.type === "team"
+              ? `${customization.sports.teamName} updates:`
+              : `${customization.sports.league} Recap:`}
           </h3>
-          {customization.sports.showPreviousGame && (
-            <p>* Last game: {customization.sports.teamName} 2 - [Opponent] 1</p>
+          {customization.sports.type === "team" && (
+            <>
+              {customization.sports.showPreviousGame && (
+                <p>
+                  * Last game: {customization.sports.teamName} 2 - [Opponent] 1
+                </p>
+              )}
+              {customization.sports.showNextGame && (
+                <p>* Next game: Tomorrow 12:00 PM vs [Opponent]</p>
+              )}
+            </>
           )}
-          {customization.sports.showNextGame && (
-            <p>* Next game: Tomorrow 12:00 PM vs [Opponent]</p>
-          )}
+          {customization.sports.type === "league" &&
+            customization.sports.showRecap && (
+              <>
+                <p>* Team A 2 - Team B 1</p>
+                <p>* Team C 0 - Team D 3</p>
+                <p>* Team E 1 - Team F 1</p>
+              </>
+            )}
         </div>
       )}
 
@@ -511,12 +529,12 @@ export default function CustomizationPage() {
                 deliveryTime={deliveryTime}
                 setDeliveryTime={setDeliveryTime}
               />
-              {/* <Email
+              <Email
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}
                 userHasAccess={userHasAccess}
                 userLoading={userLoading}
-              /> */}
+              />
               <Intro
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}

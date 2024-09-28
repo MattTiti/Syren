@@ -55,11 +55,32 @@ export async function generateDailyMessage(customization) {
     }
   }
 
-  if (customization.sports.enabled && customization.sports.teamId) {
-    const sportsData = await fetchSports(customization.sports);
-    if (sportsData) {
-      message += `${customization.sports.teamName} updates:\n${sportsData}\n\n`;
+  if (customization.sports.enabled) {
+    let sportsData;
+    if (customization.sports.type === "team") {
+      sportsData = await fetchSports(customization.sports);
+      message += `${customization.sports.teamName} updates:\n`;
+      if (customization.sports.showPreviousGame && sportsData.lastGame) {
+        message += `* Last game: ${sportsData.lastGame.homeTeam} ${sportsData.lastGame.homeScore} - ${sportsData.lastGame.awayTeam} ${sportsData.lastGame.awayScore} (${sportsData.lastGame.date})\n`;
+      }
+      if (customization.sports.showNextGame && sportsData.nextGame) {
+        message += `* Next game: ${sportsData.nextGame.event} (${sportsData.nextGame.date})\n`;
+      }
+    } else if (
+      customization.sports.type === "league" &&
+      customization.sports.showRecap
+    ) {
+      sportsData = await fetchSportsRecap(customization.sports.league);
+      message += `${customization.sports.league} Recap:\n`;
+      if (sportsData.events && sportsData.events.length > 0) {
+        sportsData.events.forEach((event) => {
+          message += `* ${event.homeTeam} ${event.homeScore} - ${event.awayTeam} ${event.awayScore}\n`;
+        });
+      } else {
+        message += "* No games were played yesterday.\n";
+      }
     }
+    message += "\n";
   }
 
   if (customization.events.enabled) {
@@ -106,21 +127,21 @@ export async function generateDailyEmailMessage(customization) {
     "<div style='font-family: Arial, sans-serif; line-height: 1.6; color: #404040;'>";
 
   if (customization.intro.text) {
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${customization.intro.text}</p>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>${customization.intro.text}</p>`;
   }
 
   if (customization.news.enabled) {
     let newsData;
     if (customization.news.type === "topHeadlines") {
       newsData = await fetchTopHeadlines(customization.news.topic);
-      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${capitalizeFirstLetter(
+      message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${capitalizeFirstLetter(
         customization.news.topic
       )} News:</strong></h3>`;
     } else if (customization.news.type === "customSearch") {
       newsData = await fetchCustomNews(customization.news.customQuery);
-      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
+      message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
     }
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${newsData.replace(
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>${newsData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
@@ -128,30 +149,46 @@ export async function generateDailyEmailMessage(customization) {
 
   if (customization.weather.enabled) {
     const weatherData = await fetchWeather(customization.weather);
-    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Weather${
+    message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>Weather${
       customization.weather.city ? ` in ${customization.weather.city}` : ""
     }:</strong></h3>`;
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${weatherData.replace(
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>${weatherData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
   }
 
-  if (customization.sports.enabled && customization.sports.teamId) {
-    const sportsData = await fetchSports(customization.sports);
-    if (sportsData) {
-      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
-      message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${sportsData.replace(
-        /\n/g,
-        "<br>"
-      )}</p>`;
+  if (customization.sports.enabled) {
+    let sportsData;
+    if (customization.sports.type === "team") {
+      sportsData = await fetchSports(customization.sports);
+      message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.sports.teamName} updates:</strong></h3>`;
+      if (customization.sports.showPreviousGame && sportsData.lastGame) {
+        message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* Last game: ${sportsData.lastGame.homeTeam} ${sportsData.lastGame.homeScore} - ${sportsData.lastGame.awayTeam} ${sportsData.lastGame.awayScore} (${sportsData.lastGame.date})</p>`;
+      }
+      if (customization.sports.showNextGame && sportsData.nextGame) {
+        message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* Next game: ${sportsData.nextGame.event} (${sportsData.nextGame.date})</p>`;
+      }
+    } else if (
+      customization.sports.type === "league" &&
+      customization.sports.showRecap
+    ) {
+      sportsData = await fetchSportsRecap(customization.sports.league);
+      message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.sports.league} Recap:</strong></h3>`;
+      if (sportsData.events && sportsData.events.length > 0) {
+        sportsData.events.forEach((event) => {
+          message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* ${event.homeTeam} ${event.homeScore} - ${event.awayTeam} ${event.awayScore}</p>`;
+        });
+      } else {
+        message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* No games were played yesterday.</p>`;
+      }
     }
   }
 
   if (customization.events.enabled) {
     const eventsData = await fetchEvents(customization.events.country);
-    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${eventsData.replace(
+    message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.events.country} Holidays:</strong></h3>`;
+    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>${eventsData.replace(
       /\n/g,
       "<br>"
     )}</p>`;
@@ -160,7 +197,7 @@ export async function generateDailyEmailMessage(customization) {
   if (customization.onThisDay && customization.onThisDay.enabled) {
     const onThisDayData = await fetchOnThisDay();
     if (onThisDayData) {
-      message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>On This Day in History:</strong></h3>`;
+      message += `<h3 style='color: #404040; font-size: 14px; margin-top: 4px; margin-bottom: 2px;'><strong>On This Day in History:</strong></h3>`;
       message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${onThisDayData.replace(
         /\n/g,
         "<br>"
@@ -170,19 +207,19 @@ export async function generateDailyEmailMessage(customization) {
 
   if (customization.randomFact && customization.randomFact.enabled) {
     const randomFactData = await fetchRandomFact();
-    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Fun Fact:</strong></h3>`;
+    message += `<h3 style='color: #404040; font-size: 14px; margin-top: 4px; margin-bottom: 2px;'><strong>Fun Fact:</strong></h3>`;
     message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${randomFactData}</p>`;
   }
 
   if (customization.horoscope.enabled && customization.horoscope.sign) {
     const horoscopeData = await fetchHoroscope(customization.horoscope.sign);
-    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Horoscope:</strong></h3>`;
+    message += `<h3 style='color: #404040; font-size: 14px; margin-top: 4px; margin-bottom: 2px;'><strong>Horoscope:</strong></h3>`;
     message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'>${horoscopeData}</p>`;
   }
 
   if (customization.quotes.enabled) {
     const quoteData = await fetchQuote();
-    message += `<h3 style='color: #404040; font-size: 16px; margin-top: 4px; margin-bottom: 2px;'><strong>Quote of the day:</strong></h3>`;
+    message += `<h3 style='color: #404040; font-size: 14px; margin-top: 4px; margin-bottom: 2px;'><strong>Quote of the day:</strong></h3>`;
     message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 8px;'><em>"${
       quoteData.split('" - ')[0]
     }"</em> - ${quoteData.split('" - ')[1]}</p>`;
@@ -388,4 +425,16 @@ async function fetchSports(sportsConfig) {
   }
 
   return sportsData.trim();
+}
+
+async function fetchSportsRecap(league) {
+  try {
+    const response = await axios.get(
+      `https://goodmornin.app/api/recap?league=${encodeURIComponent(league)}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching sports recap:", error);
+    return { events: [] };
+  }
 }

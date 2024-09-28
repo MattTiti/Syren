@@ -51,18 +51,25 @@ async function fetchCustomNews(query) {
 export async function fetchSportsData(sportsConfig) {
   let sportsData = {};
 
-  if (sportsConfig.showPreviousGame) {
-    const lastGameResponse = await fetch(
-      `/api/lastGame?teamId=${sportsConfig.teamId}`
-    );
-    sportsData.lastGame = await handleResponse(lastGameResponse);
-  }
+  if (sportsConfig.type === "team") {
+    if (sportsConfig.showPreviousGame) {
+      const lastGameResponse = await fetch(
+        `/api/lastGame?teamId=${sportsConfig.teamId}`
+      );
+      sportsData.lastGame = await handleResponse(lastGameResponse);
+    }
 
-  if (sportsConfig.showNextGame) {
-    const nextGameResponse = await fetch(
-      `/api/nextGame?teamId=${sportsConfig.teamId}`
+    if (sportsConfig.showNextGame) {
+      const nextGameResponse = await fetch(
+        `/api/nextGame?teamId=${sportsConfig.teamId}`
+      );
+      sportsData.nextGame = await handleResponse(nextGameResponse);
+    }
+  } else if (sportsConfig.type === "league" && sportsConfig.showRecap) {
+    const recapResponse = await fetch(
+      `/api/recap?league=${encodeURIComponent(sportsConfig.league)}`
     );
-    sportsData.nextGame = await handleResponse(nextGameResponse);
+    sportsData.recap = await handleResponse(recapResponse);
   }
 
   return sportsData;

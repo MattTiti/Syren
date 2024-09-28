@@ -3,7 +3,7 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "GoodMornin",
   appDescription:
-    "The personalized daily text service delivering all the information you need to start the day",
+    "The personalized daily messaging service delivering all the information you need to start the day",
   domainName: "goodmornin.app",
   crisp: {
     id: "",
@@ -22,9 +22,8 @@ const config = {
         price: 7.99,
         priceAnchor: 12.99,
         features: [
-          { name: "Daily text service" },
-          { name: "Text customization" },
-          { name: "Access to future updates" },
+          { name: "Daily message service (Text & Email)" },
+          { name: "Message customization" },
           { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Low commitment, high reward",
@@ -42,9 +41,8 @@ const config = {
         priceAnchor: 99.99,
         features: [
           { name: "Save an extra $25/year" },
-          { name: "Daily text service" },
-          { name: "Text customization" },
-          { name: "Access to future updates" },
+          { name: "Daily message service (Text & Email)" },
+          { name: "Message customization" },
           { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Save money and your mornings",
@@ -64,9 +62,8 @@ const config = {
         priceAnchor: 129.99,
         features: [
           { name: "Pay once, no monthly fees" },
-          { name: "Daily text service" },
-          { name: "Text customization" },
-          { name: "Access to future updates" },
+          { name: "Daily message service (Text & Email)" },
+          { name: "Message customization" },
           { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Pay once, use forever",
@@ -82,7 +79,7 @@ const config = {
   },
   colors: {
     theme: "dark",
-    main: themes["light"]["primary"],
+    main: themes["dark"]["primary"],
     toast: "#eab308",
   },
   auth: {

@@ -16,8 +16,8 @@ const Hero = () => {
           </span>
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">
-          The personalized daily text service delivering all the information you
-          need to start the day
+          The personalized daily messaging service delivering all the
+          information you need to start the day
         </p>
         <div className="w-56">
           <ButtonCheckout
