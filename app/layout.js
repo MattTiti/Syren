@@ -7,7 +7,7 @@ import "./globals.css";
 const font = Bricolage_Grotesque({ subsets: ["latin"] });
 
 export const viewport = {
-  themeColor: config.colors.main,
+  themeColor: "#fefce8",
   width: "device-width",
   initialScale: 1,
 };
