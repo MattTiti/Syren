@@ -114,7 +114,9 @@ export default function Settings({
       )}
       {!userHasAccess && !userLoading && (
         <AccordionContent className="px-2">
-          <p>You must purchase a text plan to access text message settings.</p>
+          <p>
+            You must purchase a messaging plan to access text message settings.
+          </p>
         </AccordionContent>
       )}
       {userLoading && (

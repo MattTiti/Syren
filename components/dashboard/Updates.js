@@ -45,7 +45,7 @@ export default function Updates() {
                   </DialogTitle>
                 </DialogHeader>
                 <div>
-                  <p className="text-sm text-neutral-500">
+                  <p className="text-sm text-neutral-500 whitespace-pre-wrap">
                     {update.description}
                   </p>
                   {update.link && (

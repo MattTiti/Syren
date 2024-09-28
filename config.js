@@ -89,6 +89,18 @@ const config = {
   googleAnalyticsId: "G-XT1DDB8SZE",
   updates: [
     {
+      title: "New Updates!",
+      description:
+        "Based on your feedback, several updates have been made to GoodMornin in the past week! Here are the highlights:\n\n1. Email delivery\n2. League Recaps (Get all last night's games)\n3. Improved mobile compatibility\n4. Improved text message delivery and multiple bug fixes\n\nAnd there are more updates on the way, so stay tuned! ",
+      date: "9/28/24",
+    },
+    {
+      title: "Introducing GoodMornin Emails!",
+      description:
+        "GoodMornin now offers email delivery! You can now get your daily message sent to your email inbox. All you need to do is fill out the email settings in the customization page.",
+      date: "9/28/24",
+    },
+    {
       title: "GoodMornin Dashboard is here!",
       description:
         "GoodMornin now offers a dashboard, so you can view your daily information from any device. On top of that, the dashboard doesn't require a text subscription, so now users can try GoodMornin for free!",

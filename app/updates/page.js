@@ -11,6 +11,7 @@ import config from "@/config";
 import Header from "@/components/landing/Header";
 import { Suspense } from "react";
 import Spinner from "@/components/Spinner";
+
 export default function AllUpdates() {
   return (
     <Suspense fallback={<Spinner />}>
@@ -41,7 +42,7 @@ export default function AllUpdates() {
                       </DialogTitle>
                     </DialogHeader>
                     <div>
-                      <p className="text-sm text-neutral-500">
+                      <p className="text-sm text-neutral-500 whitespace-pre-wrap">
                         {update.description}
                       </p>
                       {update.link && (

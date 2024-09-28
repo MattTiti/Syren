@@ -104,7 +104,7 @@ export default function Email({
       )}
       {!userHasAccess && !userLoading && (
         <AccordionContent className="px-2">
-          <p>You must purchase a plan to access email settings.</p>
+          <p>You must purchase a messaging plan to access email settings.</p>
         </AccordionContent>
       )}
       {userLoading && (
