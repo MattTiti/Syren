@@ -8,12 +8,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import config from "@/config";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Updates() {
   return (
     <Card className="text-neutral-700">
       <CardHeader>
-        <CardTitle className="text-xl md:text-2xl">Latest Updates</CardTitle>
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-xl md:text-2xl">Latest Updates</CardTitle>
+          <Link href="/updates">
+            <Button variant="ghost" className="text-md">
+              See All
+            </Button>
+          </Link>
+        </div>
       </CardHeader>
       <CardContent>
         <ul>

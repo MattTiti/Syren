@@ -28,7 +28,6 @@ export async function GET(request) {
       league: event.strLeague,
       event: event.strEventAlternate,
     }));
-    console.log(formattedEvents);
 
     return NextResponse.json({ events: formattedEvents });
   } catch (error) {

@@ -514,11 +514,7 @@ export default function CustomizationPage() {
               Customize Your Daily Text
             </h1>
 
-            <Accordion
-              type="multiple"
-              defaultValue={["settings"]}
-              className="w-full"
-            >
+            <Accordion type="multiple" className="w-full">
               <Settings
                 customization={customization}
                 handleCustomizationChange={handleCustomizationChange}

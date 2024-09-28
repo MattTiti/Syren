@@ -301,7 +301,7 @@ async function fetchWeather(weatherConfig) {
 async function fetchEvents(country) {
   const today = new Date();
   const day = today.getDate();
-  const month = today.getMonth() + 1; // JavaScript months are 0-indexed
+  const month = today.getMonth() + 1;
   const year = today.getFullYear();
 
   const response = await axios.get(
@@ -338,7 +338,6 @@ async function fetchHoroscope(sign) {
 async function fetchOnThisDay() {
   try {
     const response = await axios.get("https://goodmornin.app/api/history");
-    console.log("On This Day API response:", response.data);
     if (
       response.data &&
       response.data.events &&
@@ -348,7 +347,6 @@ async function fetchOnThisDay() {
         .map((event) => `${event.year}: ${event.text}`)
         .join("\n");
     } else {
-      console.log("No On This Day events received");
       return null;
     }
   } catch (error) {

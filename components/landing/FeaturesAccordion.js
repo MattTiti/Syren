@@ -10,10 +10,19 @@ import {
   Star,
   Laugh,
   Clock,
+  MessageCircle,
 } from "lucide-react";
 import { MdOutlineSportsBasketball } from "react-icons/md";
 
 const features = [
+  {
+    title: "Messaging",
+    description:
+      "Receive a personalized message through text or email with everything you need to know to start your day off right.",
+    type: "image",
+    path: "/gm-message.png",
+    icon: <MessageCircle />,
+  },
   {
     title: "Weather",
     description:
@@ -131,25 +140,12 @@ const Item = ({ feature, isOpen, setFeatureSelected }) => {
 // Video are set to autoplay for best UX.
 const Media = ({ feature }) => {
   const { type, path, format, alt } = feature;
-  const style = "rounded-2xl w-full object-cover ";
-  const size = {
-    width: 500,
-    height: 500,
-  };
+  const style = "rounded-2xl w-full h-full";
 
   if (type === "video") {
     return (
       <div className="h-full relative">
-        <video
-          className={style}
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-          width={size.width}
-          height={size.height}
-        >
+        <video className={style} autoPlay muted loop playsInline controls>
           <source src={path} type={format} />
         </video>
       </div>
@@ -160,7 +156,7 @@ const Media = ({ feature }) => {
         <Image
           src={path}
           alt={alt}
-          className={`${style} object-cover object-center`}
+          className={`${style} object-contain`}
           fill
         />
       </div>
@@ -180,7 +176,7 @@ const FeaturesAccordion = () => {
       className="py-24 md:py-32 space-y-24 md:space-y-32 max-w-7xl mx-auto bg-yellow-50"
       id="features"
     >
-      <div className="px-8">
+      <div className="px-8 pr-0">
         <h2 className="font-extrabold text-4xl lg:text-6xl tracking-tight mb-12 md:mb-24 text-neutral-700">
           End the scrolling
           <br />
