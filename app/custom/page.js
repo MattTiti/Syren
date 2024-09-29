@@ -46,13 +46,13 @@ export default function CustomizationPage() {
     },
     sports: {
       enabled: false,
-      type: "team", // Add this line (can be "team" or "league")
+      type: "team",
       league: "",
       teamId: "",
       teamName: "",
       showPreviousGame: false,
       showNextGame: false,
-      showRecap: false,
+      recapTeams: [], // Keep this, remove showRecap
     },
     quotes: {
       enabled: true,
@@ -448,14 +448,13 @@ export default function CustomizationPage() {
               )}
             </>
           )}
-          {customization.sports.type === "league" &&
-            customization.sports.showRecap && (
-              <>
-                <p>* Team A 2 - Team B 1</p>
-                <p>* Team C 0 - Team D 3</p>
-                <p>* Team E 1 - Team F 1</p>
-              </>
-            )}
+          {customization.sports.type === "league" && (
+            <>
+              {customization.sports.recapTeams.map((team, index) => (
+                <p key={index}>* {team} 2 - [Opponent] 1</p>
+              ))}
+            </>
+          )}
         </div>
       )}
 

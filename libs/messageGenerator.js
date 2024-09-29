@@ -66,18 +66,18 @@ export async function generateDailyMessage(customization) {
       if (customization.sports.showNextGame && sportsData.nextGame) {
         message += `* Next game: ${sportsData.nextGame.event} (${sportsData.nextGame.date})\n`;
       }
-    } else if (
-      customization.sports.type === "league" &&
-      customization.sports.showRecap
-    ) {
-      sportsData = await fetchSportsRecap(customization.sports.league);
+    } else if (customization.sports.type === "league") {
+      sportsData = await fetchSportsRecap(
+        customization.sports.league,
+        customization.sports.recapTeams
+      );
       message += `${customization.sports.league} Recap:\n`;
       if (sportsData.events && sportsData.events.length > 0) {
         sportsData.events.forEach((event) => {
           message += `* ${event.homeTeam} ${event.homeScore} - ${event.awayTeam} ${event.awayScore}\n`;
         });
       } else {
-        message += "* No games were played yesterday.\n";
+        message += "* No games were played yesterday for the selected teams.\n";
       }
     }
     message += "\n";
@@ -169,18 +169,18 @@ export async function generateDailyEmailMessage(customization) {
       if (customization.sports.showNextGame && sportsData.nextGame) {
         message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* Next game: ${sportsData.nextGame.event} (${sportsData.nextGame.date})</p>`;
       }
-    } else if (
-      customization.sports.type === "league" &&
-      customization.sports.showRecap
-    ) {
-      sportsData = await fetchSportsRecap(customization.sports.league);
+    } else if (customization.sports.type === "league") {
+      sportsData = await fetchSportsRecap(
+        customization.sports.league,
+        customization.sports.recapTeams
+      );
       message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.sports.league} Recap:</strong></h3>`;
       if (sportsData.events && sportsData.events.length > 0) {
         sportsData.events.forEach((event) => {
           message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* ${event.homeTeam} ${event.homeScore} - ${event.awayTeam} ${event.awayScore}</p>`;
         });
       } else {
-        message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* No games were played yesterday.</p>`;
+        message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* No games were played yesterday for the selected teams.</p>`;
       }
     }
   }
@@ -425,12 +425,21 @@ async function fetchSports(sportsConfig) {
   return sportsData.trim();
 }
 
-async function fetchSportsRecap(league) {
+async function fetchSportsRecap(league, recapTeams) {
   try {
     const response = await axios.get(
       `https://goodmornin.app/api/recap?league=${encodeURIComponent(league)}`
     );
-    return response.data;
+    const allEvents = response.data.events || [];
+
+    // Filter events to only include the selected recap teams
+    const filteredEvents = allEvents.filter(
+      (event) =>
+        recapTeams.includes(event.homeTeam) ||
+        recapTeams.includes(event.awayTeam)
+    );
+
+    return { events: filteredEvents };
   } catch (error) {
     console.error("Error fetching sports recap:", error);
     return { events: [] };

@@ -189,32 +189,45 @@ export default function Dashboard() {
           </h3>
           {customization?.sports?.type === "team" && (
             <>
-              {dashboardData.sports.lastGame && (
-                <p>
-                  * {dashboardData.sports.lastGame.homeTeam}{" "}
-                  {dashboardData.sports.lastGame.homeScore} -{" "}
-                  {dashboardData.sports.lastGame.awayTeam}{" "}
-                  {dashboardData.sports.lastGame.awayScore} (
-                  {dashboardData.sports.lastGame.date})
-                </p>
-              )}
-              {dashboardData.sports.nextGame && (
-                <p>
-                  * {dashboardData.sports.nextGame.homeTeam} vs{" "}
-                  {dashboardData.sports.nextGame.awayTeam} (
-                  {dashboardData.sports.nextGame.date})
-                </p>
-              )}
+              {customization?.sports?.showPreviousGame &&
+                dashboardData.sports.lastGame && (
+                  <p>
+                    * {dashboardData.sports.lastGame.homeTeam}{" "}
+                    {dashboardData.sports.lastGame.homeScore} -{" "}
+                    {dashboardData.sports.lastGame.awayTeam}{" "}
+                    {dashboardData.sports.lastGame.awayScore} (
+                    {dashboardData.sports.lastGame.date})
+                  </p>
+                )}
+              {customization?.sports?.showNextGame &&
+                dashboardData.sports.nextGame && (
+                  <p>
+                    * {dashboardData.sports.nextGame.homeTeam} vs{" "}
+                    {dashboardData.sports.nextGame.awayTeam} (
+                    {dashboardData.sports.nextGame.date})
+                  </p>
+                )}
             </>
           )}
           {customization?.sports?.type === "league" &&
-            dashboardData.sports.recap &&
-            dashboardData.sports.recap.events.map((event, index) => (
-              <p key={index}>
-                * {event.homeTeam} {event.homeScore} - {event.awayTeam}{" "}
-                {event.awayScore}
-              </p>
-            ))}
+            dashboardData.sports.recap && (
+              <>
+                {dashboardData.sports.recap.events
+                  .filter(
+                    (event) =>
+                      customization.sports.recapTeams.includes(
+                        event.homeTeam
+                      ) ||
+                      customization.sports.recapTeams.includes(event.awayTeam)
+                  )
+                  .map((event, index) => (
+                    <p key={index}>
+                      * {event.homeTeam} {event.homeScore} - {event.awayTeam}{" "}
+                      {event.awayScore}
+                    </p>
+                  ))}
+              </>
+            )}
         </div>
       )}
 

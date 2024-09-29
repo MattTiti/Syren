@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   AccordionItem,
   AccordionTrigger,
@@ -9,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Combobox } from "@/components/ui/combobox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
+import { X, PlusCircle } from "lucide-react";
 
 export default function Sports({
   customization,
@@ -18,6 +21,27 @@ export default function Sports({
   loadingTeams,
   handleTeamChange,
 }) {
+  const [recapTeams, setRecapTeams] = useState(
+    customization.sports.recapTeams || []
+  );
+
+  const addRecapTeam = () => {
+    setRecapTeams([...recapTeams, ""]);
+  };
+
+  const removeRecapTeam = (index) => {
+    const newRecapTeams = recapTeams.filter((_, i) => i !== index);
+    setRecapTeams(newRecapTeams);
+    handleCustomizationChange("sports", "recapTeams", newRecapTeams);
+  };
+
+  const handleRecapTeamChange = (index, value) => {
+    const newRecapTeams = [...recapTeams];
+    newRecapTeams[index] = value;
+    setRecapTeams(newRecapTeams);
+    handleCustomizationChange("sports", "recapTeams", newRecapTeams);
+  };
+
   return (
     <AccordionItem value="sports">
       <AccordionTrigger>Sports</AccordionTrigger>
@@ -73,10 +97,44 @@ export default function Sports({
             />
           )}
 
-          <div className="space-y-2">
-            <Label>Game information:</Label>
-            <div className="flex flex-col space-y-2">
-              {customization.sports.type === "team" && (
+          {customization.sports.type === "league" && (
+            <div className="space-y-2 flex flex-col">
+              <Label>Teams to include:</Label>
+              {recapTeams.map((team, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Combobox
+                    options={teams.map((team) => ({
+                      value: team.strTeam,
+                      label: team.strTeam,
+                    }))}
+                    value={team}
+                    onValueChange={(value) =>
+                      handleRecapTeamChange(index, value)
+                    }
+                    disabled={!customization.sports.league || loadingTeams}
+                  />
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => removeRecapTeam(index)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                onClick={addRecapTeam}
+                variant="outline"
+                className="w-1/4"
+              >
+                <PlusCircle className="h-4 w-4 mr-1 " /> Add Team
+              </Button>
+            </div>
+          )}
+          {customization.sports.type === "team" && (
+            <div className="space-y-2">
+              <Label>Game information:</Label>
+              <div className="flex flex-col space-y-2">
                 <>
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -111,23 +169,9 @@ export default function Sports({
                     </Label>
                   </div>
                 </>
-              )}
-              {customization.sports.type === "league" && (
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="sportsRecap"
-                    checked={customization.sports.showRecap}
-                    onCheckedChange={(checked) =>
-                      handleCustomizationChange("sports", "showRecap", checked)
-                    }
-                  />
-                  <Label htmlFor="sportsRecap">
-                    Include yesterday's league recap
-                  </Label>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>
