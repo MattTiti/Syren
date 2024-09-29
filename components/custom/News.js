@@ -76,6 +76,16 @@ export default function News({ customization, handleCustomizationChange }) {
               />
             </div>
           )}
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="includeLinks"
+              checked={customization.news.includeLinks}
+              onCheckedChange={(checked) =>
+                handleCustomizationChange("news", "includeLinks", checked)
+              }
+            />
+            <Label htmlFor="includeLinks">Include links to news articles</Label>
+          </div>
         </div>
       </AccordionContent>
     </AccordionItem>

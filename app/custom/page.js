@@ -32,6 +32,7 @@ export default function CustomizationPage() {
       type: "topHeadlines",
       topic: "technology",
       customQuery: "",
+      includeLinks: false, // Add this line
     },
     weather: {
       enabled: true,
@@ -377,21 +378,27 @@ export default function CustomizationPage() {
             </h3>
             <p>
               * GoodMornin launches new feature!{" "}
-              <span className="text-blue-500 underline">
-                https://tinyurl.com/goodmornin
-              </span>
+              {customization.news.includeLinks && (
+                <span className="text-blue-500 underline">
+                  https://tinyurl.com/goodmornin
+                </span>
+              )}
             </p>
             <p>
               * GoodMornin reaches 1,000 users!{" "}
-              <span className="text-blue-500 underline">
-                https://tinyurl.com/goodmornin
-              </span>
+              {customization.news.includeLinks && (
+                <span className="text-blue-500 underline">
+                  https://tinyurl.com/goodmornin
+                </span>
+              )}
             </p>
             <p>
               * GoodMornin helps you get your day started!{" "}
-              <span className="text-blue-500 underline">
-                https://tinyurl.com/goodmornin
-              </span>
+              {customization.news.includeLinks && (
+                <span className="text-blue-500 underline">
+                  https://tinyurl.com/goodmornin
+                </span>
+              )}
             </p>
           </div>
         )}

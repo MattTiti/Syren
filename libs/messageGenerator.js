@@ -37,13 +37,21 @@ export async function generateDailyMessage(customization) {
     let newsData;
     if (customization.news.type === "topHeadlines") {
       newsData = await fetchTopHeadlines(customization.news.topic);
-      message += `${capitalizeFirstLetter(
-        customization.news.topic
-      )} News:\n${newsData}\n\n`;
+      message += `${capitalizeFirstLetter(customization.news.topic)} News:\n`;
     } else if (customization.news.type === "customSearch") {
       newsData = await fetchCustomNews(customization.news.customQuery);
-      message += `${customization.news.customQuery} News:\n${newsData}\n\n`;
+      message += `${customization.news.customQuery} News:\n`;
     }
+
+    for (const article of newsData) {
+      message += `* ${article.title}`;
+      if (customization.news.includeLinks) {
+        const shortUrl = await shortenUrl(article.url);
+        message += ` ${shortUrl}`;
+      }
+      message += "\n";
+    }
+    message += "\n";
   }
 
   if (customization.weather.enabled) {
@@ -141,10 +149,15 @@ export async function generateDailyEmailMessage(customization) {
       newsData = await fetchCustomNews(customization.news.customQuery);
       message += `<h3 style='color: #404040; font-size: 14px; margin-top: 10px; margin-bottom: 2px;'><strong>${customization.news.customQuery} News:</strong></h3>`;
     }
-    message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>${newsData.replace(
-      /\n/g,
-      "<br>"
-    )}</p>`;
+
+    for (const article of newsData) {
+      message += `<p style='color: #404040; margin-top: 2px; margin-bottom: 2px;'>* ${article.title}`;
+      if (customization.news.includeLinks) {
+        const shortUrl = await shortenUrl(article.url);
+        message += ` <a href="${shortUrl}" style="color: #0000FF;">${shortUrl}</a>`;
+      }
+      message += "</p>";
+    }
   }
 
   if (customization.weather.enabled) {
@@ -245,13 +258,7 @@ async function fetchTopHeadlines(topic) {
     (article) => article.title !== "[Removed]"
   );
 
-  const headlines = await Promise.all(
-    filteredArticles.slice(0, 3).map(async (article) => {
-      const shortUrl = await shortenUrl(article.url);
-      return `* ${article.title} ${shortUrl}`;
-    })
-  );
-  return headlines.join("\n");
+  return filteredArticles.slice(0, 3);
 }
 
 async function fetchCustomNews(query) {
@@ -265,13 +272,7 @@ async function fetchCustomNews(query) {
     (article) => article.title !== "[Removed]"
   );
 
-  const headlines = await Promise.all(
-    filteredArticles.slice(0, 3).map(async (article) => {
-      const shortUrl = await shortenUrl(article.url);
-      return `* ${article.title} ${shortUrl}`;
-    })
-  );
-  return headlines.join("\n");
+  return filteredArticles.slice(0, 3);
 }
 
 async function shortenUrl(url) {
