@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AccordionItem,
   AccordionTrigger,
@@ -24,6 +24,10 @@ export default function Sports({
   const [recapTeams, setRecapTeams] = useState(
     customization.sports.recapTeams || []
   );
+
+  useEffect(() => {
+    setRecapTeams(customization.sports.recapTeams || []);
+  }, [customization.sports.recapTeams]);
 
   const addRecapTeam = () => {
     setRecapTeams([...recapTeams, ""]);
