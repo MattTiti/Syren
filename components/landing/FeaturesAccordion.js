@@ -18,7 +18,7 @@ const features = [
   {
     title: "Messaging",
     description:
-      "Receive a personalized message through text or email with everything you need to know to start your day off right.",
+      "Receive a personalized message through text or email with everything you need to start your day off right. Customize your message to include weather, news, sports, and more.",
     type: "image",
     path: "/gm-message.png",
     icon: <MessageCircle />,
