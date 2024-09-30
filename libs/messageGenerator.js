@@ -327,21 +327,21 @@ async function fetchAirQuality(lat, lon) {
 function formatAirQualityData(data, options) {
   if (!data) return "Air quality data unavailable.\n";
 
-  let message = "\nAir Quality:\n";
+  let message = "";
   const components = {
     co: "CO",
     no: "NO",
-    no2: "NO₂",
-    o3: "O₃",
-    so2: "SO₂",
+    no2: "NO2",
+    o3: "O3",
+    so2: "SO2",
     pm2_5: "PM2.5",
     pm10: "PM10",
-    nh3: "NH₃",
+    nh3: "NH3",
   };
 
   for (const [key, label] of Object.entries(components)) {
     if (options[key] && data[key] !== undefined) {
-      message += `${label}: ${data[key]} μg/m³\n`;
+      message += `* ${label}: ${data[key]} mcg/m3\n`;
     }
   }
 
