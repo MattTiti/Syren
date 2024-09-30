@@ -4,6 +4,7 @@ async function handleResponse(response) {
   }
   return response.json();
 }
+
 export async function fetchWeather(weatherConfig) {
   const params = new URLSearchParams({
     lat: weatherConfig.latitude,
@@ -11,6 +12,24 @@ export async function fetchWeather(weatherConfig) {
     units: weatherConfig.units,
   });
   const response = await fetch(`/api/weather?${params}`);
+  const weatherData = await handleResponse(response);
+
+  let result = { weather: weatherData };
+
+  if (weatherConfig.showAirQuality) {
+    const airQualityData = await fetchAirQuality(
+      weatherConfig.latitude,
+      weatherConfig.longitude
+    );
+    result.airQuality = airQualityData;
+  }
+
+  return result;
+}
+
+async function fetchAirQuality(lat, lon) {
+  const params = new URLSearchParams({ lat, lon });
+  const response = await fetch(`/api/air?${params}`);
   return handleResponse(response);
 }
 

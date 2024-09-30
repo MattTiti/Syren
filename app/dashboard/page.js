@@ -50,9 +50,13 @@ export default function Dashboard() {
         const data = {};
 
         if (customizationData.customization.weather.enabled) {
-          data.weather = await fetchWeather(
+          const weatherResult = await fetchWeather(
             customizationData.customization.weather
           );
+          data.weather = weatherResult.weather;
+          if (customizationData.customization.weather.showAirQuality) {
+            data.airQuality = weatherResult.airQuality;
+          }
         }
 
         if (customizationData.customization.news.enabled) {
@@ -163,6 +167,28 @@ export default function Dashboard() {
               * Chance of Rain: {(dashboardData.weather.rain * 100).toFixed(0)}%
             </p>
           )}
+          {dashboardData.airQuality &&
+            customization?.weather?.showAirQuality && (
+              <div>
+                <p>* AQI: {dashboardData.airQuality.aqi}</p>
+                {Object.entries(customization.weather.airQualityOptions).map(
+                  ([key, enabled]) => {
+                    if (
+                      enabled &&
+                      dashboardData.airQuality[key] !== undefined
+                    ) {
+                      return (
+                        <p key={key}>
+                          * {key.toUpperCase()}: {dashboardData.airQuality[key]}{" "}
+                          μg/m³
+                        </p>
+                      );
+                    }
+                    return null;
+                  }
+                )}
+              </div>
+            )}
         </div>
       )}
 

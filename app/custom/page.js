@@ -44,6 +44,18 @@ export default function CustomizationPage() {
       showRain: false,
       showHumidity: false,
       units: "imperial", // Add this line (imperial for Fahrenheit, metric for Celsius)
+      showAirQuality: false, // Add this line
+      airQualityOptions: {
+        // Add this object
+        co: false,
+        no: false,
+        no2: false,
+        o3: false,
+        so2: false,
+        pm2_5: false,
+        pm10: false,
+        nh3: false,
+      },
     },
     sports: {
       enabled: false,
@@ -433,6 +445,21 @@ export default function CustomizationPage() {
           )}
           {customization.weather.showRain && <p>* 12% chance of rain</p>}
           {customization.weather.showHumidity && <p>* 33% humidity</p>}
+          {customization.weather.showAirQuality && (
+            <p>* Air quality: 1 (Good)</p>
+          )}
+          {customization.weather.airQualityOptions.co && <p>* CO: 1 μg/m3</p>}
+          {customization.weather.airQualityOptions.no && <p>* NO: 1 μg/m3</p>}
+          {customization.weather.airQualityOptions.no2 && <p>* NO2: 1 μg/m3</p>}
+          {customization.weather.airQualityOptions.o3 && <p>* O3: 1 μg/m3</p>}
+          {customization.weather.airQualityOptions.so2 && <p>* SO2: 1 μg/m3</p>}
+          {customization.weather.airQualityOptions.pm2_5 && (
+            <p>* PM2.5: 1 μg/m3</p>
+          )}
+          {customization.weather.airQualityOptions.pm10 && (
+            <p>* PM10: 1 μg/m3</p>
+          )}
+          {customization.weather.airQualityOptions.nh3 && <p>* NH3: 1 μg/m3</p>}
         </div>
       )}
 

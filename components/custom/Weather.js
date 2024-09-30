@@ -10,7 +10,28 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 
+const defaultAirQualityOptions = {
+  co: false,
+  no: false,
+  no2: false,
+  o3: false,
+  so2: false,
+  pm2_5: false,
+  pm10: false,
+  nh3: false,
+};
+
 export default function Weather({ customization, handleCustomizationChange }) {
+  const handleAirQualityOptionChange = (option, checked) => {
+    handleCustomizationChange("weather", "airQualityOptions", {
+      ...(customization.weather.airQualityOptions || defaultAirQualityOptions),
+      [option]: checked,
+    });
+  };
+
+  const airQualityOptions =
+    customization.weather.airQualityOptions || defaultAirQualityOptions;
+
   return (
     <AccordionItem value="weather">
       <AccordionTrigger>Weather</AccordionTrigger>
@@ -144,6 +165,43 @@ export default function Weather({ customization, handleCustomizationChange }) {
                   Include humidity information
                 </Label>
               </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="weatherAirQuality"
+                  checked={customization.weather.showAirQuality}
+                  onCheckedChange={(checked) =>
+                    handleCustomizationChange(
+                      "weather",
+                      "showAirQuality",
+                      checked
+                    )
+                  }
+                />
+                <Label htmlFor="weatherAirQuality">
+                  Include air quality information
+                </Label>
+              </div>
+              {customization.weather.showAirQuality && (
+                <div className="ml-6 space-y-2">
+                  <Label>Select air quality components:</Label>
+                  {Object.entries(airQualityOptions).map(
+                    ([option, checked]) => (
+                      <div key={option} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`airQuality-${option}`}
+                          checked={checked}
+                          onCheckedChange={(checked) =>
+                            handleAirQualityOptionChange(option, checked)
+                          }
+                        />
+                        <Label htmlFor={`airQuality-${option}`}>
+                          {option.toUpperCase()}
+                        </Label>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
