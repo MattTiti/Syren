@@ -296,7 +296,56 @@ async function fetchWeather(weatherConfig) {
   const response = await axios.get("https://goodmornin.app/api/weather", {
     params,
   });
-  return formatWeatherData(response.data, weatherConfig);
+  let weatherMessage = formatWeatherData(response.data, weatherConfig);
+
+  if (weatherConfig.showAirQuality) {
+    const airQualityData = await fetchAirQuality(
+      weatherConfig.latitude,
+      weatherConfig.longitude
+    );
+    weatherMessage += formatAirQualityData(
+      airQualityData,
+      weatherConfig.airQualityOptions
+    );
+  }
+
+  return weatherMessage;
+}
+
+async function fetchAirQuality(lat, lon) {
+  try {
+    const response = await axios.get("https://goodmornin.app/api/air", {
+      params: { lat, lon },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching air quality data:", error);
+    return null;
+  }
+}
+
+function formatAirQualityData(data, options) {
+  if (!data) return "Air quality data unavailable.\n";
+
+  let message = "\nAir Quality:\n";
+  const components = {
+    co: "CO",
+    no: "NO",
+    no2: "NO₂",
+    o3: "O₃",
+    so2: "SO₂",
+    pm2_5: "PM2.5",
+    pm10: "PM10",
+    nh3: "NH₃",
+  };
+
+  for (const [key, label] of Object.entries(components)) {
+    if (options[key] && data[key] !== undefined) {
+      message += `${label}: ${data[key]} μg/m³\n`;
+    }
+  }
+
+  return message;
 }
 
 async function fetchEvents(country) {

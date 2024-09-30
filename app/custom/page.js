@@ -44,6 +44,18 @@ export default function CustomizationPage() {
       showRain: false,
       showHumidity: false,
       units: "imperial", // Add this line (imperial for Fahrenheit, metric for Celsius)
+      showAirQuality: false, // Add this line
+      airQualityOptions: {
+        // Add this object
+        co: false,
+        no: false,
+        no2: false,
+        o3: false,
+        so2: false,
+        pm2_5: false,
+        pm10: false,
+        nh3: false,
+      },
     },
     sports: {
       enabled: false,
