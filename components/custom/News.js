@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Combobox } from "@/components/ui/combobox";
+import InfoIcon from "@/components/InfoIcon";
 
 export default function News({ customization, handleCustomizationChange }) {
   return (
@@ -84,7 +85,11 @@ export default function News({ customization, handleCustomizationChange }) {
                 handleCustomizationChange("news", "includeLinks", checked)
               }
             />
-            <Label htmlFor="includeLinks">Include links to news articles</Label>
+            <Label htmlFor="includeLinks">Include links to news articles</Label>{" "}
+            <InfoIcon
+              description="Links can sometimes effect text deliverabliltiy based on your carrier. If you notice that your texts aren't delivering reliably, try disabling links."
+              type="warning"
+            />
           </div>
         </div>
       </AccordionContent>
