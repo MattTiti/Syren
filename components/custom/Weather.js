@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import InfoIcon from "@/components/InfoIcon";
 
 const defaultAirQualityOptions = {
   co: false,
@@ -180,6 +181,7 @@ export default function Weather({ customization, handleCustomizationChange }) {
                 <Label htmlFor="weatherAirQuality">
                   Include air quality information
                 </Label>
+                <InfoIcon description="AQI is measured from 1-5 (1 being the best and 5 being the worst)." />
               </div>
               {customization.weather.showAirQuality && (
                 <div className="ml-6 space-y-2">

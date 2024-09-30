@@ -89,6 +89,12 @@ const config = {
   googleAnalyticsId: "G-XT1DDB8SZE",
   updates: [
     {
+      title: "New Pricing (30% off) + Air Quality!",
+      description:
+        "GoodMornin prices are now reduced by 30%! How and why did we do this?\n\nGoodMornin's price was based on the assumption that some users may want a long daily message with tons of customization, but this isn't the case for most users. Most users can get everything they want in one text with space to spare. So we're setting a limit of two texts per day (which 99% of users will never go over) and reducing the price for everyone. If you ever exceed this limit, don't worry, your text will include a link to the dashboard to view the rest of your message.\n\nWhat if you already paid? That's fine, we appreciate you too and will happily refund you the difference! Just reach out by email (matt@mg.goodmornin.app).\n\nOn top of that, we have two more updates:\n1. Air Quality has now been added to Weather\n2. News links are now optional",
+      date: "9/30/24",
+    },
+    {
       title: "New Updates!",
       description:
         "Based on your feedback, several updates have been made to GoodMornin in the past week! Here are the highlights:\n\n1. Email delivery\n2. League Recaps (Get all last night's games)\n3. Improved mobile compatibility\n4. Improved text message delivery and multiple bug fixes\n\nAnd there are more updates on the way, so stay tuned! ",
