@@ -341,7 +341,7 @@ function formatAirQualityData(data, options) {
 
   for (const [key, label] of Object.entries(components)) {
     if (options[key] && data[key] !== undefined) {
-      message += `* ${label}: ${data[key]} mcg/m3\n`;
+      message += `\n* ${label}: ${data[key]} mcg/m3`;
     }
   }
 
