@@ -61,13 +61,26 @@ export async function GET(req) {
 
     let successCount = 0;
     let failedCount = 0;
+    let truncatedCount = 0;
     const failedUsers = [];
 
     for (const user of usersToMessage) {
       try {
         const message = await generateDailyMessage(user.customization);
-        await sendText(user.phoneNumber, message);
-        successCount++;
+        const { allMessagesSent, truncated } = await sendText(
+          user.phoneNumber,
+          message
+        );
+
+        if (allMessagesSent) {
+          successCount++;
+          if (truncated) {
+            truncatedCount++;
+          }
+        } else {
+          failedCount++;
+          failedUsers.push(user._id);
+        }
       } catch (error) {
         console.error(`Error sending message to user ${user._id}:`, error);
         failedCount++;
@@ -77,10 +90,11 @@ export async function GET(req) {
 
     return NextResponse.json(
       {
-        message: `Daily texts processed. ${successCount} succeeded, ${failedCount} failed.`,
+        message: `Daily texts processed. ${successCount} succeeded, ${failedCount} failed, ${truncatedCount} truncated.`,
         totalAttempted: usersToMessage.length,
         successCount,
         failedCount,
+        truncatedCount,
         failedUsers,
       },
       { status: failedCount > 0 ? 207 : 200 }
