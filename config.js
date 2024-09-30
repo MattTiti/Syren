@@ -14,13 +14,13 @@ const config = {
       {
         priceId:
           process.env.NODE_ENV === "development"
-            ? "price_1Q0XKQCKVO6FKkF1B8A2lHBi"
-            : "price_1Q0XKQCKVO6FKkF1B8A2lHBi",
+            ? "price_1Q4jjPCKVO6FKkF1pPndI3hV"
+            : "price_1Q4jjPCKVO6FKkF1pPndI3hV",
         name: "Monthly",
         mode: "subscription",
         description: "Daily text subscription billed monthly",
-        price: 7.99,
-        priceAnchor: 12.99,
+        price: 3.99,
+        priceAnchor: 7.99,
         features: [
           { name: "Daily message service (Text & Email)" },
           { name: "Message customization" },
@@ -32,34 +32,34 @@ const config = {
         isFeatured: false,
         priceId:
           process.env.NODE_ENV === "development"
-            ? "price_1Q0XNICKVO6FKkF1S7W2FDJQ"
-            : "price_1Q0XNICKVO6FKkF1S7W2FDJQ",
+            ? "price_1Q4jicCKVO6FKkF18qgeLu3F"
+            : "price_1Q4jicCKVO6FKkF18qgeLu3F",
         name: "Yearly",
         mode: "subscription",
         description: "Daily text subscription billed yearly",
-        price: 69.99,
-        priceAnchor: 99.99,
+        price: 39.99,
+        priceAnchor: 69.99,
         features: [
-          { name: "Save an extra $25/year" },
+          { name: "Save an extra 20% per year" },
           { name: "Daily message service (Text & Email)" },
           { name: "Message customization" },
           { name: "GoodMornin Dashboard" },
         ],
         buttonMessage: "Save money and your mornings",
-        yearlyPrice: true,
-        perMonthPrice: 5.99,
+        // yearlyPrice: true,
+        perMonthPrice: 2.99,
       },
       {
         isFeatured: true,
         priceId:
           process.env.NODE_ENV === "development"
-            ? "price_1Q2FKrCKVO6FKkF1jznbIHgw"
-            : "price_1Q2FKrCKVO6FKkF1jznbIHgw",
+            ? "price_1Q4jkxCKVO6FKkF1kCOrIGGh"
+            : "price_1Q4jkxCKVO6FKkF1kCOrIGGh",
         name: "Lifetime",
         mode: "payment",
         description: "One time payment for lifetime access",
-        price: 99.99,
-        priceAnchor: 129.99,
+        price: 69.99,
+        priceAnchor: 99.99,
         features: [
           { name: "Pay once, no monthly fees" },
           { name: "Daily message service (Text & Email)" },
