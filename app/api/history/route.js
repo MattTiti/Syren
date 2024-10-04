@@ -7,7 +7,12 @@ export async function GET(request) {
 
   try {
     const response = await fetch(
-      `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/events/${month}/${day}`
+      `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/events/${month}/${day}`,
+      {
+        next: {
+          revalidate: 60 * 60 * 12, // 12 hours
+        },
+      }
     );
 
     if (!response.ok) {
