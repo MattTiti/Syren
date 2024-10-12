@@ -32,3 +32,4 @@ Users can customize their daily texts with the following options:
 ## Future Updates
 
 The GoodMornin team is committed to continually improving the service and adding new customization options based on user feedback.
+# Syren
