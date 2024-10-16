@@ -38,8 +38,8 @@ const ButtonAccount = () => {
     setIsLoading(false);
   };
 
-  // Don't show anything if not authenticated
-  if (status === "unauthenticated") return null;
+  // // Don't show anything if not authenticated
+  // if (status === "unauthenticated") return null;
 
   return (
     <DropdownMenu>
@@ -52,7 +52,7 @@ const ButtonAccount = () => {
           <FaUserCircle size={36} className="text-gray-500" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <a href="mailto:matt@mg.goodmornin.app">

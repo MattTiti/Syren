@@ -1,10 +1,10 @@
 import themes from "daisyui/src/theming/themes";
 
 const config = {
-  appName: "GoodMornin",
+  appName: "Syren",
   appDescription:
     "The personalized daily messaging service delivering all the information you need to start the day",
-  domainName: "goodmornin.app",
+  domainName: "syrensend.com",
   crisp: {
     id: "",
     onlyShowOnRoutes: ["/"],
@@ -72,21 +72,21 @@ const config = {
   },
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `GoodMornin <noreply@mg.goodmornin.app>`,
-    fromAdmin: `Matt at GoodMornin <matt@mg.goodmornin.app>`,
-    supportEmail: "matt@mg.goodmornin.app",
+    fromNoReply: `Syren <noreply@mg.syrensend.com>`,
+    fromAdmin: `Matt at Syren <matt@mg.syrensend.com>`,
+    supportEmail: "matt@mg.syrensend.com",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
   colors: {
     theme: "dark",
     main: themes["dark"]["primary"],
-    toast: "#eab308",
+    toast: "#047857",
   },
   auth: {
     loginUrl: "/api/auth/signin",
     callbackUrl: "/custom",
   },
-  googleAnalyticsId: "G-XT1DDB8SZE",
+  googleAnalyticsId: "",
   updates: [
     {
       title: "New Pricing (30% off) + Air Quality!",

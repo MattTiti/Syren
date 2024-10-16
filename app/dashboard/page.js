@@ -1,342 +1,129 @@
 "use client";
-import { useState, useEffect } from "react";
-import Nav from "@/components/custom/Nav";
-import Spinner from "@/components/Spinner";
-import {
-  fetchWeather,
-  fetchNews,
-  fetchSportsData,
-  fetchHolidays,
-  fetchQuote,
-  fetchHoroscope,
-  fetchOnThisDay,
-  fetchRandomFact,
-} from "@/libs/dashboard";
-import { useSession } from "next-auth/react";
-import { toast } from "react-hot-toast";
-import Updates from "@/components/dashboard/Updates";
-import Feedback from "@/components/dashboard/Feedback";
+
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Users, MessageSquare, Bell, BarChart } from "lucide-react";
+import Link from "next/link";
 
 export default function Dashboard() {
-  const { data: session } = useSession();
-  const [customization, setCustomization] = useState(null);
-  const [dashboardData, setDashboardData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [units, setUnits] = useState("F");
-  const [windUnits, setWindUnits] = useState("mph");
-  const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        setIsLoading(true);
-        // Fetch user's customization settings
-        const customizationResponse = await fetch("/api/customization");
-        const customizationData = await customizationResponse.json();
-        setCustomization(customizationData.customization);
-        setUnits(
-          customizationData.customization.weather.units === "imperial"
-            ? "F"
-            : "C"
-        );
-        setWindUnits(
-          customizationData.customization.weather.units === "imperial"
-            ? "mph"
-            : "kph"
-        );
-        // Fetch data based on customization settings
-        const data = {};
-
-        if (customizationData.customization.weather.enabled) {
-          const weatherResult = await fetchWeather(
-            customizationData.customization.weather
-          );
-          data.weather = weatherResult.weather;
-          if (customizationData.customization.weather.showAirQuality) {
-            data.airQuality = weatherResult.airQuality;
-          }
-        }
-
-        if (customizationData.customization.news.enabled) {
-          const news = await fetchNews(customizationData.customization.news);
-          data.news = news.slice(0, 5);
-        }
-
-        if (customizationData.customization.sports.enabled) {
-          data.sports = await fetchSportsData(
-            customizationData.customization.sports
-          );
-        }
-
-        if (customizationData.customization.events.enabled) {
-          data.holidays = await fetchHolidays(
-            customizationData.customization.events.country
-          );
-        }
-
-        if (customizationData.customization.quotes.enabled) {
-          data.quote = await fetchQuote();
-        }
-
-        if (customizationData.customization.horoscope.enabled) {
-          data.horoscope = await fetchHoroscope(
-            customizationData.customization.horoscope.sign
-          );
-        }
-
-        if (customizationData.customization.onThisDay.enabled) {
-          data.onThisDay = await fetchOnThisDay();
-        }
-
-        if (customizationData.customization.randomFact.enabled) {
-          data.randomFact = await fetchRandomFact();
-        }
-        setDashboardData(data);
-      } catch (error) {
-        console.error("Error loading dashboard data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    setLastUpdated(new Date());
-  }, []);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/webhook/mailgun", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          From: session?.user?.email,
-          Subject: `Feedback from ${session?.user?.name}`,
-          "body-html": `<p><b>Name:</b> ${session?.user?.name}</p><p><b>Email:</b> ${session?.user?.email}</p><p><b>Message:</b></p><div>${feedbackMessage}</div>`,
-        }),
-      });
-
-      if (response.ok) {
-        toast.success("Feedback submitted successfully!");
-        setFeedbackMessage("");
-      } else {
-        throw new Error("Failed to submit feedback");
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      toast.error("Failed to submit feedback. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
-  const dailyBriefing = (
-    <div className="space-y-4">
-      {customization?.intro?.text && <p>{customization.intro.text}</p>}
-
-      {dashboardData.weather && (
-        <div>
-          <h3 className="font-semibold">
-            Weather in {customization?.weather?.city || "[Location]"}:
-          </h3>
-          <p>* {dashboardData.weather.summary}</p>
-          <p>
-            * {dashboardData.weather.temperature}°{units}, feels like{" "}
-            {dashboardData.weather.feelsLike}°{units} (
-            {dashboardData.weather.minTemp}°{units} -{" "}
-            {dashboardData.weather.maxTemp}°{units})
-          </p>
-          {customization?.weather?.showHumidity && (
-            <p>* Humidity: {dashboardData.weather.humidity}%</p>
-          )}
-          {customization?.weather?.showWind && (
-            <p>
-              * Wind: {dashboardData.weather.windSpeed} {windUnits}
-            </p>
-          )}
-          {customization?.weather?.showRain && (
-            <p>
-              * Chance of Rain: {(dashboardData.weather.rain * 100).toFixed(0)}%
-            </p>
-          )}
-          {dashboardData.airQuality &&
-            customization?.weather?.showAirQuality && (
-              <div>
-                <p>* AQI: {dashboardData.airQuality.aqi}</p>
-                {Object.entries(customization.weather.airQualityOptions).map(
-                  ([key, enabled]) => {
-                    if (
-                      enabled &&
-                      dashboardData.airQuality[key] !== undefined
-                    ) {
-                      return (
-                        <p key={key}>
-                          * {key.toUpperCase()}: {dashboardData.airQuality[key]}{" "}
-                          μg/m³
-                        </p>
-                      );
-                    }
-                    return null;
-                  }
-                )}
-              </div>
-            )}
-        </div>
-      )}
-
-      {dashboardData.news && (
-        <div>
-          <h3 className="font-semibold">News:</h3>
-          {dashboardData.news.map((article, index) => (
-            <p key={index}>
-              *{" "}
-              <a href={article.url} className="text-blue-500 underline">
-                {article.title}
-              </a>
-            </p>
-          ))}
-        </div>
-      )}
-
-      {dashboardData.sports && (
-        <div>
-          <h3 className="font-semibold">
-            {customization?.sports?.type === "team"
-              ? `${customization?.sports?.teamName} updates:`
-              : `${customization?.sports?.league} Recap:`}
-          </h3>
-          {customization?.sports?.type === "team" && (
-            <>
-              {customization?.sports?.showPreviousGame &&
-                dashboardData.sports.lastGame && (
-                  <p>
-                    * {dashboardData.sports.lastGame.homeTeam}{" "}
-                    {dashboardData.sports.lastGame.homeScore} -{" "}
-                    {dashboardData.sports.lastGame.awayTeam}{" "}
-                    {dashboardData.sports.lastGame.awayScore} (
-                    {dashboardData.sports.lastGame.date})
-                  </p>
-                )}
-              {customization?.sports?.showNextGame &&
-                dashboardData.sports.nextGame && (
-                  <p>
-                    * {dashboardData.sports.nextGame.homeTeam} vs{" "}
-                    {dashboardData.sports.nextGame.awayTeam} (
-                    {dashboardData.sports.nextGame.date})
-                  </p>
-                )}
-            </>
-          )}
-          {customization?.sports?.type === "league" &&
-            dashboardData.sports.recap && (
-              <>
-                {dashboardData.sports.recap.events
-                  .filter(
-                    (event) =>
-                      customization.sports.recapTeams.includes(
-                        event.homeTeam
-                      ) ||
-                      customization.sports.recapTeams.includes(event.awayTeam)
-                  )
-                  .map((event, index) => (
-                    <p key={index}>
-                      * {event.homeTeam} {event.homeScore} - {event.awayTeam}{" "}
-                      {event.awayScore}
-                    </p>
-                  ))}
-              </>
-            )}
-        </div>
-      )}
-
-      {dashboardData.holidays && (
-        <div>
-          <h3 className="font-semibold">Holidays:</h3>
-          {dashboardData.holidays.map((event, index) => (
-            <p key={index}>
-              * {event.name}: {event.description}
-            </p>
-          ))}
-        </div>
-      )}
-
-      {dashboardData.quote && (
-        <div>
-          <h3 className="font-semibold">Quote of the Day:</h3>
-          <p>
-            "{dashboardData.quote.quote}" - {dashboardData.quote.author}
-          </p>
-        </div>
-      )}
-
-      {dashboardData.horoscope && (
-        <div>
-          <h3 className="font-semibold">Horoscope:</h3>
-          <p>{dashboardData.horoscope.horoscope}</p>
-        </div>
-      )}
-
-      {dashboardData.onThisDay && (
-        <div>
-          <h3 className="font-semibold">On This Day:</h3>
-          {dashboardData.onThisDay.events.map((event, index) => (
-            <p key={index}>
-              * {event.year}: {event.text}
-            </p>
-          ))}
-        </div>
-      )}
-
-      {dashboardData.randomFact && (
-        <div>
-          <h3 className="font-semibold">Fun Fact:</h3>
-          <p>{dashboardData.randomFact.fact}</p>
-        </div>
-      )}
-
-      {customization?.conclusion?.text && (
-        <p>{customization.conclusion.text}</p>
-      )}
-    </div>
-  );
+  // Mock data - replace with actual data fetching
+  const totalUsers = 1234;
+  const activeUsers = 987;
+  const totalMessages = 5678;
+  const recentActivity = [
+    { id: 1, type: "New User", name: "Alice Johnson", time: "2 hours ago" },
+    { id: 2, type: "Message Sent", name: "Bob Smith", time: "3 hours ago" },
+    {
+      id: 3,
+      type: "Form Submission",
+      name: "Charlie Brown",
+      time: "5 hours ago",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-yellow-50 flex flex-col text-neutral-700">
-      <Nav />
-      <div className="container mx-auto p-6">
-        <div className="flex flex-col md:flex-row justify-between md:items-end mb-4">
-          <h1 className="text-xl md:text-3xl font-bold">
-            Good Mornin{session?.user?.name ? `, ${session?.user?.name}` : ""}!
-          </h1>
-          <p className="text-sm text-neutral-500">
-            Last updated:{" "}
-            {lastUpdated ? lastUpdated.toLocaleString() : "Loading..."}
-          </p>
-        </div>
-        <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-2/3 md:pr-4">
-            <div className="bg-white border border-neutral-200 p-4 rounded-md">
-              {isLoading ? <Spinner /> : dailyBriefing}
-            </div>
-          </div>
-          <div className="w-full mt-4 md:mt-0 md:w-1/3 md:pl-4">
-            <Updates />
-            <Feedback
-              handleSubmit={handleSubmit}
-              feedbackMessage={feedbackMessage}
-              setFeedbackMessage={setFeedbackMessage}
-              isSubmitting={isSubmitting}
-            />
-          </div>
-        </div>
+    <div className="container mx-auto py-10">
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalUsers}</div>
+            <p className="text-xs text-muted-foreground">
+              +2.5% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeUsers}</div>
+            <p className="text-xs text-muted-foreground">
+              +1.2% from last week
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Messages
+            </CardTitle>
+            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalMessages}</div>
+            <p className="text-xs text-muted-foreground">+5% from last month</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Analytics</CardTitle>
+            <BarChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">View</div>
+            <p className="text-xs text-muted-foreground">
+              Check detailed stats
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <Link href="/send">
+              <Button className="w-full">Send New Message</Button>
+            </Link>
+            <Link href="/custom">
+              <Button className="w-full" variant="outline">
+                Customize Form
+              </Button>
+            </Link>
+            <Link href="/users">
+              <Button className="w-full" variant="outline">
+                View All Users
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Recent Activity</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-4">
+              {recentActivity.map((activity) => (
+                <li key={activity.id} className="flex items-center">
+                  <Bell className="h-4 w-4 mr-2 text-muted-foreground" />
+                  <div className="flex-grow">
+                    <p className="text-sm font-medium">{activity.type}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {activity.name}
+                    </p>
+                  </div>
+                  <Badge variant="secondary">{activity.time}</Badge>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

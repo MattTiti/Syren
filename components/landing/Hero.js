@@ -1,60 +1,51 @@
-import Image from "next/image";
-import config from "@/config";
-import ButtonCheckout from "@/components/ButtonCheckout";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="max-w-7xl mx-auto bg-yellow-50 flex flex-col lg:flex-row items-stretch justify-center gap-16 lg:gap-20 px-8 py-8 lg:py-20">
-      <div className="flex flex-col gap-10 lg:gap-14 items-center justify-between text-center lg:text-left lg:items-start lg:w-1/2">
-        <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4 text-neutral-700">
-          All you need to start the day in
-          <span className="bg-yellow-500 text-white px-2 md:px-4 ml-1 md:ml-1.5 leading-relaxed sm:whitespace-nowrap">
-            one text
-          </span>
-        </h1>
-        <p className="text-lg opacity-80 leading-relaxed">
-          The personalized daily messaging service delivering all the
-          information you need to start the day
-        </p>
-        <div className="w-56">
-          <ButtonCheckout
-            priceId={config.stripe.plans[1].priceId}
-            mode={config.stripe.plans[1].mode}
-          />
-        </div>
-        <div className="sm:flex justify-start items-center gap-6 mt-12">
-          <Link href="/#comp">
-            <Button
-              variant="ghost"
-              className="p-0 items-center hover:bg-transparent dark:hover:text-yellow-500 dark:text-yellow-400 underline"
-            >
-              What can GoodMornin do for you?
-              <FaArrowRight className="ml-1 mb-0.5" size={14} />
-            </Button>
-          </Link>
-          <Link href="/#features">
-            <Button
-              variant="ghost"
-              className="p-0 items-center hover:bg-transparent text-neutral-700 underline"
-            >
-              Learn more about current features
-              <FaArrowRight className="ml-1 mb-0.5" size={14} />
-            </Button>
-          </Link>
-        </div>
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
+      {/* Radiating waves */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+          <div
+            key={i}
+            className={`absolute rounded-full border-2 border-red-500 opacity-20
+                        animate-pulse-custom`}
+            style={{
+              width: `${i * 15}vmin`,
+              height: `${i * 15}vmin`,
+              animationDelay: `${i * 0.1}s`,
+              animationDuration: "3s",
+            }}
+          ></div>
+        ))}
       </div>
-      <div className="w-1/2 flex items-center justify-center">
-        <div className="relative w-full h-full transform scale-125 z-50 lg:ml-20">
-          <Image
-            src="/gm-hero.png"
-            alt="Product Demo"
-            layout="fill"
-            objectFit="cover"
-            className="w-full h-full"
-          />
+      <div className="relative z-10 text-center">
+        <h1 className="text-5xl md:text-7xl font-extrabold text-black mb-6">
+          Amplify Your Voice
+        </h1>
+        <p className="text-xl md:text-2xl text-black/70 mb-8">
+          Reach your audience with powerful messaging
+        </p>
+        <div className="space-x-4">
+          <Link href="/dashboard">
+            <Button
+              size="lg"
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Get Started
+            </Button>
+          </Link>
+          <Link href="#features">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-red-600 text-red-600 hover:bg-red-100"
+            >
+              Learn More
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
