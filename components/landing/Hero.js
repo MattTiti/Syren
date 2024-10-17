@@ -7,7 +7,7 @@ const Hero = () => {
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-white">
       {/* Radiating waves */}
       <div className="absolute inset-0 flex items-center justify-center">
-        {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+        {[5, 6, 7, 8, 9, 10, 11, 12, 13].map((i) => (
           <div
             key={i}
             className={`absolute rounded-full border-2 border-red-500 opacity-20
@@ -22,7 +22,7 @@ const Hero = () => {
         ))}
       </div>
       <div className="relative z-10 text-center">
-        <h1 className="text-5xl md:text-7xl font-extrabold text-black mb-6">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-black mb-6">
           Amplify Your Voice
         </h1>
         <p className="text-xl md:text-2xl text-black/70 mb-8">
